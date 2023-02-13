@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home</title>
+		<link rel="stylesheet" href="../../assets/css/main_page.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+		<script src="../../assets/js/easypiechart.js"></script>
+		<script src="../../assets/json/home_books.js"></script>
+		<script src="../../assets/js/user/script.js" defer></script>
+		<script src="../../assets/js/user/header.js" defer></script>
+		<script src="../../assets/js/user/sidebar.js" defer></script>
+		<script src="../../assets/js/user/homepage.js" defer></script>
+	</head>
+	<body>
+		<nav class="sidebar" id="sidebar">
+			<div class="side-header">
+				<div class="logo">
+					<i class="bi bi-book-half"></i>
+					<p>Bookly</p>
+				</div>
+				<div class="divider-line"></div>
+				<div class="nav-list">
+					<a href="#" class="nav-items active"
+						><i class="bi bi-house-fill"></i>
+						<p>Home</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							data-popper-placement="right">
+							Home
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+					<a href="./library.html" class="nav-items"
+						><i class="bi bi-building"></i>
+						<p>Library</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							style="top: 195px"
+							data-popper-placement="right">
+							Library
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+					<a href="./history.html" class="nav-items"
+						><i class="bi bi-hourglass"></i>
+						<p>History</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							style="top: 255px"
+							data-popper-placement="right">
+							History
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+					<a href="./favourites.html" class="nav-items"
+						><i class="bi bi-bookmark-heart"></i>
+						<p>Favourites</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							style="top: 315px"
+							data-popper-placement="right">
+							Favourites
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+					<a href="./book-request.html" class="nav-items"
+						><i class="bi bi-file-earmark-text"></i>
+						<p>Request Book</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							style="top: 370px"
+							data-popper-placement="right">
+							Request Book
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="side-footer">
+				<div class="dark-toggle">
+					<a href="#" onclick="darkMode()" class="nav-items"
+						><i class="bi bi-moon-stars-fill dark-light"></i>
+						<p class="da-li-text">Dark mode</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							style="bottom: 115px; top: unset"
+							data-popper-placement="right">
+							Theme
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+					<a href="#" class="nav-items" id="sign-out"
+						><i class="bi bi-box-arrow-left"></i>
+						<p>Log Out</p>
+						<div
+							class="tooltip"
+							role="tooltip"
+							style="bottom: 55px; top: unset"
+							data-popper-placement="right">
+							Log-Out
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</nav>
+		<aside class="book-detail">
+			<div class="detail-close" onclick="CloseDetailPage()">
+				<i class="bi bi-x-lg"></i>
+			</div>
+			<div>
+				<h3>Book Detail</h3>
+			</div>
+			<div class="book-image">
+				<img
+					src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-2-CRC.png"
+					alt=""
+					width="150px"
+					height="192px" />
+			</div>
+			<div class="book-content">
+				<h4>Title</h4>
+				<p>Author</p>
+			</div>
+			<div class="book-rating">
+				<span id="stars"></span>
+			</div>
+			<div class="book-description">
+				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis,
+				temporibus vitae eaque praesentium accusamus eligendi ea. Ea eaque
+				porro eligendi animi nihil exercitationem corporis obcaecati nostrum
+				blanditiis, ut repudiandae minima?
+			</div>
+			<button
+				id="borrow-now"
+				type="button"
+				class="btn btn-primary"
+				data-bs-toggle="modal"
+				data-bs-target="#exampleModal">
+				Borrow Now
+			</button>
+		</aside>
+
+		<section class="main-container">
+			<header class="top-header">
+				<div class="left-header">
+					<div class="side-toggle">
+						<span class="menu-line"></span>
+						<span class="menu-line"></span>
+						<span class="menu-line"></span>
+					</div>
+					<div class="user-date">
+						<h4 class="header-username">Hello</h4>
+						<p>Have a Great Day!</p>
+					</div>
+				</div>
+				<div class="right-header">
+					<div class="search-field">
+						<label for="head-search"><i class="bi bi-search"></i></label>
+						<input
+							type="search"
+							name="head-search"
+							id="head-search"
+							placeholder="Search..."
+							class="search-list-show" />
+						<div class="focus-out"></div>
+						<div class="search-list">
+							<div class="search-result"></div>
+							<a href="../user/library.html" class="show-all">
+								Show All Books
+							</a>
+						</div>
+					</div>
+					<a
+						href="../user/user_profile.html"
+						aria-label="profile-page"
+						class="profile-area">
+						<div class="profile-field"></div>
+						<div
+							class="tooltip"
+							role="tooltip"
+							data-popper-placement="top">
+							User Profile
+							<div class="arrow" data-popper-arrow></div>
+						</div>
+					</a>
+				</div>
+			</header>
+
+			<main class="main-section">
+				<section class="card-section">
+					<div class="cards">
+						<div class="card-content">
+							<div class="card-text">
+								<h4>No of Books in Library :</h4>
+								<p>Our Goal : 100</p>
+							</div>
+							<div class="card-chart">
+								<h4 class="avail-books chart-percent"></h4>
+								<span class="chart" data-percent=""></span>
+							</div>
+						</div>
+					</div>
+					<div class="cards">
+						<div class="card-content">
+							<div class="card-text">
+								<h4>No of Books Borrowed :</h4>
+							</div>
+							<div class="card-chart">
+								<h4 class="borrowed-books chart-percent">15</h4>
+								<span
+									class="chart borrow-chart"
+									data-percent="40"></span>
+							</div>
+						</div>
+					</div>
+					<div class="cards">
+						<div class="card-content">
+							<div class="card-text">
+								<h4>No of Book in Favourites :</h4>
+							</div>
+							<div class="card-chart">
+								<h4 class="fav-books chart-percent"></h4>
+								<span class="chart fav-chart" data-percent=""></span>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="hero-section">
+					<div class="book-wrap generated-books"></div>
+					<div class="books-content">
+						<h3>
+							<span>POPULAR</span> <br />
+							BOOKS
+						</h3>
+						<p>
+							We picked up the most popular books for you, based on your
+							taste,Check it
+						</p>
+						<a href="../user/library.html">Explore Now</a>
+					</div>
+				</section>
+				<section class="hero-section hero-interseting">
+					<div class="books-content">
+						<h3>
+							CAN BE <br />
+							<span>INTERESTING</span>
+						</h3>
+						<p>
+							Check this list of books,picked up by us and choose
+							something new!
+						</p>
+						<a href="../user/library.html">Watch Full List</a>
+					</div>
+					<div class="book-wrap generated-books intresting-books"></div>
+				</section>
+			</main>
+			<div class="backdrop"></div>
+			<div class="modal">
+				<div class="modal-header">
+					<h3 class="modal-title">Borrow-Book</h3>
+					<div class="modal-close">
+						<i class="bi bi-x-lg"></i>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="input-group" style="width: 100%">
+						<label for="book-title">Book Name :</label>
+						<div class="input-field">
+							<input
+								type="text"
+								name="book-title"
+								id="book-title"
+								value=""
+								readonly />
+						</div>
+					</div>
+					<div class="input-group" style="flex: 1">
+						<label for="borrow-date">Borrow Date :</label>
+						<div class="input-field">
+							<input
+								type="date"
+								name="borrow-date"
+								id="borrow-date"
+								required />
+						</div>
+					</div>
+					<div class="input-group" style="flex: 1">
+						<label for="due-date">Due Date :</label>
+						<div class="input-field">
+							<input
+								type="date"
+								name="due-date"
+								id="due-date"
+								required />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="modal-submit">Borrow Now</button>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

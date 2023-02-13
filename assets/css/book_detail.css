@@ -1,0 +1,72 @@
+.book-detail.active{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 15px;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background-color: var(--body-bg);
+    border-left: 1px solid var(--primary-border) ;
+    width: 350px;
+    text-align: justify;
+    z-index: 3;
+  }
+  .book-detail{
+    display: none;
+  }
+  #stars i::before{
+    font-size: 28px;
+  }
+  .book-description{
+    font-size: var(--me-fs);
+    color: var(--font-purple);
+  }
+  .book-content{
+    text-align: center;
+  }
+  .book-content h4,.book-content p{
+    font-size: var(--me-fs);
+  }
+  
+  #borrow-now{
+    width: 80%;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+    color: var(--font-white);
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+  #borrow-now:hover{
+    opacity: 0.8;
+  }
+  #borrow-now:active{
+    opacity: 0.9;
+  }
+  .detail-close{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: 1px solid var(--primary-border);
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+  }
+  .detail-close:hover{
+    background-color: var(--body-white);
+  }
+  .detail-close i::before{
+    display: flex;
+    color: var(--font-purple);
+  }

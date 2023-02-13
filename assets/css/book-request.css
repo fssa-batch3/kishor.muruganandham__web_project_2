@@ -1,0 +1,20 @@
+.main-section{
+    justify-content: center;
+    align-items: center;
+}
+
+.book-request{
+        margin: 20px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+}
+
+.submit {
+    font-size: var(--h4-fs);
+    font-weight: 500;
+    margin-top: 50px;
+}
+.input-group label {
+	font-size: var(--me-fs);
+}
