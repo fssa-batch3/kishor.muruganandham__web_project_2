@@ -29,7 +29,7 @@ signinForm.addEventListener("submit", function (e) {
 		if (loginRole.value == "admin") {
 			window.location.href = "./../../pages/admin/admin_create-book.html";
 		} else {
-			window.location.href = "./../../pages/user/homepage.html";
+			window.location.href = "./assets/pages/user/homepage.html";
 		}
 	} else {
 		alert("Oops! Log In failed Try Again");
