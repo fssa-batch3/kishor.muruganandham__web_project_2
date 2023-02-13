@@ -1,6 +1,8 @@
 window.onload = localStorage.setItem("book_list", JSON.stringify(book_list));
 
-if (localStorage.getItem("isSignedIn") == "true") {
+
+const isSignedIn = localStorage.getItem("id")
+if (isSignedIn != null || isSignedIn != undefined) {
 	window.location.href = "./pages/user/homepage.html";
 }
 
@@ -25,9 +27,8 @@ signinForm.addEventListener("submit", function (e) {
 		}
 	}
 	if (isMatch === true) {
-		localStorage.setItem("isSignedIn", "true");
 		if (loginRole.value == "admin") {
-			window.location.href = "./../../pages/admin/admin_create-book.html";
+			window.location.href = "./pages/admin/admin_create-book.html";
 		} else {
 			window.location.href = "./pages/user/homepage.html";
 		}
