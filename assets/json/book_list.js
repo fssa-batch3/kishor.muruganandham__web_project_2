@@ -333,5 +333,3 @@ let book_list = [
 	},
 ];
 
-
-window.onload = localStorage.setItem("book_list", JSON.stringify(book_list))

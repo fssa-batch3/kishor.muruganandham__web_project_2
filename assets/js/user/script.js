@@ -12,22 +12,17 @@ function darkMode() {
 	if (document.querySelector(":root").classList.contains("dark-mode")) {
 		// Remove the class and set the "dark-mode" key to "false" in local storage
 		document.querySelector(":root").classList.remove("dark-mode");
-		document
-			.querySelector(".dark-light")
-			.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
+		document.querySelector(".dark-light").classList.replace("bi-sun-fill", "bi-moon-stars-fill");
 		document.querySelector(".da-li-text").innerText = "Dark mode";
 		localStorage.setItem("dark-mode", "false");
 	} else {
 		// Add the class and set the "dark-mode" key to "true" in local storage
 		document.querySelector(":root").classList.add("dark-mode");
-		document
-			.querySelector(".dark-light")
-			.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+		document.querySelector(".dark-light").classList.replace("bi-moon-stars-fill", "bi-sun-fill");
 		document.querySelector(".da-li-text").innerText = "Light mode";
 		localStorage.setItem("dark-mode", "true");
 	}
 }
-
 
 function activeTab(evt, tabName) {
 	let i, tabcontent, tablinks;
@@ -43,11 +38,7 @@ function activeTab(evt, tabName) {
 	evt.currentTarget.className += " active";
 }
 
-
-
-
 function passVisible(inpid, toggler) {
-	
 	const passVisible = document.querySelector(toggler);
 	const passKey = document.getElementById(inpid);
 
@@ -60,29 +51,24 @@ function passVisible(inpid, toggler) {
 	}
 }
 
-function userNameValidation(userName,userNameError){
-
+function userNameValidation(userName, userNameError) {
 	const usernameLogin = document.getElementById(userName);
-	const userNameValue = usernameLogin.value.replace(/\s/g, "")
+	const userNameValue = usernameLogin.value.replace(/\s/g, "");
 	const emailErr = document.querySelector(userNameError);
 
-		const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		if (userNameValue.match(mailformat)) {
-			emailErr.style.display = "none";
-		} else if (
-			!userNameValue.match(mailformat) &&
-			usernameLogin == ""
-		) {
-			usernameLogin.classList.add("invalid");
-			emailErr.style.display = "inline-block";
-		}
-		if (userNameValue.match(mailformat)) {
-			usernameLogin.classList.remove("invalid");
-			usernameLogin.classList.add("valid");
-		} else {
-			usernameLogin.classList.remove("valid");
-		}
-
+	const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	if (userNameValue.match(mailformat)) {
+		emailErr.style.display = "none";
+	} else if (!userNameValue.match(mailformat) && usernameLogin == "") {
+		usernameLogin.classList.add("invalid");
+		emailErr.style.display = "inline-block";
+	}
+	if (userNameValue.match(mailformat)) {
+		usernameLogin.classList.remove("invalid");
+		usernameLogin.classList.add("valid");
+	} else {
+		usernameLogin.classList.remove("valid");
+	}
 }
 
 function confirmPassValidation(srcid, error, checkid) {
@@ -90,7 +76,7 @@ function confirmPassValidation(srcid, error, checkid) {
 	const confPass = document.getElementById(srcid);
 	const confPassValue = confPass.value.replace(/\s/g, "");
 	const passKey = document.getElementById(checkid);
-	const passKeyValue = passKey.value.replace(/\s/g, "")
+	const passKeyValue = passKey.value.replace(/\s/g, "");
 
 	if (confPassValue == "") {
 		errors.innerHTML = "Confirm Password cannot be empty";
@@ -107,8 +93,6 @@ function confirmPassValidation(srcid, error, checkid) {
 	}
 }
 
-
-
 function passValidation(elemenid, errormsg) {
 	const errors = document.querySelector(errormsg);
 	const passKey = document.getElementById(elemenid);
@@ -118,7 +102,7 @@ function passValidation(elemenid, errormsg) {
 		errors.innerHTML = "Password cannot be empty";
 		errors.style.display = "inline-block";
 		passKey.classList.add("invalid");
-	}  
+	}
 	if (
 		passKeyValue.length < 8 ||
 		passKeyValue.search(/[a-z]/i) < 0 ||
@@ -128,7 +112,7 @@ function passValidation(elemenid, errormsg) {
 			"Your password must be at least 8 characters <br> Your password must contain at least one letter. <br> Your password must contain at least one digit.<br>";
 		errors.style.display = "inline-block";
 		passKey.classList.add("invalid");
-	} 
+	}
 	if (
 		passKeyValue.length > 8 ||
 		passKeyValue.search(/[a-z]/i) > 0 ||
@@ -138,9 +122,7 @@ function passValidation(elemenid, errormsg) {
 		passKey.classList.remove("invalid");
 		passKey.classList.add("valid");
 	}
-	
 }
-
 
 function getStars(rating) {
 	// Round to nearest half
@@ -149,21 +131,15 @@ function getStars(rating) {
 
 	// Append all the filled whole stars
 	for (var i = rating; i >= 1; i--)
-		output.push(
-			'<i class="bi bi-star-fill" aria-hidden="true" style="color: gold;"></i>&nbsp;'
-		);
+		output.push('<i class="bi bi-star-fill" aria-hidden="true" style="color: gold;"></i>&nbsp;');
 
 	// If there is a half a star, append it
 	if (i == 0.5)
-		output.push(
-			'<i class="bi bi-star-half" aria-hidden="true" style="color: gold;"></i>&nbsp;'
-		);
+		output.push('<i class="bi bi-star-half" aria-hidden="true" style="color: gold;"></i>&nbsp;');
 
 	// Fill the empty stars
 	for (let i = 5 - rating; i >= 1; i--)
-		output.push(
-			'<i class="bi bi-star" aria-hidden="true" style="color: gold;"></i>&nbsp;'
-		);
+		output.push('<i class="bi bi-star" aria-hidden="true" style="color: gold;"></i>&nbsp;');
 
 	return output.join("");
 }
@@ -220,12 +196,9 @@ function generateBook(book, bookRack) {
 	bookTitle.append(bookAuthor);
 }
 
-
-
 function toggleFavourites() {
 	const favButton = document.querySelectorAll(".fav-btn");
 
-	
 	for (const i of favButton) {
 		const thisBook = i.parentElement.dataset.id;
 		const favBook = userId["favourites"];
@@ -233,16 +206,14 @@ function toggleFavourites() {
 			if (favBook.length != 0) {
 				for (let f of favBook) {
 					if (thisBook.includes(f)) {
-						const removeBook = favBook.findIndex(
-							(removeBook) => removeBook == thisBook
-							);
-							favBook.splice(removeBook, 1);
-							getUserData();
-							removeUserData();
-							setUserData(user_data);
-							checkForFavourites();
-							location.reload();
-							return
+						const removeBook = favBook.findIndex((removeBook) => removeBook == thisBook);
+						favBook.splice(removeBook, 1);
+						getUserData();
+						removeUserData();
+						setUserData(user_data);
+						checkForFavourites();
+						location.reload();
+						return;
 					}
 				}
 				favBook.push(thisBook);
@@ -263,17 +234,11 @@ function checkForFavourites() {
 	for (let i of Books) {
 		if (userInfo.includes(i.parentElement.dataset.id)) {
 			i.classList.add("active");
-			i.firstChild.classList.replace(
-				"bi-bookmark-heart",
-				"bi-bookmark-heart-fill"
-			);
+			i.firstChild.classList.replace("bi-bookmark-heart", "bi-bookmark-heart-fill");
 		}
 		if (!userInfo.includes(i.parentElement.dataset.id)) {
 			i.classList.remove("active");
-			i.firstChild.classList.replace(
-				"bi-bookmark-heart-fill",
-				"bi-bookmark-heart"
-			);
+			i.firstChild.classList.replace("bi-bookmark-heart-fill", "bi-bookmark-heart");
 		}
 	}
 }
@@ -299,7 +264,7 @@ function SearchBooks() {
 function getUserData() {
 	const userJson = localStorage.getItem("user_data");
 
-	if (userJson == undefined ||userJson == null) {
+	if (userJson == undefined || userJson == null) {
 		const data = [];
 		data_json = JSON.stringify(data);
 		localStorage.setItem("user_data", data_json);
@@ -310,7 +275,6 @@ function getUserData() {
 		const user_data = JSON.parse(userJson);
 		return user_data;
 	}
-	
 }
 
 function removeUserData() {
@@ -318,8 +282,8 @@ function removeUserData() {
 }
 
 function setUserData(data) {
-	const userJson =  JSON.stringify(data)
-    localStorage.setItem("user_data", userJson)
+	const userJson = JSON.stringify(data);
+	localStorage.setItem("user_data", userJson);
 }
 
 function getBookDetails() {
@@ -352,8 +316,6 @@ function getBookDetails() {
 				borrowBtn.disabled = false;
 				borrowBtn.innerText = "Borrow Now";
 			}
-
-			
 		});
 	}
 }
@@ -368,17 +330,32 @@ function borrowModal() {
 		document.querySelector(".modal").classList.remove("active");
 	});
 	borrowBtn.addEventListener("click", () => {
+		let bookId = borrowBtn.dataset.bookDetail;
+		let book_list = JSON.parse(localStorage.getItem("book_list"));
 		const borrowDate = document.getElementById("borrow-date");
 		const dueDate = document.getElementById("due-date");
+		const borrowNow = document.querySelector(".modal-submit");
+		const reqBook = book_list.find((b) => b.isbn == bookId);
+		let borrowList = JSON.parse(localStorage.getItem("borrow-list"));
+		let borrowListLength;
+		if (borrowList == null || borrowList == undefined) {
+			borrowList = []
+			localStorage.setItem("borrow-list", JSON.stringify(borrowList));
+			borrowList = JSON.parse(localStorage.getItem("borrow-list"));
+			borrowListLength = 0
+			console.log(borrowList);
+		} else{
+			borrowListLength = borrowList.length
+			console.log("f");
+		}
+	
+		console.log(borrowList);
 		document.querySelector(".backdrop").classList.add("active");
 		document.querySelector(".modal").classList.add("active");
-		let bookId = borrowBtn.dataset.bookDetail;
-		const reqBook = book_list.find((b) => b.isbn == bookId);
 		document.getElementById("book-title").value = reqBook.title;
-		const borrowNow = document.querySelector(".modal-submit");
 
 		borrowNow.addEventListener("click", () => {
-			if (borrowDate.value != "" && dueDate.value != "") {
+			if (borrowDate.value != null && dueDate.value != null) {
 				let bookExists = false;
 				for (const i of userId["borrow_history"]) {
 					if (i["book_id"] == bookId) {
@@ -389,8 +366,7 @@ function borrowModal() {
 				if (bookExists === true) {
 					alert("Book Already Exists");
 				} else {
-					const indexOfUser = data.indexOf(userId);
-					data.splice(indexOfUser, 1);
+					// data.splice(indexOfUser, 1);
 					const borrow_obj = new Object();
 					borrow_obj.id = userId["borrow_history"].length + 1;
 					borrow_obj.issue_date = new Date();
@@ -399,9 +375,17 @@ function borrowModal() {
 					borrow_obj.return_date = "-";
 					borrow_obj.status = "Pending";
 					borrow_obj.book_id = bookId;
+					borrow_obj.user_id = userId["id"];
+					borrow_obj.borrow_id = borrowListLength + 1;
 					userId["borrow_history"].push(borrow_obj);
-					// userId["borrow_history"] = []
-					data.push(userId);
+					borrowList.push(borrow_obj);
+					localStorage.removeItem("borrow-list");
+					const indexOfUser = data.indexOf(userId);
+					data[indexOfUser] = userId
+					// borrowList = [];
+					// userId["borrow_history"] = [];
+					// data.push(userId);
+					localStorage.setItem("borrow-list", JSON.stringify(borrowList));
 					setUserData(data);
 					location.reload();
 				}

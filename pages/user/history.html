@@ -243,10 +243,10 @@
 			const id = localStorage.getItem("id");
 			const data = getUserData();
 			let userId = data.find((u) => u.id == id);
-
-			if (userId["borrow_history"].length == 0) {
-				console.log("hello");
-			}
+			let book_list = JSON.parse(localStorage.getItem("book_list"));
+			// if (userId["borrow_history"].length == 0) {
+			// 	console.log("hello");
+			// }
 			for (const i of userId["borrow_history"]) {
 				const thisBook = book_list.find((e) => e["isbn"] == i["book_id"]);
 				const tableBody = document.querySelector(".history-table-body");
@@ -266,15 +266,15 @@
 
 				const tableCellStatus = document.createElement("td");
 				const tableCellStatusSpan = document.createElement("span");
-				tableCellStatusSpan.setAttribute("class", "history-status");
+				tableCellStatusSpan.setAttribute("class", "history-status status");
 				tableCellStatusSpan.innerText = i["status"];
 				tableCellStatus.append(tableCellStatusSpan);
 				tableRow.append(tableCellStatus);
 
 				if (i["status"] == "Completed") {
-					tableCellStatusSpan.setAttribute("class", "history-status completed");
+					tableCellStatusSpan.setAttribute("class", "history-status status completed");
 				} else if (i["status"] == "Rejected") {
-					tableCellStatusSpan.setAttribute("class", "history-status rejected");
+					tableCellStatusSpan.setAttribute("class", "history-status status rejected");
 				}
 				const tableCellBorrow = document.createElement("td");
 				tableCellBorrow.setAttribute("class", "history-borrow-date");

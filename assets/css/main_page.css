@@ -325,7 +325,7 @@ body {
 	cursor: pointer;
 }
 
-.history-container{
+.history-container,.Borrow-container{
   background-color: var(--body-white);
   max-height: 85vh;
   border-radius: 30px;
@@ -336,12 +336,12 @@ body {
   overflow-x: hidden;
   text-align: center;
 }
-.history-table-wrapper{
+.history-table-wrapper,.Borrow-table-wrapper{
   width: 100%;
   padding: 20px 10px;
   overflow-x: auto;
 }
-.history-table{
+table{
   margin-top: 20px;
   border-collapse: collapse;
   width: 100%;
@@ -349,48 +349,51 @@ body {
   overflow: hidden; 
   outline: 1px solid var(--primary-border);
 }
-.history-table thead{
+table thead{
   background-color: var(--primary-color);
 }
-.history-table tbody tr{
+table tbody tr{
   background-color: var(--body-bg);
 }
-.history-table td{
+table td{
   min-width: 150px;
   padding: 10px 15px; 
   border-right: 1px solid var(--primary-border);
 }
-.history-table th{
+table th{
   min-width: 150px;
   color: #ffffff;
   padding: 15px 20px;
   border-right: 1px solid var(--primary-border);
 }
-.history-table td:first-child{
+table td:first-child{
   min-width: unset;
 }
-.history-table th:first-child{
+table th:first-child{
   min-width: unset;
 }
-.history-table td:last-child,.history-table th:last-child{
+table td:last-child,table th:last-child{
   border: none;
 }
-.history-table tbody tr:nth-child(even){
+table tbody tr:nth-child(even){
   background-color: var(--body-white);
 }
-.history-status{
+.status{
   background-color: rgb(249, 226, 190);
   color: rgb(255, 153, 0);
   font-size: var(--sm-fs);
   padding: 2px 8px;
   border-radius: 8px;
+  border: 1px solid rgb(255, 153, 0);
 }
-.history-status.rejected{
+.status.rejected{
   color: var(--danger-red);
+  border: 1px solid var(--danger-red);
   background-color: var(--danger-red-shade);
 }
-.history-status.completed{
+.status.completed{
   color: var(--success-green);
+  border: 1px solid var(--success-green);
   background-color: var(--success-green-shade);
 }
 .history-delete .bi-trash{

@@ -1,4 +1,9 @@
-window.onload = localStorage.setItem("book_list", JSON.stringify(book_list));
+
+const book_list_arr = JSON.parse(localStorage.getItem("book_list"));
+if (book_list_arr == null || book_list_arr == undefined) {
+	console.log("hiiiiiiiii");
+	localStorage.setItem("book_list", JSON.stringify(book_list));
+}
 
 
 const isSignedIn = localStorage.getItem("id")
