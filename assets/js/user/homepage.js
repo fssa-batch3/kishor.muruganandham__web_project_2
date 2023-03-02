@@ -1,67 +1,69 @@
-function getUserData() {
-	const userJson = localStorage.getItem("user_data");
-	const user_data = JSON.parse(userJson);
 
-	return user_data;
-}
-function removeUserData() {
-	localStorage.removeItem("user_data");
-}
+// function getUserData() {
+//   const userJson = localStorage.getItem("user_data");
+//   const user_data = JSON.parse(userJson);
+//   return user_data;
+// }
 
-function setUserData() {
-	const userJson = JSON.stringify(user_data);
-	localStorage.setItem("user_data", userJson);
-}
+// function removeUserData() {
+//   localStorage.removeItem("user_data");
+// }
 
-const user_data = JSON.parse(localStorage.getItem("user_data"));
-const data = user_data;
-let id = localStorage.getItem("id");
-let userId = data.find((u) => u.id == id);
+// function setUserData(user_data) {
+//   const userJson = JSON.stringify(user_data);
+//   localStorage.setItem("user_data", userJson);
+// }
 
+// use const instead of let when declaring variables that don't change
+
+let borrow_list = JSON.parse(localStorage.getItem("borrow-list"));
+const tagSettings = JSON.parse(localStorage.getItem("settings"));
+
+// use const for values that don't change
 const popularBookData = popular_book_list;
-
-for (const book of popularBookData) {
-	const bookRack = document.querySelector(".generated-books");
-
-	generateBook(book, bookRack, popularBookData);
-}
-
 const intrestingBookData = intresting_book_list;
-for (const book of intrestingBookData) {
-	const bookRack = document.querySelector(".intresting-books");
 
-	generateBook(book, bookRack, intrestingBookData);
+// use template literals to interpolate variables in strings
+document.querySelector(".avail-books").innerHTML = `${book_list.length}`;
+document.querySelector(".fav-books").innerHTML = `${userId.favourites.length}`;
+document.querySelector(".card-text p").innerHTML = `Our Goal : ${tagSettings["books"]["avail_books"]}`;
+
+// use dataset property to store data attributes in HTML
+document.querySelector(".chart").dataset.percent = `${book_list.length}`;
+document.querySelector(".fav-chart").dataset.percent = `${userId.favourites.length}`;
+
+document.querySelector(".borrowed-books").innerHTML = `${borrow_list.length}`;
+document.querySelector(".borrow-chart").dataset.percent = `${borrow_list.length}`;
+
+// use querySelectorAll instead of getElementsByClassName to return a NodeList instead of an HTMLCollection
+let elements = document.querySelectorAll(".chart");
+elements.forEach((element) => {
+  // use arrow function syntax for callbacks
+  new EasyPieChart(element, {
+    size: 120,
+    lineWidth: 13,
+    barColor: "#ffffff",
+    trackColor: "#ffffff55",
+    scaleColor: "transparent",
+    
+  });
+});
+
+// extract common code into a function and reuse it
+function displayBooks(books, bookRack) {
+  for (const book of books) {
+    generateBook(book, bookRack);
+  }
 }
+
+// Display popular and interesting books
+const popularBookRack = document.querySelector(".generated-books");
+displayBooks(popularBookData, popularBookRack);
+
+const interestingBookRack = document.querySelector(".intresting-books");
+displayBooks(intrestingBookData, interestingBookRack);
 
 toggleFavourites();
-
 checkForFavourites();
 
-let favBooks = userId.favourites;
-document.querySelector(".avail-books").innerHTML += book_list.length;
-document.querySelector(".fav-books").innerHTML = favBooks.length;
-document
-	.querySelector(".chart")
-	.setAttribute("data-percent", `${book_list.length}`);
-document
-	.querySelector(".fav-chart")
-	.setAttribute("data-percent", `${favBooks.length}`);
-document.querySelector(".borrowed-books").innerHTML =
-	userId["borrow_history"].length;
-document
-	.querySelector(".borrow-chart")
-	.setAttribute("data-percent", `${userId["borrow_history"].length}`);
-
-let element = document.querySelectorAll(".chart");
-for (const i of element) {
-	new EasyPieChart(i, {
-		size: 120,
-		lineWidth: 13,
-		barColor: "#ffffff",
-		trackColor: "#ffffff55",
-		scaleColor: "transparent",
-	});
-}
-
-getBookDetails();
 

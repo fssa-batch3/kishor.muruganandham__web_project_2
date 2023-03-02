@@ -11,6 +11,7 @@
 		<script src="./assets/json/book_list.js"></script>
 		<script src="./assets/js/index.js"defer></script>
 		<script src="./assets/js/user/script.js" defer></script>
+		<script src="./assets/js/validation.js" defer></script>
 	</head>
 	<body>
 		<div class="container">
@@ -47,7 +48,7 @@
 							id="username-sign-in"
 							placeholder="Enter your Email address"
 							class="input"
-							onblur="userNameValidation('username-sign-in','.email-error')"
+							onblur="validateUsername('username-sign-in','.email-error')"
 							required />
 					</div>
 
@@ -68,8 +69,8 @@
 							placeholder="Enter Your Password"
 							class="input password"
 							required
-							onblur="passValidation('password-sign-in','.sign-in-password-error')" />
-						<i class="bi bi-eye-fill pass-visible sign-in" onclick="passVisible('password-sign-in','.pass-visible.sign-in')"></i>
+							onblur="validatePassword('password-sign-in','.sign-in-password-error')" />
+						<i class="bi bi-eye-fill pass-visible sign-in" onclick="togglePasswordVisibility('password-sign-in','.pass-visible.sign-in')"></i>
 					</div>
 					<div class="error-msg">
 						<small class="sign-in-password-error"
@@ -141,7 +142,7 @@
 							name="email-sign-up"
 							id="email-sign-up"
 							placeholder="Enter your Email address" 
-							onblur="userNameValidation('email-sign-up','.email-error-sign-up small')"
+							onblur="validateUsername('email-sign-up','.email-error-sign-up small')"
 							required/>
 					</div>
 					<div class="email-error-sign-up error-msg">
@@ -158,9 +159,9 @@
 							id="password-sign-up"
 							class="password"
 							placeholder="Enter Your Password" 
-							onblur="passValidation('password-sign-up','.sign-up-password-error')"
+							onblur="validatePassword('password-sign-up','.sign-up-password-error')"
 							required/>
-						<i class="bi bi-eye-fill pass-visible pass-sign-up" onclick="passVisible('password-sign-up','.pass-visible.pass-sign-up')"></i>
+						<i class="bi bi-eye-fill pass-visible pass-sign-up" onclick="togglePasswordVisibility('password-sign-up','.pass-visible.pass-sign-up')"></i>
 					</div>
 					<div class="error-msg">
 						<small class="sign-up-password-error">Seems like your password doesn't match.</small>
@@ -175,9 +176,9 @@
 							name="confirm-password-sign-up"
 							id="confirm-password-sign-up"
 							placeholder="Enter Your Password"
-							onblur="confirmPassValidation('confirm-password-sign-up','.confirm-password-sign-up','password-sign-up')"
+							onblur="validateConfirmPassword('confirm-password-sign-up','.confirm-password-sign-up','password-sign-up')"
 							required />
-						<i class="bi bi-eye-fill pass-visible confirm-sign-up" onclick="passVisible('confirm-password-sign-up','.pass-visible.confirm-sign-up')"></i>
+						<i class="bi bi-eye-fill pass-visible confirm-sign-up" onclick="togglePasswordVisibility('confirm-password-sign-up','.pass-visible.confirm-sign-up')"></i>
 					</div>
 					<div class="error-msg">
 						<small class="confirm-password-sign-up">Seems like your password doesn't match.</small>

@@ -31,7 +31,7 @@
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./library.html" class="nav-items"
+					<a href="./admin_library.html" class="nav-items"
 						><i class="bi bi-building"></i>
 						<p>Library</p>
 						<div
@@ -43,8 +43,8 @@
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./borrow-list.html" class="nav-items active"
-						><i class="bi bi-inboxes-fill"></i>
+					<a href="./borrow-list.html" class="nav-items"
+						><i class="bi bi-inboxes"></i>
 						<p>Borrow List</p>
 						<div
 							class="tooltip"
@@ -110,41 +110,7 @@
 				</div>
 			</div>
 		</nav>
-		<aside class="book-detail">
-			<div class="detail-close" onclick="CloseDetailPage()">
-				<i class="bi bi-x-lg"></i>
-			</div>
-			<div>
-				<h3>Book Detail</h3>
-			</div>
-			<div class="book-image">
-				<img
-					src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-2-CRC.png"
-					alt="Title"
-					width="150px"
-					height="192px" />
-			</div>
-			<div class="book-content">
-				<h4>Title</h4>
-				<p>Author</p>
-			</div>
-			<div class="book-rating">
-				<span id="stars"></span>
-			</div>
-			<div class="book-description">
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus vitae
-				eaque praesentium accusamus eligendi ea. Ea eaque porro eligendi animi nihil
-				exercitationem corporis obcaecati nostrum blanditiis, ut repudiandae minima?
-			</div>
-			<button
-				id="borrow-now"
-				type="button"
-				class="btn btn-primary"
-				data-bs-toggle="modal"
-				data-bs-target="#exampleModal">
-				Borrow Now
-			</button>
-		</aside>
+		
 
 		<section class="main-container">
 			<header class="top-header">
@@ -207,7 +173,6 @@
                             <select name="borrow-status" id="borrow-status" class="input">
                                 <option value="Pending">Pending</option>
                                 <option value="Completed">Completed</option>
-                                <option value="Rejected">Rejected</option>
                             </select>
                         </div>
                     </div>
@@ -297,58 +262,22 @@
                 </div>
             </main>
 
-			<div class="backdrop"></div>
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-title">Borrow-Book</h3>
-					<div class="modal-close">
-						<i class="bi bi-x-lg"></i>
-					</div>
-				</div>
-				<div class="modal-body">
-					<div class="input-group" style="width: 100%">
-						<label for="book-title">Book Name :</label>
-						<div class="input-field">
-							<input
-								type="text"
-								name="book-title"
-								id="book-title"
-								value=""
-								readonly />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="role-sign-in">Start Date :</label>
-						<div class="input-field">
-							<input type="date" name="" id="" required />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="role-sign-in">End Date :</label>
-						<div class="input-field">
-							<input type="date" name="" id="" required />
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="modal-submit">Borrow Now</button>
-				</div>
-			</div>
+			
 		</section>
 	</body>
-	<script>
-				const url = window.location.search;               
-                const urlParams = new URLSearchParams(url);        
+	<script>            
+                const urlParams = new URLSearchParams( window.location.search);        
                 const borrowId = urlParams.get("id") 
 				let borrowList = JSON.parse(localStorage.getItem("borrow-list"));
 				let bookList = JSON.parse(localStorage.getItem("book_list"));
 				let userList = JSON.parse(localStorage.getItem("user_data"));
 				const borrowDetail = borrowList.find((b) => b["borrow_id"] == borrowId)
-				const bookDetail = bookList.find((b) => b["isbn"] == borrowDetail["book_id"])
+				const bookDetail = bookList.find((b) => b["id"] == borrowDetail["book_id"])
 				const userDetail = userList.find((b) => b["id"] == borrowDetail["user_id"])
 				
 				const userName = document.querySelector(".user-name h4")
 				const saveBtn = document.querySelector(".save-borrow-edit ")
+				const cancelBtn = document.querySelector(".cancel-borrow-edit ")
 				const profilePic = document.querySelector(".borrow-edit-user-detail .profile-field")
 				const bookImage = document.querySelector(".book-detail-right-col img");
 				const bookName = document.getElementById("borrow-edit-book-name");
@@ -380,24 +309,21 @@
 					borrowDetail["due_date"] = bookDueDate.value 
 					borrowDetail["status"] = borrowStatus.value;
 					if (borrowStatus.value == "Completed") {
-						bookDetail["isBorrowable"] = false;
-					} else {
 						bookDetail["isBorrowable"] = true;
+					} else {
+						bookDetail["isBorrowable"] = false;
 					}
-					const userBorrowHistory = userDetail["borrow_history"].find((e) => e.id == borrowDetail["id"])
 					userBorrowHistory["status"] = borrowStatus.value; 
+					const userBorrowHistory = userDetail["borrow_history"].find((e) => e.id == borrowDetail["id"])
 					const borrowIndex = borrowList.indexOf(borrowDetail);
-					const bookIndex = bookList.indexOf(bookDetail);
-					const userIndex = userList.indexOf(userDetail);
 					borrowList[borrowIndex] = borrowDetail;
-					bookList[bookIndex] = bookDetail;
-					userList[userIndex] = userDetail;
 					localStorage.setItem("borrow-list",JSON.stringify(borrowList));
-					localStorage.removeItem("book_list");
-					localStorage.setItem("book_list",JSON.stringify(bookList));
-					localStorage.setItem("user_data",JSON.stringify(userList));
-					location.reload()
+					history.back()
 				})
+				cancelBtn.addEventListener("click",function (e){	
+					history.back()
+			})
+				
                 
 
 

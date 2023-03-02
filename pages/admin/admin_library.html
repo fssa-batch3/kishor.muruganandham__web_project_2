@@ -4,9 +4,8 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Book Request Form</title>
+		<title>Admin Library</title>
 		<link rel="stylesheet" href="../../assets/css/main_page.css" />
-		<link rel="stylesheet" href="../../assets/css/book-request.css" />
 		<link rel="icon" href="../../assets/images/book-half.svg" type="image/x-icon" />
 		<link
 			rel="stylesheet"
@@ -24,16 +23,16 @@
 				</div>
 				<div class="divider-line"></div>
 				<div class="nav-list">
-					<a href="./homepage.html" class="nav-items"
-						><i class="bi bi-house"></i>
-						<p>Home</p>
+					<a href="./admin-dashboard.html" class="nav-items"
+						><i class="bi bi-grid"></i>
+						<p>Dashboard</p>
 						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Home
+							Dashboard
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="../library.html" class="nav-items"
-						><i class="bi bi-building"></i>
+					<a href="#" class="nav-items active"
+						><i class="bi bi-building-fill"></i>
 						<p>Library</p>
 						<div
 							class="tooltip"
@@ -44,32 +43,32 @@
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./history.html" class="nav-items"
-						><i class="bi bi-hourglass"></i>
-						<p>History</p>
+					<a href="./borrow-list.html" class="nav-items"
+						><i class="bi bi-inboxes"></i>
+						<p>Borrow List</p>
 						<div
 							class="tooltip"
 							role="tooltip"
 							style="top: 255px"
 							data-popper-placement="right">
-							History
+							Borrow List
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./favourites.html" class="nav-items"
-						><i class="bi bi-bookmark-heart"></i>
-						<p>Favourites</p>
+					<a href="./admin_create-book.html" class="nav-items"
+						><i class="bi bi-file-plus"></i>
+						<p>Create Book</p>
 						<div
 							class="tooltip"
 							role="tooltip"
 							style="top: 315px"
 							data-popper-placement="right">
-							Favourites
+							Create Book
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="#" class="nav-items active"
-						><i class="bi bi-file-earmark-text-fill"></i>
+					<a href="./book-request.html" class="nav-items"
+						><i class="bi bi-file-earmark-text"></i>
 						<p>Request Book</p>
 						<div
 							class="tooltip"
@@ -133,12 +132,7 @@
 							name="head-search"
 							id="head-search"
 							placeholder="Search..."
-							class="search-list-show" />
-						<div class="focus-out"></div>
-						<div class="search-list">
-							<div class="search-result"></div>
-							<a href="../library.html" class="show-all"> Show All Books </a>
-						</div>
+							oninput="tagFilterBooks('All'),searchBooks()" />
 					</div>
 					<a href="../user/user_profile.html" aria-label="profile-page" class="profile-area">
 						<div class="profile-field"></div>
@@ -150,101 +144,96 @@
 				</div>
 			</header>
 
-			<main class="request-section">
-				<form action="" class="book-request">
-					<div class="form-title">
-						<h2>Request a Book</h2>
-					</div>
-					<div class="input-group">
-						<label for="book-name">Book-name : <sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="book-name"
-								name="book-name"
-								id="book-name"
-								placeholder="Enter the book-name"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="author-name">Author-name :<sup>*</sup> </label>
-						<div class="input-field">
-							<input
-								type="author-name"
-								name="author-name"
-								id="author-name"
-								placeholder="Enter the author-name"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="price"
-							>Approx price :<sup style="color: var(--font-black)">(optional)</sup></label
-						>
-						<div class="input-field">
-							<input
-								type="price"
-								name="price"
-								id="price"
-								placeholder="Enter the price"
-								class="input" />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="description">Why this Book? :<sup>*</sup></label>
-						<div class="input-field">
-							<textarea name="description" id="description"></textarea>
-						</div>
-					</div>
-					<div class="input-group">
-						<button class="submit">Submit</button>
-					</div>
-				</form>
+			<main class="library-container" style="height: 100%">
+				<div class="library-tags">
+					<button onclick="tagFilterBooks('All')" class="active">All</button>
+				</div>
+				<div class="library-section generated-books books-section-style"></div>
 			</main>
-			
-			
+
+			<div class="backdrop"></div>
+			<div class="modal">
+				<div class="modal-header">
+					<h3 class="modal-title">Borrow-Book</h3>
+					<div class="modal-close">
+						<i class="bi bi-x-lg"></i>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="input-group" style="width: 100%">
+						<label for="book-title">Book Name :</label>
+						<div class="input-field">
+							<input type="text" name="book-title" id="book-title" value="" readonly />
+						</div>
+					</div>
+					<div class="input-group" style="flex: 1">
+						<label for="borrow-date">Borrow Date :</label>
+						<div class="input-field">
+							<input type="date" name="borrow-date" id="borrow-date" required />
+						</div>
+					</div>
+					<div class="input-group" style="flex: 1">
+						<label for="due-date">Due Date :</label>
+						<div class="input-field">
+							<input type="date" name="due-date" id="due-date" required />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="modal-submit">Borrow Now</button>
+				</div>
+			</div>
 		</section>
 
 		<script>
-			// Select the form and input fields
-			const bookReqForm = document.querySelector(".book-request");
-			const bookName = document.getElementById("book-name");
-			const authorName = document.getElementById("author-name");
-			const bookPrice = document.getElementById("price");
-			const bookDesc = document.getElementById("description");
+			// Get book data and generate book rack
+			const bookData = JSON.parse(localStorage.getItem("book_list"));
+			const bookRack = document.querySelector(".generated-books");
+			bookData.forEach((book) => generateBook(book, bookRack, bookData));
 
-			// Initialize the book_req array from local storage
-			let book_req = JSON.parse(localStorage.getItem("book_req")) || [];
-			localStorage.setItem("book_req", JSON.stringify(book_req));
+			// Get user data and check for favorites
+			toggleFavourites();
+			checkForFavourites();
 
-			// Add event listener to the form
-			bookReqForm.addEventListener("submit", function (e) {
-				e.preventDefault();
+			function searchBooks() {
+				const searchValue = document.getElementById("head-search").value.toLowerCase();
 
-				// Check if the book is already requested
-				const bookExists = book_req.some((book) => book.book_name === bookName.value);
-				if (bookExists) {
-					alert("The book is already requested");
-					return;
-				}
+				const books = document.querySelectorAll(".book");
+				books.forEach((book) => {
+					const title = book.innerHTML.toLowerCase();
+					const display = title.includes(searchValue) ? "block" : "none";
+					book.style.display = display;
+				});
+			}
+			
 
-				// Create a new book request object
-				const bookReqObj = {
-					book_name: bookName.value,
-					author_name: authorName.value,
-					price: bookPrice.value,
-					description: bookDesc.value,
-					log: new Date(),
-					id: book_req.length + 1,
-				};
+			// Filter books by tag
+			function tagFilterBooks(value) {
+				const btns = document.querySelectorAll(".library-tags button");
+				btns.forEach((btn) => {
+					if (value.toLowerCase() == btn.innerHTML.toLowerCase().trim()) {
+						btn.classList.add("active");
+					} else {
+						btn.classList.remove("active");
+					}
+				});
+				const books = document.querySelectorAll(".book-cover");
+				books.forEach((book) => {
+					const bookTag = book.dataset.filterTag.toLowerCase();
+					book.parentElement.style.display = value.toLowerCase() == "all" || bookTag.includes(value.toLowerCase())? "block": "none";
+				});
+			}
 
-				// Add the new book request to the array in local storage
-				book_req.push(bookReqObj);
-				localStorage.setItem("book_req", JSON.stringify(book_req));
-				bookReqForm.reset()
-			});
+			const tagSettings = JSON.parse(localStorage.getItem("settings"));
+			tagSettings["tags"].forEach((tags) => {
+				const tagBtn = document.createElement("button");
+				tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
+				tagBtn.innerText = tags
+				document.querySelector(".library-tags").append(tagBtn)
+				// console.log(tags);
+			})
+			tagFilterBooks('All')
 		</script>
 	</body>
 </html>
+

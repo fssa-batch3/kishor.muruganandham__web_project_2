@@ -9,6 +9,9 @@
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css" rel="stylesheet">
 		<script src="../../assets/js/user/script.js"></script>
 		<script src="../../assets/js/user/header.js" defer></script>
 		<script src="../../assets/js/user/sidebar.js" defer></script>
@@ -22,15 +25,15 @@
 				</div>
 				<div class="divider-line"></div>
 				<div class="nav-list">
-					<a href="./homepage.html" class="nav-items"
-						><i class="bi bi-house"></i>
-						<p>Home</p>
+					<a href="./admin-dashboard.html" class="nav-items"
+						><i class="bi bi-grid"></i>
+						<p>Dashboard</p>
 						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Home
+							Dashboard
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./library.html" class="nav-items"
+					<a href="./admin_library.html" class="nav-items"
 						><i class="bi bi-building"></i>
 						<p>Library</p>
 						<div
@@ -42,8 +45,8 @@
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="../admin/borrow-list.html" class="nav-items active"
-						><i class="bi bi-hourglass-split"></i>
+					<a href="./borrow-list.html" class="nav-items "
+						><i class="bi bi-inboxes"></i>
 						<p>Borrow List</p>
 						<div
 							class="tooltip"
@@ -54,15 +57,15 @@
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./favourites.html" class="nav-items"
-						><i class="bi bi-bookmark-heart"></i>
-						<p>Favourites</p>
+					<a href="#" class="nav-items active"
+						><i class="bi bi-file-plus-fill"></i>
+						<p>Create Book</p>
 						<div
 							class="tooltip"
 							role="tooltip"
 							style="top: 315px"
 							data-popper-placement="right">
-							Favourites
+							Create Book
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
@@ -109,41 +112,7 @@
 				</div>
 			</div>
 		</nav>
-		<aside class="book-detail">
-			<div class="detail-close" onclick="CloseDetailPage()">
-				<i class="bi bi-x-lg"></i>
-			</div>
-			<div>
-				<h3>Book Detail</h3>
-			</div>
-			<div class="book-image">
-				<img
-					src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-2-CRC.png"
-					alt="Title"
-					width="150px"
-					height="192px" />
-			</div>
-			<div class="book-content">
-				<h4>Title</h4>
-				<p>Author</p>
-			</div>
-			<div class="book-rating">
-				<span id="stars"></span>
-			</div>
-			<div class="book-description">
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus vitae
-				eaque praesentium accusamus eligendi ea. Ea eaque porro eligendi animi nihil
-				exercitationem corporis obcaecati nostrum blanditiis, ut repudiandae minima?
-			</div>
-			<button
-				id="borrow-now"
-				type="button"
-				class="btn btn-primary"
-				data-bs-toggle="modal"
-				data-bs-target="#exampleModal">
-				Borrow Now
-			</button>
-		</aside>
+	
 
 		<section class="main-container">
 			<header class="top-header">
@@ -193,15 +162,15 @@
 					</div>
 
 					<div class="input-group">
-						<label for="isbn">ISBN :<sup>*</sup></label>
+						<label for="create-id">Id :<sup>*</sup></label>
 						<div class="input-field">
 							<input
 								type="number"
-								name="isbn"
-								id="Isbn"
-								placeholder="Enter the ISBN"
+								name="create-id"
+								id="create-id"
 								class="input"
-								required />
+								disabled
+								 />
 						</div>
 					</div>
 
@@ -229,7 +198,12 @@
 								required />
 						</div>
 					</div>
-
+					<div class="input-group">
+						<label for="tags">Genre :<sup>*</sup></label>
+						<div class="input-field">
+							<select data-placeholder="Choose tags ..." name="tags[]" multiple id="choice-js" class="chosen-select" ></select>
+						</div>
+					</div>
 					<div class="input-group">
 						<label for="authorname">Author Name :<sup>*</sup></label>
 						<div class="input-field">
@@ -254,12 +228,11 @@
 								required />
 						</div>
 					</div>
-
 					<div class="input-group">
 						<label for="image">Image URL :<sup>*</sup></label>
 						<div class="input-field">
 							<input
-								type="text"
+								type="url"
 								name="image"
 								id="Image"
 								placeholder="Enter image URL"
@@ -319,36 +292,64 @@
 		</section>
 	</body>
 	<script>
-		const data = getUserData();
-		let id = localStorage.getItem("id");
-		let userId = data.find((u) => u.id == id);
+		const adminTags = JSON.parse(localStorage.getItem("settings"))
+			adminTags.tags.forEach(element => {
+				const opt = document.createElement("option")
+				opt.innerText = element
+				$("#choice-js").append(opt);
+			});
+				 const choices = new Choices("#choice-js", {
+					removeItems: true,
+					removeItemButton: true
+				});
 
-		function createBook() {
-			const isbnNumber = document.getElementById("Isbn").value;
-			const title = document.getElementById("Title").value;
-			const subtitle = document.getElementById("Sub-title").value;
-			const authorName = document.getElementById("Authorname").value;
-			const pages = document.getElementById("Page").value;
-			const imageUrl = document.getElementById("Image").value;
-			const description = document.getElementById("Description").value;
 
-			console.log(
-				isbnNumber,
-				title,
-				subtitle,
-				authorName,
-				pages,
-				imageUrl,
-				description
-			);
-			let myArray = [];
-			let myObject = { 
-				isbn: isbnNumber,
-			
-			};
-			myArray.push(myObject);
-			console.log(myArray)
-		}
+				
+
+				function tagsToArray() {
+					const tags = document.getElementById("choice-js").selectedOptions;
+					let str = "";
+					for (const i of tags) {
+						str += " " + i.value;
+					}
+					let stringArray = str.split(" ");
+					let row = stringArray.filter((n) => n)
+					return row;
+				}
+
+
+				let uid = document.getElementById("create-id");
+				const UUID = generateGuid()
+				uid.placeholder = UUID
+				
+				function createBook() {
+					event.preventDefault();
+					const title = document.getElementById("Title").value;
+					const subtitle = document.getElementById("Sub-title").value;
+					const authorName = document.getElementById("Authorname").value;
+					const pages = document.getElementById("Page").value;
+					const imageUrl = document.getElementById("Image").value;
+					const description = document.getElementById("Description").value;
+					let book_list = JSON.parse(localStorage.getItem("book_list"))||[];
+					let newBook = {
+						id: uid.placeholder,
+						subtitle: subtitle,
+						author: authorName,
+						title: title,
+						image :{src : imageUrl, alt : title},
+						tags: tagsToArray(),
+						star_rating: [],
+						isBorrowable: true,
+						language: "English",
+						isActive: true,
+						pages: parseInt(pages),
+						description: description,
+					};
+					book_list.push(newBook);
+					localStorage.setItem('book_list', JSON.stringify(book_list));
+					location.reload()
+					
+				}
 
 	</script>
 </html>

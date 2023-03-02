@@ -24,104 +24,40 @@ function darkMode() {
 	}
 }
 
+let commentList = JSON.parse(localStorage.getItem("comments"));
+if (!localStorage.getItem("comments")) {
+	commentList = [];
+}
+let commentLikeList = JSON.parse(localStorage.getItem("comment_likes"));
+if (!localStorage.getItem("comment_likes")) {
+	commentLikeList = [];
+	localStorage.setItem("comment_likes",JSON.stringify(commentLikeList))
+}
+
+
+function generateGuid() {
+	let result, i, j;
+	result = '';
+	for(j=0; j<16; j++) {
+		i = Math.floor(Math.random()*16).toString(16);
+		result = result + i;
+	}
+	return result;
+}
+
 function activeTab(evt, tabName) {
-	let i, tabcontent, tablinks;
-	tabcontent = document.getElementsByClassName("tab-content");
-	for (i = 0; i < tabcontent.length; i++) {
-		tabcontent[i].style.display = "none";
-	}
-	tablinks = document.getElementsByClassName("tab-btn");
-	for (i = 0; i < tablinks.length; i++) {
-		tablinks[i].className = tablinks[i].className.replace(" active", "");
-	}
-	document.getElementById(tabName).style.display = "block";
-	evt.currentTarget.className += " active";
-}
+	// Hide all tab contents
+	const tabContents = document.querySelectorAll(".tab-content");
+	tabContents.forEach((tabContent) => (tabContent.style.display = "none"));
 
-function passVisible(inpid, toggler) {
-	const passVisible = document.querySelector(toggler);
-	const passKey = document.getElementById(inpid);
+	// Remove 'active' class from all tab buttons
+	const tabButtons = document.querySelectorAll(".tab-btn");
+	tabButtons.forEach((tabButton) => tabButton.classList.remove("active"));
 
-	if (passVisible.classList.contains("bi-eye-fill")) {
-		passVisible.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
-		passKey.setAttribute("type", "text");
-	} else {
-		passVisible.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
-		passKey.setAttribute("type", "password");
-	}
-}
-
-function userNameValidation(userName, userNameError) {
-	const usernameLogin = document.getElementById(userName);
-	const userNameValue = usernameLogin.value.replace(/\s/g, "");
-	const emailErr = document.querySelector(userNameError);
-
-	const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-	if (userNameValue.match(mailformat)) {
-		emailErr.style.display = "none";
-	} else if (!userNameValue.match(mailformat) && usernameLogin == "") {
-		usernameLogin.classList.add("invalid");
-		emailErr.style.display = "inline-block";
-	}
-	if (userNameValue.match(mailformat)) {
-		usernameLogin.classList.remove("invalid");
-		usernameLogin.classList.add("valid");
-	} else {
-		usernameLogin.classList.remove("valid");
-	}
-}
-
-function confirmPassValidation(srcid, error, checkid) {
-	const errors = document.querySelector(error);
-	const confPass = document.getElementById(srcid);
-	const confPassValue = confPass.value.replace(/\s/g, "");
-	const passKey = document.getElementById(checkid);
-	const passKeyValue = passKey.value.replace(/\s/g, "");
-
-	if (confPassValue == "") {
-		errors.innerHTML = "Confirm Password cannot be empty";
-		errors.style.display = "inline-block";
-		confPass.classList.add("invalid");
-	} else if (confPassValue != passKeyValue) {
-		errors.innerHTML = "Seems like your password doesn't match.";
-		errors.style.display = "inline-block";
-		confPass.classList.add("invalid");
-	} else {
-		errors.style.display = "none";
-		confPass.classList.remove("invalid");
-		confPass.classList.add("valid");
-	}
-}
-
-function passValidation(elemenid, errormsg) {
-	const errors = document.querySelector(errormsg);
-	const passKey = document.getElementById(elemenid);
-	const passKeyValue = passKey.value.replace(/\s/g, "");
-
-	if (passKeyValue == "") {
-		errors.innerHTML = "Password cannot be empty";
-		errors.style.display = "inline-block";
-		passKey.classList.add("invalid");
-	}
-	if (
-		passKeyValue.length < 8 ||
-		passKeyValue.search(/[a-z]/i) < 0 ||
-		passKeyValue.search(/[0-9]/) < 0
-	) {
-		errors.innerHTML =
-			"Your password must be at least 8 characters <br> Your password must contain at least one letter. <br> Your password must contain at least one digit.<br>";
-		errors.style.display = "inline-block";
-		passKey.classList.add("invalid");
-	}
-	if (
-		passKeyValue.length > 8 ||
-		passKeyValue.search(/[a-z]/i) > 0 ||
-		passKeyValue.search(/[0-9]/) > 0
-	) {
-		errors.style.display = "none";
-		passKey.classList.remove("invalid");
-		passKey.classList.add("valid");
-	}
+	// Show the selected tab content and set the selected tab button as active
+	const selectedTabContent = document.getElementById(tabName);
+	selectedTabContent.style.display = "block";
+	evt.currentTarget.classList.add("active");
 }
 
 function getStars(rating) {
@@ -149,132 +85,96 @@ function CloseDetailPage() {
 	document.querySelector(".focus-out").classList.remove("active");
 }
 
-// Function to generate Books
-// (book)defines which books to be shown
-// (bookRack)defines where books to be shown
-
-// Function to Get ID of the Current Book
-
 book_list = JSON.parse(localStorage.getItem("book_list"));
+const id = JSON.parse(localStorage.getItem("id"));
+const user_data = getUserData();
+const userId = user_data.find((u) => u.id == id);
 
 function generateBook(book, bookRack) {
+	if (book.isActive !== true) return
 	const bookDiv = document.createElement("div");
-	bookDiv.setAttribute("data-id", book["isbn"]);
-	bookDiv.setAttribute("class", "book");
+	bookDiv.dataset.id = book.id;
+	bookDiv.className = "book";
+	const thisUser = getUserData().find(e => e.id == JSON.parse(localStorage.getItem("id")))
 
-	const bookCover = document.createElement("div");
-	bookCover.setAttribute("class", "book-cover");
-	bookCover.setAttribute("data-filter-tag", book["tags"]);
+	const bookCover = document.createElement("a");
+	bookCover.className = "book-cover";
+	if (thisUser.role == "admin" ) {
+		
+		bookCover.href = "../../pages/admin/book_edit.html?id=" + book.id;
+	} else{
+		bookCover.href = "../../pages/book_details.html?id=" + book.id;
+
+	}
+	bookCover.dataset.filterTag = book.tags;
 
 	const bookImage = document.createElement("img");
-	bookImage.setAttribute("src", book["image"]["src"]);
-	bookImage.setAttribute("alt", book["image"]["alt"]);
+	bookImage.src = book.image.src;
+	bookImage.alt = book.image.alt;
 	bookImage.setAttribute("width", "150px");
 
 	const favBtn = document.createElement("span");
-	favBtn.setAttribute("class", "fav-btn");
+	favBtn.className = "fav-btn";
 
 	const favIcon = document.createElement("i");
-	favIcon.setAttribute("class", "bi bi-bookmark-heart");
+	favIcon.className = "bi bi-bookmark-heart";
 
 	const bookTitle = document.createElement("div");
-	bookTitle.setAttribute("class", "book-title");
+	bookTitle.className = "book-title";
 
 	const bookName = document.createElement("h4");
-	bookName.innerText = book["title"];
+	bookName.innerText = book.title;
 
 	const bookAuthor = document.createElement("p");
-	bookAuthor.innerText = book["author"];
+	bookAuthor.innerText = book.author;
 
-	bookRack.append(bookDiv);
-	bookDiv.append(bookCover);
+	bookDiv.append(bookCover, favBtn, bookTitle);
 	bookCover.append(bookImage);
-	bookDiv.append(favBtn);
 	favBtn.append(favIcon);
-	bookDiv.append(bookTitle);
-	bookTitle.append(bookName);
-	bookTitle.append(bookAuthor);
+	bookTitle.append(bookName, bookAuthor);
+	bookRack.append(bookDiv);
 }
 
 function toggleFavourites() {
-	const favButton = document.querySelectorAll(".fav-btn");
+	const favButtons = document.querySelectorAll(".fav-btn");
 
-	for (const i of favButton) {
-		const thisBook = i.parentElement.dataset.id;
-		const favBook = userId["favourites"];
-		i.addEventListener("click", () => {
-			if (favBook.length != 0) {
-				for (let f of favBook) {
-					if (thisBook.includes(f)) {
-						const removeBook = favBook.findIndex((removeBook) => removeBook == thisBook);
-						favBook.splice(removeBook, 1);
-						getUserData();
-						removeUserData();
-						setUserData(user_data);
-						checkForFavourites();
-						location.reload();
-						return;
-					}
-				}
-				favBook.push(thisBook);
+	favButtons.forEach((button) => {
+		const bookId = button.parentElement.dataset.id;
+		button.addEventListener("click", () => {
+			const userFavourites = userId["favourites"];
+
+			if (userFavourites.includes(bookId)) {
+				const index = userFavourites.indexOf(bookId);
+				userFavourites.splice(index, 1);
 			} else {
-				favBook.push(thisBook);
+				userFavourites.push(bookId);
 			}
-			getUserData();
-			removeUserData();
 			setUserData(user_data);
 			location.reload();
 		});
-	}
+	});
 }
 
 function checkForFavourites() {
-	let Books = document.querySelectorAll(".fav-btn");
-	let userInfo = userId["favourites"];
-	for (let i of Books) {
-		if (userInfo.includes(i.parentElement.dataset.id)) {
-			i.classList.add("active");
-			i.firstChild.classList.replace("bi-bookmark-heart", "bi-bookmark-heart-fill");
+	const favourites = userId.favourites;
+	const favButtons = document.querySelectorAll(".fav-btn");
+
+	favButtons.forEach((button) => {
+		const isFavourite = favourites.includes(button.parentElement.dataset.id);
+
+		if (isFavourite) {
+			button.classList.add("active");
+			button.firstChild.classList.replace("bi-bookmark-heart", "bi-bookmark-heart-fill");
+		} else {
+			button.classList.remove("active");
+			button.firstChild.classList.replace("bi-bookmark-heart-fill", "bi-bookmark-heart");
 		}
-		if (!userInfo.includes(i.parentElement.dataset.id)) {
-			i.classList.remove("active");
-			i.firstChild.classList.replace("bi-bookmark-heart-fill", "bi-bookmark-heart");
-		}
-	}
-}
-
-// Function for Searching Books in Search Bar
-function SearchBooks() {
-	let searchValue = document.getElementById("head-search");
-	searchValue = searchValue.value.toLowerCase();
-
-	let Books = document.querySelectorAll(".book");
-
-	for (let i of Books) {
-		let book = i.innerHTML.toLowerCase();
-
-		if (!book.includes(searchValue)) {
-			i.style.display = "none";
-		} else if (book.includes(searchValue)) {
-			i.style.display = "block";
-		}
-	}
+	});
 }
 
 function getUserData() {
 	const userJson = localStorage.getItem("user_data");
-
-	if (userJson == undefined || userJson == null) {
-		const data = [];
-		data_json = JSON.stringify(data);
-		localStorage.setItem("user_data", data_json);
-		localJson = localStorage.getItem("user_data");
-		const user_data = JSON.parse(localJson);
-		return user_data;
-	} else {
-		const user_data = JSON.parse(userJson);
-		return user_data;
-	}
+	return userJson === null || userJson === undefined ? [] : JSON.parse(userJson);
 }
 
 function removeUserData() {
@@ -282,117 +182,7 @@ function removeUserData() {
 }
 
 function setUserData(data) {
-	const userJson = JSON.stringify(data);
-	localStorage.setItem("user_data", userJson);
+	localStorage.setItem("user_data", JSON.stringify(data));
 }
 
-function getBookDetails() {
-	let bookCovers = document.getElementsByClassName("book-cover");
-	for (let bookCover of bookCovers) {
-		bookCover.addEventListener("click", () => {
-			let dataId = bookCover.parentElement.dataset.id;
-			let bookId = book_list.find((book) => book.isbn == dataId);
-
-			document.querySelector(".book-detail").classList.add("active");
-
-			const bookDes = document.querySelector(".book-description");
-			const bookAuthor = document.querySelector(".book-content p");
-			const bookTitle = document.querySelector(".book-content h4");
-			const bookImage = document.querySelector(".book-image img");
-			const StarRating = document.getElementById("stars");
-			const borrowBtn = document.getElementById("borrow-now");
-
-			bookDes.innerHTML = bookId.description;
-			bookAuthor.innerHTML = bookId.author;
-			bookTitle.innerHTML = bookId.title;
-			bookImage.setAttribute("src", bookId["image"]["src"]);
-			bookImage.setAttribute("alt", bookId["image"]["alt"]);
-			StarRating.innerHTML = getStars(bookId.star_rating);
-			if (bookId.isBorrowable === false) {
-				borrowBtn.innerText = "Currently Not Available";
-				borrowBtn.disabled = true;
-			} else if (bookId.isBorrowable === true) {
-				borrowBtn.dataset.bookDetail = bookId["isbn"];
-				borrowBtn.disabled = false;
-				borrowBtn.innerText = "Borrow Now";
-			}
-		});
-	}
-}
-
-// Event Listener for Borrow Modal Box
-function borrowModal() {
-	const modalCloseBtn = document.querySelector(".modal-close");
-	const borrowBtn = document.getElementById("borrow-now");
-
-	modalCloseBtn.addEventListener("click", () => {
-		document.querySelector(".backdrop").classList.remove("active");
-		document.querySelector(".modal").classList.remove("active");
-	});
-	borrowBtn.addEventListener("click", () => {
-		let bookId = borrowBtn.dataset.bookDetail;
-		let book_list = JSON.parse(localStorage.getItem("book_list"));
-		const borrowDate = document.getElementById("borrow-date");
-		const dueDate = document.getElementById("due-date");
-		const borrowNow = document.querySelector(".modal-submit");
-		const reqBook = book_list.find((b) => b.isbn == bookId);
-		let borrowList = JSON.parse(localStorage.getItem("borrow-list"));
-		let borrowListLength;
-		if (borrowList == null || borrowList == undefined) {
-			borrowList = []
-			localStorage.setItem("borrow-list", JSON.stringify(borrowList));
-			borrowList = JSON.parse(localStorage.getItem("borrow-list"));
-			borrowListLength = 0
-			console.log(borrowList);
-		} else{
-			borrowListLength = borrowList.length
-			console.log("f");
-		}
-	
-		console.log(borrowList);
-		document.querySelector(".backdrop").classList.add("active");
-		document.querySelector(".modal").classList.add("active");
-		document.getElementById("book-title").value = reqBook.title;
-
-		borrowNow.addEventListener("click", () => {
-			if (borrowDate.value != null && dueDate.value != null) {
-				let bookExists = false;
-				for (const i of userId["borrow_history"]) {
-					if (i["book_id"] == bookId) {
-						bookExists = true;
-						break;
-					}
-				}
-				if (bookExists === true) {
-					alert("Book Already Exists");
-				} else {
-					// data.splice(indexOfUser, 1);
-					const borrow_obj = new Object();
-					borrow_obj.id = userId["borrow_history"].length + 1;
-					borrow_obj.issue_date = new Date();
-					borrow_obj.borrow_date = borrowDate.value;
-					borrow_obj.due_date = dueDate.value;
-					borrow_obj.return_date = "-";
-					borrow_obj.status = "Pending";
-					borrow_obj.book_id = bookId;
-					borrow_obj.user_id = userId["id"];
-					borrow_obj.borrow_id = borrowListLength + 1;
-					userId["borrow_history"].push(borrow_obj);
-					borrowList.push(borrow_obj);
-					localStorage.removeItem("borrow-list");
-					const indexOfUser = data.indexOf(userId);
-					data[indexOfUser] = userId
-					// borrowList = [];
-					// userId["borrow_history"] = [];
-					// data.push(userId);
-					localStorage.setItem("borrow-list", JSON.stringify(borrowList));
-					setUserData(data);
-					location.reload();
-				}
-			} else {
-				alert("Both Dates are Required");
-			}
-		});
-	});
-}
 

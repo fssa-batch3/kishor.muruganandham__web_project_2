@@ -1,54 +1,61 @@
-window.addEventListener("keydown", (e) => {
-	if (e.ctrlKey && e.keyCode == 191) {
+
+
+// Keyboard shortcut for focusing the search bar
+document.addEventListener("keydown", (e) => {
+	if (e.ctrlKey && e.key === "/") {
 		document.getElementById("head-search").focus();
 	}
 });
 
-const sideTogg = document.querySelector(".side-toggle");
-const menuLine = document.querySelectorAll(".menu-line");
+// Toggle sidebar
+const sideToggle = document.querySelector(".side-toggle");
+const sidebar = document.querySelector(".sidebar");
+const menuLines = document.querySelectorAll(".menu-line");
 
-sideTogg.addEventListener("click", () => {
-	document.querySelector(".sidebar").classList.toggle("active");
-
-	for (const i of menuLine) {
-		i.classList.toggle("active");
-	}
+sideToggle.addEventListener("click", () => {
+	sidebar.classList.toggle("active");
+	menuLines.forEach(line => line.classList.toggle("active"));
 });
 
-function dispName() {
-	const id = localStorage.getItem("id");
-	const data = getUserData();
-	let userId = data.find((u) => u.id == id);
+// Display user name and profile picture
+const thisuser = getUserData().find((u) => u.id == id);
 
-	const nameDisp = document.querySelector(".header-username");
-	const profDisp = document.querySelector(".profile-field");
-	profDisp.addEventListener("mouseover", () => {
-		profDisp.nextElementSibling.style.display = "inline-block";
-	});
-	profDisp.addEventListener("mouseout", () => {
-		profDisp.nextElementSibling.style.display = "none";
+function displayUserData() {
+	
+	const nameDisplay = document.querySelector(".header-username");
+	const profileDisplay = document.querySelector(".profile-field");
+
+	profileDisplay.addEventListener("mouseenter", () => {
+		profileDisplay.nextElementSibling.style.display = "inline-block";
 	});
 
-	nameDisp.innerHTML += " " + userId.name;
-	profDisp.style.background = `url(${userId["profile"]}) no-repeat center center/cover`;
+	profileDisplay.addEventListener("mouseleave", () => {
+		profileDisplay.nextElementSibling.style.display = "none";
+	});
+
+	nameDisplay.textContent += ` ${thisuser.name}`;
+	profileDisplay.style.background = `url(${thisuser.profile}) no-repeat center center/cover`;
 }
 
-dispName();
+displayUserData();
 
-// <div class="search-item">
-// <img class="search-item-img" src="https://eloquentjavascript.net/img/cover.jpg" alt="" width="70px">
-// <p class="search-item-title">Eloquent JavaScript, Third Edition</p>
-// <i class="bi bi-caret-right-fill"></i>
-// </div>
-// book_list = JSON.parse(localStorage.getItem("book_list"));
+
 
 const searchResult = document.querySelector(".search-result");
 if (searchResult == null || searchResult == undefined) {
 } else {
 	for (const book of book_list) {
-		const searchItem = document.createElement("div");
+		const searchItem = document.createElement("a");
 		searchItem.setAttribute("class", "search-item");
-		searchItem.setAttribute("data-id", book["isbn"]);
+		searchItem.setAttribute("data-id", book["id"]);
+		if (thisuser.role == "admin" ) {
+		
+			searchItem.setAttribute("href", "../../pages/admin/book_edit.html?id=" + book["id"]);
+		} else{
+			searchItem.setAttribute("href", "../../pages/book_details.html?id=" + book["id"]);
+	
+		}
+		
 		searchResult.append(searchItem);
 
 		const searchImg = document.createElement("img");
@@ -74,43 +81,10 @@ if (searchResult == null || searchResult == undefined) {
 	document.querySelector(".focus-out").addEventListener("click", function () {
 		document.querySelector(".search-list").classList.remove("active");
 		document.querySelector(".focus-out").classList.remove("active");
-		document.querySelector(".book-detail").classList.remove("active");
 	});
 
 	const searchItems = document.getElementsByClassName("search-item");
 
-	for (const searchItem of searchItems) {
-		searchItem.addEventListener("click", function () {
-			let dataId = searchItem.dataset.id;
-			let bookId = book_list.find((book) => book.isbn == dataId);
-
-			document.querySelector(".book-detail").classList.add("active");
-
-			const bookDes = document.querySelector(".book-description");
-			const bookAuthor = document.querySelector(".book-content p");
-			const bookTitle = document.querySelector(".book-content h4");
-			const bookImage = document.querySelector(".book-image img");
-			const StarRating = document.getElementById("stars");
-			const borrowBtn = document.getElementById("borrow-now");
-
-			bookDes.innerHTML = bookId.description;
-			bookAuthor.innerHTML = bookId.author;
-			bookTitle.innerHTML = bookId.title;
-			bookImage.setAttribute("src", bookId["image"]["src"]);
-			bookImage.setAttribute("alt", bookId["image"]["alt"]);
-			StarRating.innerHTML = getStars(bookId.star_rating);
-			if (bookId.isBorrowable === false) {
-				borrowBtn.innerText = "Currently Not Available";
-				borrowBtn.disabled = true;
-			} else if (bookId.isBorrowable === true) {
-				borrowBtn.dataset.bookDetail = bookId["isbn"];
-				borrowBtn.disabled = false;
-				borrowBtn.innerText = "Borrow Now";
-			}
-
-			document.querySelector(".search-list").classList.remove("active");
-		});
-	}
 
 	const searchInput = document.getElementById("head-search");
 	searchInput.addEventListener("input", function () {
@@ -129,4 +103,5 @@ if (searchResult == null || searchResult == undefined) {
 	});
 }
 
-borrowModal();
+// borrowModal();
+

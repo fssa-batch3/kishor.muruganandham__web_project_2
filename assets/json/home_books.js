@@ -1,10 +1,13 @@
+
 const popular_book_list = [
 	{
-		isbn: 9781593279509,
+		id: "d8cf433980423b8f",
+		isActive: true,
 		title: "Eloquent JavaScript, Third Edition",
 		subtitle: "A Modern Introduction to Programming",
 		author: "Marijn Haverbeke",
 		pages: 472,
+		language: "English",
 		description:
 			"JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.",
 		image: {
@@ -13,15 +16,16 @@ const popular_book_list = [
 		},
 		star_rating: 2,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business", "education"],
+		tags: ["fantasy", "business"],
 	},
 	{
-		isbn: 9781491943533,
+		id: "cbccae00dbe09ca2",
+		isActive: true,
 		title: "Practical Modern JavaScript",
 		subtitle: "Dive into ES6 and the Future of JavaScript",
 		author: "Nicolás Bevacqua",
 		pages: 334,
+		language: "English",
 		description:
 			"To get the most out of modern JavaScript, you need learn the latest features of its parent specification, ECMAScript 6 (ES6). This book provides a highly practical look at ES6, without getting lost in the specification or its implementation details.",
 		image: {
@@ -30,14 +34,16 @@ const popular_book_list = [
 		},
 		star_rating: 3.2,
 		isBorrowable: false,
-		tags: ["fantasy", "business", "education"],
+		tags: ["fantasy", "business"],
 	},
 	{
-		isbn: 9781593277574,
+		id: "ff67691297c2b581",
+		isActive: true,
 		title: "Understanding ECMAScript 6",
 		subtitle: "The Definitive Guide for JavaScript Developers",
 		author: "Nicholas C. Zakas",
 		pages: 352,
+		language: "English",
 		description:
 			"ECMAScript 6 represents the biggest update to the core of JavaScript in the history of the language. In Understanding ECMAScript 6, expert developer Nicholas C. Zakas provides a complete guide to the object types, syntax, and other exciting changes that ECMAScript 6 brings to JavaScript.",
 		image: {
@@ -46,15 +52,16 @@ const popular_book_list = [
 		},
 		star_rating: 1.7,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business", "education"],
+		tags: ["fantasy", "business"],
 	},
 	{
-		isbn: 9781449365035,
+		id: "8f594631c7933107",
+		isActive: true,
 		title: "Speaking JavaScript",
 		subtitle: "An In-Depth Guide for Programmers",
 		author: "Axel Rauschmayer",
 		pages: 460,
+		language: "English",
 		description:
 			"Like it or not, JavaScript is everywhere these days -from browser to server to mobile- and now you, too, need to learn the language or dive deeper than you have. This concise book guides you into and through JavaScript, written by a veteran programmer who once found himself in the same position.",
 		image: {
@@ -66,11 +73,13 @@ const popular_book_list = [
 		tags: ["fantasy", "business"],
 	},
 	{
-		isbn: 9781449331818,
+		id: "3bfef6182e62a991",
+		isActive: true,
 		title: "Learning JavaScript Design Patterns",
 		subtitle: "A JavaScript and jQuery Developer's Guide",
 		author: "Addy Osmani",
 		pages: 254,
+		language: "English",
 		description:
 			"With Learning JavaScript Design Patterns, you'll learn how to write beautiful, structured, and maintainable JavaScript by applying classical and modern design patterns to the language. If you want to keep your code efficient, more manageable, and up-to-date with the latest best practices, this book is for you.",
 		image: {
@@ -79,15 +88,16 @@ const popular_book_list = [
 		},
 		star_rating: 5,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9798602477429,
+		id: "9f052f03740a37db",
+		isActive: true,
 		title: "You Don't Know JS Yet",
 		subtitle: "Get Started",
 		author: "Kyle Simpson",
 		pages: 143,
+		language: "English",
 		description:
 			"The worldwide best selling You Don't Know JS book series is back for a 2nd edition: You Don't Know JS Yet. All 6 books are brand new, rewritten to cover all sides of JS for 2020 and beyond.",
 		image: {
@@ -96,118 +106,34 @@ const popular_book_list = [
 		},
 		star_rating: 2.5,
 		isBorrowable: false,
-		tags: ["fantasy", "business"],
-	},
-	{
-		isbn: 9781484200766,
-		title: "Pro Git",
-		subtitle: "Everything you neeed to know about Git",
-		author: "Scott Chacon and Ben Straub",
-		pages: 458,
-		description:
-			"Pro Git (Second Edition) is your fully-updated guide to Git and its usage in the modern world. Git has come a long way since it was first developed by Linus Torvalds for Linux kernel development. It has taken the open source world by storm since its inception in 2005, and this book teaches you how to use it like a pro.",
-		image: {
-			src: "https://git-scm.com/images/progit2.png",
-			alt: "Pro Git",
-		},
-		star_rating: 5,
-		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
-	},
-	{
-		isbn: 9781484242216,
-		title: "Rethinking Productivity in Software Engineering",
-		subtitle: "",
-		author: "Caitlin Sadowski, Thomas Zimmermann",
-		pages: 310,
-		description:
-			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
-		image: {
-			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
-			alt: "Rethinking Productivity in Software Engineering",
-		},
-		star_rating: 2.4,
-		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 ];
 
 const intresting_book_list = [
 	{
-		isbn: 9781484242216,
-		title: "Rethinking Productivity in Software Engineering",
-		subtitle: "",
-		author: "Caitlin Sadowski, Thomas Zimmermann",
-		pages: 310,
-		description:
-			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
-		image: {
-			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
-			alt: "Rethinking Productivity in Software Engineering",
-		},
-		star_rating: 2.4,
-		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
-	},
-	{
-		isbn: 9781484242216,
-		title: "Rethinking Productivity in Software Engineering",
-		subtitle: "",
-		author: "Caitlin Sadowski, Thomas Zimmermann",
-		pages: 310,
-		description:
-			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
-		image: {
-			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
-			alt: "Rethinking Productivity in Software Engineering",
-		},
-		star_rating: 3.7,
-		isBorrowable: false,
-		tags: ["fantasy", "business"],
-	},
-	{
-		isbn: 9781484242216,
-		title: "Rethinking Productivity in Software Engineering",
-		subtitle: "",
-		author: "Caitlin Sadowski, Thomas Zimmermann",
-		pages: 310,
-		description:
-			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
-		image: {
-			alt: "Rethinking Productivity in Software Engineering",
-			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
-		},
-		star_rating: 1.8,
-		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
-	},
-	{
-		isbn: 9781484200766,
+		id: "0f455d4914ec46e3",
+		isActive: true,
 		title: "Pro Git",
 		subtitle: "Everything you neeed to know about Git",
 		author: "Scott Chacon and Ben Straub",
 		pages: 458,
+		language: "English",
 		description:
 			"Pro Git (Second Edition) is your fully-updated guide to Git and its usage in the modern world. Git has come a long way since it was first developed by Linus Torvalds for Linux kernel development. It has taken the open source world by storm since its inception in 2005, and this book teaches you how to use it like a pro.",
-		image: {
-			src: "https://git-scm.com/images/progit2.png",
-			alt: "Pro Git",
-		},
+		image: { src: "https://git-scm.com/images/progit2.png", alt: "Pro Git" },
 		star_rating: 5,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781484242216,
+		id: "2a7c71cb87b2fe11",
+		isActive: true,
 		title: "Rethinking Productivity in Software Engineering",
 		subtitle: "",
 		author: "Caitlin Sadowski, Thomas Zimmermann",
 		pages: 310,
+		language: "English",
 		description:
 			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
 		image: {
@@ -216,15 +142,85 @@ const intresting_book_list = [
 		},
 		star_rating: 2.4,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781484242216,
+		id: "3ea054a9c59db03a",
+		isActive: true,
 		title: "Rethinking Productivity in Software Engineering",
 		subtitle: "",
 		author: "Caitlin Sadowski, Thomas Zimmermann",
 		pages: 310,
+		language: "English",
+		description:
+			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
+		image: {
+			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
+			alt: "Rethinking Productivity in Software Engineering",
+		},
+		star_rating: 3.7,
+		isBorrowable: false,
+		tags: ["fantasy", "business", "education"],
+	},
+	{
+		id: "45374ffe90b61a8e",
+		isActive: true,
+		title: "Rethinking Productivity in Software Engineering",
+		subtitle: "",
+		author: "Caitlin Sadowski, Thomas Zimmermann",
+		pages: 310,
+		language: "English",
+		description:
+			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
+		image: {
+			alt: "Rethinking Productivity in Software Engineering",
+			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
+		},
+		star_rating: 1.8,
+		isBorrowable: true,
+		tags: ["fantasy", "business", "education"],
+	},
+	{
+		id: "0e21d29ea26875f8",
+		isActive: true,
+		title: "Pro Git",
+		subtitle: "Everything you neeed to know about Git",
+		author: "Scott Chacon and Ben Straub",
+		pages: 458,
+		language: "English",
+		description:
+			"Pro Git (Second Edition) is your fully-updated guide to Git and its usage in the modern world. Git has come a long way since it was first developed by Linus Torvalds for Linux kernel development. It has taken the open source world by storm since its inception in 2005, and this book teaches you how to use it like a pro.",
+		image: { src: "https://git-scm.com/images/progit2.png", alt: "Pro Git" },
+		star_rating: 5,
+		isBorrowable: true,
+		tags: ["fantasy", "business", "education"],
+	},
+	{
+		id: "690fdd2ea78a00bc",
+		isActive: true,
+		title: "Rethinking Productivity in Software Engineering",
+		subtitle: "",
+		author: "Caitlin Sadowski, Thomas Zimmermann",
+		pages: 310,
+		language: "English",
+		description:
+			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
+		image: {
+			src: "https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp",
+			alt: "Rethinking Productivity in Software Engineering",
+		},
+		star_rating: 2.4,
+		isBorrowable: true,
+		tags: ["fantasy", "business", "education"],
+	},
+	{
+		id: "473f0f0f6aec8c7a",
+		isActive: true,
+		title: "Rethinking Productivity in Software Engineering",
+		subtitle: "",
+		author: "Caitlin Sadowski, Thomas Zimmermann",
+		pages: 310,
+		language: "English",
 		description:
 			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
 		image: {
@@ -233,14 +229,16 @@ const intresting_book_list = [
 		},
 		star_rating: 3.7,
 		isBorrowable: false,
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781484242216,
+		id: "b2a6054df7cdac1b",
+		isActive: true,
 		title: "Rethinking Productivity in Software Engineering",
 		subtitle: "",
 		author: "Caitlin Sadowski, Thomas Zimmermann",
 		pages: 310,
+		language: "English",
 		description:
 			'Get the most out of this foundational reference and improve the productivity of your software teams. This open access book collects the wisdom of the 2017 "Dagstuhl" seminar on productivity in software engineering, a meeting of community leaders, who came together with the goal of rethinking traditional definitions and measures of productivity.',
 		image: {
@@ -249,15 +247,16 @@ const intresting_book_list = [
 		},
 		star_rating: 1.8,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781593279509,
+		id: "09f45ec26a3f357a",
+		isActive: true,
 		title: "Eloquent JavaScript, Third Edition",
 		subtitle: "A Modern Introduction to Programming",
 		author: "Marijn Haverbeke",
 		pages: 472,
+		language: "English",
 		description:
 			"JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications.",
 		image: {
@@ -266,15 +265,16 @@ const intresting_book_list = [
 		},
 		star_rating: 2,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781491943533,
+		id: "239ed93b484cea2e",
+		isActive: true,
 		title: "Practical Modern JavaScript",
 		subtitle: "Dive into ES6 and the Future of JavaScript",
 		author: "Nicolás Bevacqua",
 		pages: 334,
+		language: "English",
 		description:
 			"To get the most out of modern JavaScript, you need learn the latest features of its parent specification, ECMAScript 6 (ES6). This book provides a highly practical look at ES6, without getting lost in the specification or its implementation details.",
 		image: {
@@ -283,14 +283,16 @@ const intresting_book_list = [
 		},
 		star_rating: 3.2,
 		isBorrowable: false,
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781593277574,
+		id: "f9b4a1fab113bdff",
+		isActive: true,
 		title: "Understanding ECMAScript 6",
 		subtitle: "The Definitive Guide for JavaScript Developers",
 		author: "Nicholas C. Zakas",
 		pages: 352,
+		language: "English",
 		description:
 			"ECMAScript 6 represents the biggest update to the core of JavaScript in the history of the language. In Understanding ECMAScript 6, expert developer Nicholas C. Zakas provides a complete guide to the object types, syntax, and other exciting changes that ECMAScript 6 brings to JavaScript.",
 		image: {
@@ -299,15 +301,16 @@ const intresting_book_list = [
 		},
 		star_rating: 1.7,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781449365035,
+		id: "12076f1fd527aa0e",
+		isActive: true,
 		title: "Speaking JavaScript",
 		subtitle: "An In-Depth Guide for Programmers",
 		author: "Axel Rauschmayer",
 		pages: 460,
+		language: "English",
 		description:
 			"Like it or not, JavaScript is everywhere these days -from browser to server to mobile- and now you, too, need to learn the language or dive deeper than you have. This concise book guides you into and through JavaScript, written by a veteran programmer who once found himself in the same position.",
 		image: {
@@ -316,14 +319,16 @@ const intresting_book_list = [
 		},
 		star_rating: 4.3,
 		isBorrowable: false,
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9781449331818,
+		id: "2c939ef71c21a42c",
+		isActive: true,
 		title: "Learning JavaScript Design Patterns",
 		subtitle: "A JavaScript and jQuery Developer's Guide",
 		author: "Addy Osmani",
 		pages: 254,
+		language: "English",
 		description:
 			"With Learning JavaScript Design Patterns, you'll learn how to write beautiful, structured, and maintainable JavaScript by applying classical and modern design patterns to the language. If you want to keep your code efficient, more manageable, and up-to-date with the latest best practices, this book is for you.",
 		image: {
@@ -332,15 +337,16 @@ const intresting_book_list = [
 		},
 		star_rating: 5,
 		isBorrowable: true,
-
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 	{
-		isbn: 9798602477429,
+		id: "1e957f1b13b60f23",
+		isActive: true,
 		title: "You Don't Know JS Yet",
 		subtitle: "Get Started",
 		author: "Kyle Simpson",
 		pages: 143,
+		language: "English",
 		description:
 			"The worldwide best selling You Don't Know JS book series is back for a 2nd edition: You Don't Know JS Yet. All 6 books are brand new, rewritten to cover all sides of JS for 2020 and beyond.",
 		image: {
@@ -349,6 +355,8 @@ const intresting_book_list = [
 		},
 		star_rating: 2.5,
 		isBorrowable: false,
-		tags: ["fantasy", "business"],
+		tags: ["fantasy", "business", "education"],
 	},
 ];
+
+

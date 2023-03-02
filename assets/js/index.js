@@ -1,103 +1,82 @@
 
-const book_list_arr = JSON.parse(localStorage.getItem("book_list"));
-if (book_list_arr == null || book_list_arr == undefined) {
-	console.log("hiiiiiiiii");
-	localStorage.setItem("book_list", JSON.stringify(book_list));
-}
+const bookList = JSON.parse(localStorage.getItem("book_list"));
+if (!bookList) {
+  localStorage.setItem("book_list", JSON.stringify(book_list));
+};
 
+if (localStorage.getItem("id")) {
+  window.location.href = "./pages/user/homepage.html";
+};
 
-const isSignedIn = localStorage.getItem("id")
-if (isSignedIn != null || isSignedIn != undefined) {
-	window.location.href = "./pages/user/homepage.html";
-}
-
+// Get form inputs and form element
+const signinForm = document.getElementById("sign-in");
 const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
-const signinForm = document.getElementById("sign-in");
 
+// Listen to form submit event
 signinForm.addEventListener("submit", function (e) {
+	// Prevent default form submission
 	e.preventDefault();
-	const data = getUserData();
-	let isMatch = false;
-	for (let i of data) {
-		if (
-			passwordLogin.value == i.password &&
-			usernameLogin.value == i.username &&
-			loginRole.value == i.role
-		) {
-			isMatch = true;
-			localStorage.setItem("id", i.id);
-			break;
-		}
-	}
-	if (isMatch === true) {
-		if (loginRole.value == "admin") {
-			window.location.href = "./pages/admin/admin_create-book.html";
-		} else {
-			window.location.href = "./pages/user/homepage.html";
-		}
+	
+	// Get user data from local storage
+	const userData = getUserData();
+	
+	// Check if user credentials match data in local storage
+	const matchedUser = userData.find(user => 
+		user.username === usernameLogin.value && 
+		user.password === passwordLogin.value && 
+		user.role === loginRole.value
+	);
+	
+	// If there's a match, set user id in local storage and redirect
+	if (matchedUser) {
+		localStorage.setItem("id", JSON.stringify(matchedUser.id));
+		const redirectUrl = (loginRole.value === "admin") ? "./pages/admin/admin_create-book.html" : "./pages/user/homepage.html";
+		window.location.href = redirectUrl;
 	} else {
-		alert("Oops! Log In failed Try Again");
+		// Otherwise, show an alert with error message
+		alert("Oops! Log In failed. Please try again.");
 	}
 });
 
-function registerUser() {
-	let user_data = getUserData();
-	event.preventDefault();
 
+function registerUser() {
+	
 	const firstName = document.getElementById("firstname-sign-up");
 	const lastName = document.getElementById("lastname-sign-up");
 	const dob = document.getElementById("DOB-sign-up");
 	const emailAdd = document.getElementById("email-sign-up");
 	const pass = document.getElementById("password-sign-up");
 	const role = document.getElementById("role-sign-up");
-	const data = user_data;
-	let dataLength;
-	if (user_data === null || user_data === undefined) {
-		dataLength = "0";
-	} else {
-		dataLength = user_data.length;
+
+	if (firstName.value === "" || lastName.value === "" || dob.value === "" || emailAdd.value === "" || pass.value === "" || role.value === "") {
+		return alert("All fields should be filled");
 	}
 
-	if (
-		firstName.value == "" ||
-		lastName.value == "" ||
-		dob.value == "" ||
-		emailAdd.value == "" ||
-		pass.value == "" ||
-		role.value == ""
-	) {
-		return alert("All field should be filled");
+	let user_data = getUserData() || [];
+	if (user_data.find(user => user.username === emailAdd.value)) {
+		alert("Email address already exists");
+		return;
 	}
-	if (data != undefined || data != null) {
-		for (const user of data) {
-			if (user["username"] == emailAdd.value) {
-				alert("Email address already Exsits");
-				location.reload();
-				return;
-			}
-		}
-	}
-	let newUser = new Object();
-	newUser.id = dataLength + 1;
-	newUser.first_name = firstName.value;
-	newUser.last_name = lastName.value;
-	newUser.name = firstName.value + " " + lastName.value;
-	newUser.role = role.value;
-	newUser.dob = dob.value;
-	newUser.phone_number = null;
-	newUser.address = null;
-	newUser.age = null;
-	newUser.username = emailAdd.value;
-	newUser.password = pass.value;
-	newUser.profile = `https://ui-avatars.com/api/?name=${firstName.value + lastName.value}&rounded=true&uppercase=false&background=random`;
-	newUser.favourites = [];
-	newUser.borrow_history = [];
+
+	const newUser = {
+		id: generateGuid(),
+		first_name: firstName.value,
+		last_name: lastName.value,
+		name: `${firstName.value} ${lastName.value}`,
+		role: role.value,
+		dob: dob.value,
+		phone_number: null,
+		address: null,
+		age: null,
+		username: emailAdd.value,
+		password: pass.value,
+		profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
+		favourites: [],
+	};
+
 	user_data.push(newUser);
-	// user_data = []
-	localStorage.removeItem("user_data");
-	const user_json = JSON.stringify(user_data);
-	localStorage.setItem("user_data", user_json);
+	localStorage.setItem("user_data", JSON.stringify(user_data));
 	location.reload();
 }

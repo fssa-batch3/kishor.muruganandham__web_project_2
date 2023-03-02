@@ -83,3 +83,39 @@
     font-size: 18px;
     vertical-align: middle;
 }
+.book-edit-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    margin: 5px;
+    padding: 10px;
+    height: 90vh;
+    overflow-y: auto;
+}
+
+.book-edit-right-wrap{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 350px;
+    max-width: 700px;
+}
+.book-edit-right-wrap .input-field{
+    margin: 0;
+}
+.book-edit-right-wrap textarea{
+    min-height: 100px;
+    height: unset;
+}
+.book-edit-left-wrap {
+	max-width: 280px;
+	gap: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.input-flex{
+    display: flex;
+    gap: 10px;
+}

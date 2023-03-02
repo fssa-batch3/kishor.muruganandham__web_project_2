@@ -11,7 +11,6 @@
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
 		<script src="../../assets/js/user/script.js"></script>
-		<script src="../../assets/js/user/favourites.js" defer></script>
 		<script src="../../assets/js/user/header.js" defer></script>
 		<script src="../../assets/js/user/sidebar.js" defer></script>
 	</head>
@@ -32,7 +31,7 @@
 							<div class="arrow" data-popper-arrow></div>
 						</div>
 					</a>
-					<a href="./library.html" class="nav-items"
+					<a href="../library.html" class="nav-items"
 						><i class="bi bi-building"></i>
 						<p>Library</p>
 						<div
@@ -111,33 +110,7 @@
 				</div>
 			</div>
 		</nav>
-		<aside class="book-detail">
-			<div class="detail-close" onclick="CloseDetailPage()">
-				<i class="bi bi-x-lg"></i>
-			</div>
-			<div>
-				<h3>Book Detail</h3>
-			</div>
-			<div class="book-image">
-				<img
-					src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-2-CRC.png"
-					alt="Title"
-					width="150px" />
-			</div>
-			<div class="book-content">
-				<h4>Title</h4>
-				<p>Author</p>
-			</div>
-			<div class="book-rating">
-				<span id="stars"></span>
-			</div>
-			<div class="book-description">
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus vitae
-				eaque praesentium accusamus eligendi ea. Ea eaque porro eligendi animi nihil
-				exercitationem corporis obcaecati nostrum blanditiis, ut repudiandae minima?
-			</div>
-			<button id="borrow-now">Borrow Now</button>
-		</aside>
+
 		<section class="main-container">
 			<header class="top-header">
 				<div class="left-header">
@@ -159,15 +132,12 @@
 							name="head-search"
 							id="head-search"
 							placeholder="Search..."
-							oninput="SearchBooks()" />
+							oninput="searchBooks()" />
 					</div>
 					<div class="focus-out"></div>
 					<a href="../user/user_profile.html" aria-label="profile-page" class="profile-area">
 						<div class="profile-field"></div>
-						<div
-							class="tooltip"
-							role="tooltip"
-							data-popper-placement="top">
+						<div class="tooltip" role="tooltip" data-popper-placement="top">
 							User Profile
 							<div class="arrow" data-popper-arrow></div>
 						</div>
@@ -178,38 +148,32 @@
 			<main class="favorites-container">
 				<div class="favourites-section generated-books books-section-style"></div>
 			</main>
-			<div class="backdrop"></div>
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-title">Borrow-Book</h3>
-					<div class="modal-close">
-						<i class="bi bi-x-lg"></i>
-					</div>
-				</div>
-				<div class="modal-body">
-					<div class="input-group" style="width: 100%">
-						<label for="book-title">Book Name :</label>
-						<div class="input-field">
-							<input type="text" name="book-title" id="book-title" value="" readonly />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="borrow-date">Borrow Date :</label>
-						<div class="input-field">
-							<input type="date" name="borrow-date" id="borrow-date" required />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="due-date">Due Date :</label>
-						<div class="input-field">
-							<input type="date" name="due-date" id="due-date" required />
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="modal-submit">Borrow Now</button>
-				</div>
-			</div>
+			
 		</section>
+		<script>
+			
+
+			if (userId.favourites.length != 0) {
+				const bookRack = document.querySelector(".generated-books");
+				userId.favourites.forEach((id) => {
+					const book = book_list.find((b) => b.id == id);
+					console.log(userId.favourites);
+					if (book) {
+						generateBook(book, bookRack);
+						checkForFavourites();
+					}
+				});
+			} else {
+				const favouritesSection = document.querySelector(".favourites-section");
+				favouritesSection.innerHTML = `<div class="no-result" style="text-align:center; align-self:center;">
+					<img src="../../assets/images/lib_page.svg" alt="lib_page" width="280px">
+					<h4 style="margin: 50px 0;">You Haven't Decided <br> your favourites Yet!</h4>
+					<a href="../library.html" class="submit" style="padding:15px 30px;">Decide Now</a>
+					</div>`;
+			}
+
+			toggleFavourites();
+			checkForFavourites();
+		</script>
 	</body>
 </html>
