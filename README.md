@@ -9,19 +9,19 @@ Looking for a user-friendly and efficient way to manage your library? Look no fu
 
 
 1.) User Module (Completed) <br>
-    1.) Create User (Completed) <br>
-    2.) List User (Completed) <br>
-    3.) Edit User (Completed) <br>
-    4.) De-Active the User (Completed) <br>
+:1.) Create User (Completed) <br>
+:2.) List User (Completed) <br>
+:3.) Edit User (Completed) <br>
+:4.) De-Active the User (Completed) <br>
 
 2.) Book Module (Completed) <br>
-    1.) Create Book (Completed) <br>
-    2.) List Book (Completed) <br>
-    3.) Edit Book (Completed) <br>
-    4.) De-Active the Book (Completed) <br>
+:1.) Create Book (Completed) <br>
+:2.) List Book (Completed) <br>
+:3.) Edit Book (Completed) <br>
+:4.) De-Active the Book (Completed) <br>
     
 3.) Comment Module (Completed) <br>
-    1.) Create Comment (Completed) <br>
-    2.) List Comment (Completed) <br>
-    3.) Edit Comment (Completed) <br>
-    4.) De-Active the Comment (Completed) <br>
+:1.) Create Comment (Completed) <br>
+:2.) List Comment (Completed) <br>
+:3.) Edit Comment (Completed) <br>
+:4.) De-Active the Comment (Completed) <br>
