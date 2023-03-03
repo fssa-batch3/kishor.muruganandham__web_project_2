@@ -9,7 +9,7 @@ Looking for a user-friendly and efficient way to manage your library? Look no fu
 
 
 1.) User Module (Completed) <br>
-:1.) Create User (Completed) <br>
+> 1.) Create User (Completed) <br>
 :2.) List User (Completed) <br>
 :3.) Edit User (Completed) <br>
 :4.) De-Active the User (Completed) <br>
