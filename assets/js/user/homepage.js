@@ -1,19 +1,4 @@
 
-// function getUserData() {
-//   const userJson = localStorage.getItem("user_data");
-//   const user_data = JSON.parse(userJson);
-//   return user_data;
-// }
-
-// function removeUserData() {
-//   localStorage.removeItem("user_data");
-// }
-
-// function setUserData(user_data) {
-//   const userJson = JSON.stringify(user_data);
-//   localStorage.setItem("user_data", userJson);
-// }
-
 // use const instead of let when declaring variables that don't change
 
 let borrow_list = JSON.parse(localStorage.getItem("borrow-list"));
@@ -36,7 +21,7 @@ document.querySelector(".borrowed-books").innerHTML = `${borrow_list.length}`;
 document.querySelector(".borrow-chart").dataset.percent = `${borrow_list.length}`;
 
 // use querySelectorAll instead of getElementsByClassName to return a NodeList instead of an HTMLCollection
-let elements = document.querySelectorAll(".chart");
+const elements = document.querySelectorAll(".chart");
 elements.forEach((element) => {
   // use arrow function syntax for callbacks
   new EasyPieChart(element, {

@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id");
 const bookList = JSON.parse(localStorage.getItem("book_list"));
-const thisBook = bookList.find((e) => e.id == bookId);
+const thisBook = bookList.find((e) => e.id === bookId);
 
 document.querySelector(".book-detail-image img").src = thisBook["image"]["src"];
 document.querySelector(".book-detail-image img").alt = thisBook["image"]["alt"];
@@ -41,7 +41,7 @@ function closeBorrowModal() {
 }
 
 const availableDate = JSON.parse(localStorage.getItem("borrow-list")).find(
-  (e) => e.book_id == thisBook["id"] && e.status == "Pending"
+  (e) => e.book_id === thisBook["id"] && e.status === "Pending"
 );
 if (thisBook?.isBorrowable === false && availableDate) {
   const targetDate = moment(availableDate["due_date"]);
@@ -49,7 +49,7 @@ if (thisBook?.isBorrowable === false && availableDate) {
   const daysDiff = duration.asDays();
   borrowBtn.style.display = "none";
   borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${availableDate["username"]},<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
-} else if (thisBook?.isBorrowable === true) {
+} else  {
   borrowBtn.innerText = "Borrow Now";
   borrowBtn.disabled = false;
 }
@@ -155,8 +155,8 @@ commentList.forEach((comment) => {
 
   const honestCustomer = JSON.parse(localStorage.getItem("borrow-list")).find(
     (e) =>
-      e.book_id == comment.book_id &&
-      e.user_id == comment.user_id &&
+      e.book_id === comment.book_id &&
+      e.user_id === comment.user_id &&
       e.borrow_date < moment().format("YYYY-MM-DD")
   );
 
@@ -196,7 +196,7 @@ commentList.forEach((comment) => {
   );
   const isLiked = commentLikeList.find(
     (like) =>
-      like.comment_id == comment.comment_id && like.user_id == thisUser.id
+      like.comment_id === comment.comment_id && like.user_id === thisUser.id
   );
 
   let likeData;
@@ -232,7 +232,7 @@ commentList.forEach((comment) => {
   saveIconElement.style.display = "none";
   descriptionElement.appendChild(saveIconElement);
 
-  if (thisUser["id"] == comment["user_id"]) {
+  if (thisUser["id"] === comment["user_id"]) {
     const editIconElement = document.createElement("span");
     editIconElement.classList.add("bi", "bi-pencil-square");
     editIconElement.innerText = "Edit";
@@ -321,7 +321,7 @@ function getCurrentDateTime() {
   hours = hours % 12;
   hours = hours ? hours : 12;
   const strTime =
-    hours.toString().padStart(2, "0") + ":" + minutes + " " + ampm;
+    `${hours.toString().padStart(2, "0")  }:${  minutes  } ${  ampm}`;
   return `${day}-${month}-${year} ${strTime}`;
 }
 
@@ -332,12 +332,12 @@ const commentId = generateGuid();
 
 commentValue.addEventListener('keydown', function(event) {
   if (event.shiftKey && event.keyCode === 13) {
-    sendBtn.click()
-  }
+    sendBtn.click();
+  };
 });
 sendBtn.addEventListener("click", () => {
   if (commentValue.value.length > 0) {
-    let comment_obj = {
+    const commentObj = {
       comment_id: commentId,
       description: commentValue.value,
       isActive: true,
@@ -345,7 +345,7 @@ sendBtn.addEventListener("click", () => {
       user_id: userId["id"],
       book_id: bookId,
     };
-    commentList.push(comment_obj);
+    commentList.push(commentObj);
     location.reload();
     localStorage.setItem("comments", JSON.stringify(commentList));
   }

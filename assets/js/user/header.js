@@ -42,20 +42,18 @@ displayUserData();
 
 
 const searchResult = document.querySelector(".search-result");
-if (searchResult == null || searchResult == undefined) {
+if (searchResult == null || searchResult === undefined) {
+	
 } else {
 	for (const book of book_list) {
 		const searchItem = document.createElement("a");
 		searchItem.setAttribute("class", "search-item");
 		searchItem.setAttribute("data-id", book["id"]);
-		if (thisuser.role == "admin" ) {
-		
+		if (thisuser.role === "admin" ) {
 			searchItem.setAttribute("href", "../../pages/admin/book_edit.html?id=" + book["id"]);
 		} else{
 			searchItem.setAttribute("href", "../../pages/book_details.html?id=" + book["id"]);
-	
-		}
-		
+}
 		searchResult.append(searchItem);
 
 		const searchImg = document.createElement("img");
@@ -83,25 +81,20 @@ if (searchResult == null || searchResult == undefined) {
 		document.querySelector(".focus-out").classList.remove("active");
 	});
 
-	const searchItems = document.getElementsByClassName("search-item");
-
-
 	const searchInput = document.getElementById("head-search");
 	searchInput.addEventListener("input", function () {
 		const searchValue = searchInput.value.toLowerCase();
-		let Books = document.getElementsByClassName("search-item");
+		const Books = document.getElementsByClassName("search-item");
 
-		for (let i of Books) {
-			let book = i.innerText.toLowerCase();
-
-			if (!book.includes(searchValue)) {
-				i.style.display = "none";
-			} else if (book.includes(searchValue)) {
+		for (const i of Books) {
+			const book = i.innerText.toLowerCase();
+			if (book.includes(searchValue)) {
 				i.style.display = "flex";
+			} else{
+				i.style.display = "none";
 			}
 		}
 	});
 }
 
-// borrowModal();
 

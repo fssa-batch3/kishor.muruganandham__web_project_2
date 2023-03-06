@@ -2,11 +2,11 @@
 const bookList = JSON.parse(localStorage.getItem("book_list"));
 if (!bookList) {
   localStorage.setItem("book_list", JSON.stringify(book_list));
-};
+}
 
 if (localStorage.getItem("id")) {
   window.location.href = "./pages/user/homepage.html";
-};
+}
 
 const settingsObject = {
 	"tags":["Fantasy","Education","Drama","Sci-fi"], 
@@ -15,7 +15,7 @@ const settingsObject = {
 	"max_borrow": 50,
 	"max_fav":30
 	}
-}
+};
 
 localStorage.setItem("settings",JSON.stringify(settingsObject));
 
@@ -29,7 +29,6 @@ const loginRole = document.getElementById("role-sign-in");
 signinForm.addEventListener("submit", function (e) {
 	// Prevent default form submission
 	e.preventDefault();
-	
 	// Get user data from local storage
 	const userData = getUserData();
 	

@@ -13,10 +13,9 @@ for (const i of navBtns) {
 	});
 };
 
-let signOut = document.getElementById("sign-out");
+const signOut = document.getElementById("sign-out");
 
 signOut.addEventListener("click", () => {
-	
 	localStorage.removeItem("id");
 	(window.location.href = "../../index.html");
 });

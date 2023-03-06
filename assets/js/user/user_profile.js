@@ -7,10 +7,10 @@
 // Calculate the Age using Given Date of Birth
 
 function calculateAge(dob) {
-	let today = new Date();
-	let birthDate = new Date(dob);
+	const today = new Date();
+	const birthDate = new Date(dob);
 	let ageCalculated = today.getFullYear() - birthDate.getFullYear();
-	let m = today.getMonth() - birthDate.getMonth();
+	const m = today.getMonth() - birthDate.getMonth();
 	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
 		ageCalculated--;
 	}
@@ -55,7 +55,7 @@ editBtn.addEventListener("click", (e) => {
 	profileEditBtn.style.display = "block";
 });
 
-profileEditBtn.addEventListener("click", (e) => {
+profileEditBtn.addEventListener("click", () => {
 	const profileUrl = prompt("Enter the Profile Image Url");
 	if (profileUrl) {
 		userId.profile = profileUrl;
