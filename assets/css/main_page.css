@@ -380,11 +380,11 @@ table tbody tr:nth-child(even){
   background-color: var(--body-white);
 }
 .status{
-  background-color: rgb(249, 226, 190);
-  color: rgb(255, 153, 0);
   font-size: var(--sm-fs);
   padding: 2px 8px;
   border-radius: 8px;
+  background-color: rgb(249, 226, 190);
+  color: rgb(255, 153, 0);
   border: 1px solid rgb(255, 153, 0);
 }
 .status.rejected{

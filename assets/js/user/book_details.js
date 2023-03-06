@@ -29,6 +29,7 @@ starRating.innerHTML = getStars(thisBook.star_rating);
 
 const modalCloseBtn = document.querySelector(".modal-close");
 const borrowBtn = document.getElementById("borrow-now");
+const borrowBtnElement = document.querySelector(".book-detail-borrow-now");
 const borrowList = JSON.parse(localStorage.getItem("borrow-list")) || [];
 
 modalCloseBtn.addEventListener("click", closeBorrowModal);
@@ -39,9 +40,15 @@ function closeBorrowModal() {
   hideElement(".modal");
 }
 
-if (thisBook?.isBorrowable === false) {
-  borrowBtn.innerText = "Currently Not Available";
-  borrowBtn.disabled = true;
+const availableDate = JSON.parse(localStorage.getItem("borrow-list")).find(
+  (e) => e.book_id == thisBook["id"] && e.status == "Pending"
+);
+if (thisBook?.isBorrowable === false && availableDate) {
+  const targetDate = moment(availableDate["due_date"]);
+  const duration = moment.duration(targetDate.diff(moment()));
+  const daysDiff = duration.asDays();
+  borrowBtn.style.display = "none";
+  borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${availableDate["username"]},<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
 } else if (thisBook?.isBorrowable === true) {
   borrowBtn.innerText = "Borrow Now";
   borrowBtn.disabled = false;
@@ -55,6 +62,15 @@ function openBorrowModal() {
   const borrowNowBtn = document.querySelector(".modal-submit");
   const borrowDateInput = document.getElementById("borrow-date");
   const dueDateInput = document.getElementById("due-date");
+
+  const todayDate = moment().format("YYYY-MM-DD");
+  borrowDateInput.value = todayDate;
+  let dueDateCalculated = moment(borrowDateInput.value).add(15, "days").format("YYYY-MM-DD");
+    dueDateInput.value = dueDateCalculated;
+  borrowDateInput.addEventListener("input", () => {
+	dueDateCalculated = moment(borrowDateInput.value).add(15, "days").format("YYYY-MM-DD");
+    dueDateInput.value = dueDateCalculated;
+  });
 
   borrowNowBtn.addEventListener("click", handleBorrow);
 
@@ -77,13 +93,13 @@ function openBorrowModal() {
     }
 
     const borrowObj = {
-      issue_date: new Date(),
-      borrow_date: borrowDate,
+      borrow_date: moment().format("YYYY-MM-DD"),
       due_date: dueDate,
       status: "Pending",
       return_date: "-",
       book_id: bookId,
       user_id: userId.id,
+	  username: userId.name,
       borrow_id: generateGuid(),
     };
     thisBook.isBorrowable = false;
@@ -137,9 +153,32 @@ commentList.forEach((comment) => {
   usernameElement.classList.add("comment-username");
   usernameElement.textContent = user.name;
 
+  const honestCustomer = JSON.parse(localStorage.getItem("borrow-list")).find(
+    (e) =>
+      e.book_id == comment.book_id &&
+      e.user_id == comment.user_id &&
+      e.borrow_date < moment().format("YYYY-MM-DD")
+  );
+
+  if (honestCustomer) {
+    const trustedElement = document.createElement("span");
+    trustedElement.classList.add("trusted");
+    trustedElement.textContent = "Trusted";
+    usernameElement.appendChild(trustedElement);
+  }
+
+  const momentTime = moment(comment.time);
+
+  const diffInDays = moment().diff(momentTime, "days");
+  let formattedDateTime;
+  if (diffInDays > 1) {
+    formattedDateTime = momentTime.format("DD-MMM-YYYY h:mm A");
+  } else {
+    formattedDateTime = momentTime.fromNow();
+  }
   const timeElement = document.createElement("p");
   timeElement.classList.add("comment-time");
-  timeElement.textContent = comment.time;
+  timeElement.textContent = formattedDateTime;
 
   profileElement.appendChild(usernameElement);
   profileElement.appendChild(timeElement);
@@ -188,26 +227,24 @@ commentList.forEach((comment) => {
   descriptionElement.classList.add("comment-description");
   descriptionElement.textContent = comment.description;
 
-  const saveIconElement = document.createElement("i");
+  const saveIconElement = document.createElement("span");
   saveIconElement.classList.add("bi", "bi-check-circle-fill");
   saveIconElement.style.display = "none";
   descriptionElement.appendChild(saveIconElement);
 
   if (thisUser["id"] == comment["user_id"]) {
-    const editIconElement = document.createElement("i");
+    const editIconElement = document.createElement("span");
     editIconElement.classList.add("bi", "bi-pencil-square");
+    editIconElement.innerText = "Edit";
     actionsElement.appendChild(editIconElement);
 
-    const trashIconElement = document.createElement("i");
+    const trashIconElement = document.createElement("span");
     trashIconElement.classList.add("bi", "bi-trash");
+    trashIconElement.innerText = "Delete";
     actionsElement.appendChild(trashIconElement);
 
     trashIconElement.addEventListener("click", () => {
       comment["isActive"] = false;
-      commentLikeList = commentLikeList.filter(
-        (like) => like.comment_id !== comment.comment_id
-      );
-      localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
       localStorage.setItem("comments", JSON.stringify(commentList));
       wrapper.remove();
     });
@@ -217,7 +254,7 @@ commentList.forEach((comment) => {
     });
     saveIconElement.addEventListener("click", () => {
       descriptionElement.removeAttribute("contentEditable");
-      saveIconElement.style.display = "flex";
+      saveIconElement.style.display = "none";
       comment["description"] = descriptionElement.textContent;
       localStorage.setItem("comments", JSON.stringify(commentList));
     });
@@ -292,6 +329,12 @@ const sendBtn = document.querySelector(".add-comment-container .bi-telegram");
 const likeBtn = document.querySelector(".comment-like .bi-heart");
 const commentValue = document.querySelector("#add-comment");
 const commentId = generateGuid();
+
+commentValue.addEventListener('keydown', function(event) {
+  if (event.shiftKey && event.keyCode === 13) {
+    sendBtn.click()
+  }
+});
 sendBtn.addEventListener("click", () => {
   if (commentValue.value.length > 0) {
     let comment_obj = {

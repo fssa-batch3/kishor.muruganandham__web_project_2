@@ -12,6 +12,7 @@
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+			<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
 		<script src="../assets/js/user/script.js"></script>
 		<script src="../assets/js/user/header.js" defer></script>
 		<script src="../assets/js/user/sidebar.js" defer></script>
@@ -207,14 +208,17 @@
 									<textarea
 										name="add-comment"
 										id="add-comment"
-										placeholder="Write your thoughts here"
+										placeholder="Write your thoughts here....[Shift+Enter to Send]"
 										class="input"></textarea>
-									<i class="bi bi-telegram"></i>
+									<button class="bi bi-telegram"></button>
 								</div>
 							</div>
+							<div class="trusted-container">
+								<span class="trusted">Trusted</span><p> - The Reader who comments after Reading the book.</p>
+							</div>
 						</div>
-						<!-- <div class="book-detail-comments-wrap">
-							<div class="book-detail-comment">
+						<div class="book-detail-comments-wrap">
+							<!-- <div class="book-detail-comment">
 								<div class="comment-header">
 									<div class="comment-profile">
 										<img
@@ -222,15 +226,15 @@
 											alt=""
 											srcset=""
 											width="40px" />
-										<p class="comment-username">Sri Devan</p>
+										<p class="comment-username">Sri Devan <span class="trusted">Trusted</span></p>
 										<p class="comment-time">27-Feb-2023,4:55 PM</p>
 									</div>
 									<div class="comment-actions">
 										<span class="comment-like"
-											><i class="bi bi-heart"></i>
+											><span class="bi bi-heart"></span>
 											<p class="comment-like-number">5</p></span
 										>
-										<i class="bi bi-pencil-square"></i>
+										<span class="bi bi-pencil-square">Edit</span>
 										<i class="bi bi-trash"></i>
 									</div>
 								</div>
@@ -241,8 +245,8 @@
 										fuga aperiam? Ex nihil quasi labore veritatis omnis nisi ipsa dicta!
 									</div>
 								</div>
-							</div>
-						</div> -->
+							</div> -->
+						</div>
 					</div>
 				</div>
 			</main>
@@ -259,19 +263,19 @@
 					<div class="input-group" style="width: 100%">
 						<label for="book-title">Book Name :</label>
 						<div class="input-field">
-							<input type="text" name="book-title" id="book-title" value="" readonly />
+							<input type="text" name="book-title" id="book-title" value="" disabled />
 						</div>
 					</div>
 					<div class="input-group" style="flex: 1">
 						<label for="borrow-date">Borrow Date :</label>
 						<div class="input-field">
-							<input type="date" name="borrow-date" id="borrow-date" required />
+							<input type="date" name="borrow-date" id="borrow-date" required  />
 						</div>
 					</div>
 					<div class="input-group" style="flex: 1">
 						<label for="due-date">Due Date :</label>
 						<div class="input-field">
-							<input type="date" name="due-date" id="due-date" required />
+							<input type="date" name="due-date" id="due-date" required disabled/>
 						</div>
 					</div>
 				</div>

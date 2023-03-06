@@ -1,6 +1,6 @@
 function togglePasswordVisibility(inputId, togglerId) {
 	const input = document.getElementById(inputId);
-	const toggler = document.getElementById(togglerId);
+	const toggler = document.querySelector(togglerId);
 
 	toggler.classList.toggle("bi-eye-slash-fill");
 	input.type = input.type === "password" ? "text" : "password";

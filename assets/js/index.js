@@ -8,6 +8,17 @@ if (localStorage.getItem("id")) {
   window.location.href = "./pages/user/homepage.html";
 };
 
+const settingsObject = {
+	"tags":["Fantasy","Education","Drama","Sci-fi"], 
+	"books":
+	{"avail_books":200,
+	"max_borrow": 50,
+	"max_fav":30
+	}
+}
+
+localStorage.setItem("settings",JSON.stringify(settingsObject));
+
 // Get form inputs and form element
 const signinForm = document.getElementById("sign-in");
 const usernameLogin = document.getElementById("username-sign-in");
