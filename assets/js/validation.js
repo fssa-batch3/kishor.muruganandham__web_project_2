@@ -57,7 +57,7 @@ function validatePassword(passwordInputId, errorMessageId) {
 			"Your password must be at least 8 characters, contain at least one letter, and contain at least one digit."
 		);
 	} else {
-		hideErrorMessage();
+		errorMessageElement.style.display = "none";
 		passwordInput.classList.remove("invalid");
 		passwordInput.classList.add("valid");
 	}
@@ -66,10 +66,6 @@ function validatePassword(passwordInputId, errorMessageId) {
 		errorMessageElement.textContent = message;
 		errorMessageElement.style.display = "inline-block";
 		passwordInput.classList.add("invalid");
-	}
-
-	function hideErrorMessage() {
-		errorMessageElement.style.display = "none";
 	}
 
 	function isPasswordValid(password) {

@@ -52,7 +52,7 @@ signinForm.addEventListener("submit", function (e) {
 
 
 function registerUser() {
-	
+	event.preventDefault();
 	const firstName = document.getElementById("firstname-sign-up");
 	const lastName = document.getElementById("lastname-sign-up");
 	const dob = document.getElementById("DOB-sign-up");

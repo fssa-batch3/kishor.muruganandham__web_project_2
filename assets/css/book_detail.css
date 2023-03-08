@@ -45,6 +45,7 @@
   height: fit-content;
   padding: 20px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .book-detail-comment {
   display: flex;
@@ -56,6 +57,7 @@
   padding: 20px 0;
   border-radius: 20px;
   border: 1px solid var(--primary-border);
+  background-color: var(--card-white);
 }
 
 .add-comment-container .bi-telegram::before {
@@ -199,6 +201,16 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
+}
+.comment-like .tooltip{
+  /* display: block; */
+  inset:unset;
+  height: fit-content;
+  bottom: 30px;
+  right: -100px;
+  width: 200px;
+  text-align: center;
 }
 .comment-like-number {
   font-size: var(--me-fs);
@@ -221,6 +233,12 @@
 }
 #borrow-now:active {
   opacity: 0.9;
+}
+.book-views{
+  font-size: var(--h4-fs);
+}
+.book-viewer-container{
+  margin-top: 20px;
 }
 .book-detail-tags-list {
   margin-top: 15px;

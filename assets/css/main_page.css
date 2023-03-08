@@ -356,6 +356,7 @@ table thead{
 table tbody tr{
   background-color: var(--body-bg);
 }
+
 table td{
   min-width: 150px;
   padding: 10px 15px; 

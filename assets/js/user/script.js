@@ -63,22 +63,19 @@ function activeTab(evt, tabName) {
 function getStars(rating) {
 	// Round to nearest half
 	rating = Math.round(rating * 2) / 2;
-	const output = [];
+	let output = [];
 
 	// Append all the filled whole stars
-	for (let i = rating; i >= 1; i--){
+	for (var i = rating; i >= 1; i--)
 		output.push('<i class="bi bi-star-fill" aria-hidden="true" style="color: gold;"></i>&nbsp;');
-	}
 
 	// If there is a half a star, append it
-	if (i === 0.5){
+	if (i == 0.5)
 		output.push('<i class="bi bi-star-half" aria-hidden="true" style="color: gold;"></i>&nbsp;');
-	}
 
 	// Fill the empty stars
-	for ( i = 5 - rating; i >= 1; i--){
+	for (let i = 5 - rating; i >= 1; i--)
 		output.push('<i class="bi bi-star" aria-hidden="true" style="color: gold;"></i>&nbsp;');
-	}
 
 	return output.join("");
 }
@@ -94,17 +91,16 @@ const user_data = getUserData();
 const userId = user_data.find((u) => u.id == id);
 
 function generateBook(book, bookRack) {
-	if (book.isActive !== true){
-		return;
-	}
+	if (book.isActive !== true) return
 	const bookDiv = document.createElement("div");
 	bookDiv.dataset.id = book.id;
 	bookDiv.className = "book";
-	const thisUser = getUserData().find(e => e.id == JSON.parse(localStorage.getItem("id")));
+	const thisUser = getUserData().find(e => e.id == JSON.parse(localStorage.getItem("id")))
 
 	const bookCover = document.createElement("a");
 	bookCover.className = "book-cover";
 	if (thisUser.role == "admin" ) {
+		
 		bookCover.href = "../../pages/admin/book_edit.html?id=" + book.id;
 	} else{
 		bookCover.href = "../../pages/book_details.html?id=" + book.id;

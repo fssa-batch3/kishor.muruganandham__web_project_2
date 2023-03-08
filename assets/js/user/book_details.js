@@ -5,6 +5,9 @@ const thisBook = bookList.find((e) => e.id === bookId);
 
 document.querySelector(".book-detail-image img").src = thisBook["image"]["src"];
 document.querySelector(".book-detail-image img").alt = thisBook["image"]["alt"];
+console.log();
+const bookViews = JSON.parse(localStorage.getItem("borrow-list")).filter((e) => e.book_id == thisBook["id"]).length;
+document.querySelector(".book-views").textContent = bookViews > 0 ? ` ${bookViews}`: `0` ;
 document.querySelector(".book-detail-header h2").textContent =
   thisBook["title"];
 document.querySelector(".book-detail-header p").textContent =
@@ -48,8 +51,10 @@ if (thisBook?.isBorrowable === false && availableDate) {
   const duration = moment.duration(targetDate.diff(moment()));
   const daysDiff = duration.asDays();
   borrowBtn.style.display = "none";
-  borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${availableDate["username"]},<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
-} else  {
+  borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
+    availableDate["username"]
+  },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
+} else {
   borrowBtn.innerText = "Borrow Now";
   borrowBtn.disabled = false;
 }
@@ -65,10 +70,14 @@ function openBorrowModal() {
 
   const todayDate = moment().format("YYYY-MM-DD");
   borrowDateInput.value = todayDate;
-  let dueDateCalculated = moment(borrowDateInput.value).add(15, "days").format("YYYY-MM-DD");
-    dueDateInput.value = dueDateCalculated;
+  let dueDateCalculated = moment(borrowDateInput.value)
+    .add(15, "days")
+    .format("YYYY-MM-DD");
+  dueDateInput.value = dueDateCalculated;
   borrowDateInput.addEventListener("input", () => {
-	dueDateCalculated = moment(borrowDateInput.value).add(15, "days").format("YYYY-MM-DD");
+    dueDateCalculated = moment(borrowDateInput.value)
+      .add(15, "days")
+      .format("YYYY-MM-DD");
     dueDateInput.value = dueDateCalculated;
   });
 
@@ -99,7 +108,7 @@ function openBorrowModal() {
       return_date: "-",
       book_id: bookId,
       user_id: userId.id,
-	  username: userId.name,
+      username: userId.name,
       borrow_id: generateGuid(),
     };
     thisBook.isBorrowable = false;
@@ -198,6 +207,29 @@ commentList.forEach((comment) => {
     (like) =>
       like.comment_id === comment.comment_id && like.user_id === thisUser.id
   );
+  const likeCount = commentLikeList.filter(
+    (like) => like.comment_id === comment.comment_id
+  );
+  console.log(likeCount);
+  const likeNameElement = document.createElement("div");
+  likeNameElement.className = "tooltip";
+  likeNameElement.setAttribute("role", "tooltip");
+  likeNameElement.dataset.popperPlacement = "top";
+  likeCount.forEach((names) => {
+    // console.log();
+    likeNameElement.innerText += `${names["username"]}, `;
+  });
+  likeElement.addEventListener("mouseover", () => {
+    if (likeCount.length > 0) {
+      likeNameElement.style.display = "block";
+      likeElement.appendChild(likeNameElement);
+    }
+  });
+  likeElement.addEventListener("mouseout", () => {
+    if (likeCount.length > 0) {
+      likeNameElement.style.display = "none";
+    }
+  });
 
   let likeData;
   if (isLiked) {
@@ -210,9 +242,7 @@ commentList.forEach((comment) => {
 
   const likesCountElement = document.createElement("p");
   likesCountElement.classList.add("comment-like-number");
-  likesCountElement.textContent = commentLikeList.filter(
-    (like) => like.comment_id === comment.comment_id
-  ).length;
+  likesCountElement.textContent = likeCount.length;
 
   likeElement.appendChild(likeIconElement);
   likeElement.appendChild(likesCountElement);
@@ -287,6 +317,7 @@ commentList.forEach((comment) => {
         comment_id: comment.comment_id,
         user_id: thisUser.id,
         book_id: bookId,
+        username: thisUser.name,
         like_id: generateGuid(),
       };
       commentLikeList.push(like);
@@ -320,8 +351,7 @@ function getCurrentDateTime() {
   const ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12;
   hours = hours ? hours : 12;
-  const strTime =
-    `${hours.toString().padStart(2, "0")  }:${  minutes  } ${  ampm}`;
+  const strTime = `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
   return `${day}-${month}-${year} ${strTime}`;
 }
 
@@ -330,10 +360,10 @@ const likeBtn = document.querySelector(".comment-like .bi-heart");
 const commentValue = document.querySelector("#add-comment");
 const commentId = generateGuid();
 
-commentValue.addEventListener('keydown', function(event) {
+commentValue.addEventListener("keydown", function (event) {
   if (event.shiftKey && event.keyCode === 13) {
     sendBtn.click();
-  };
+  }
 });
 sendBtn.addEventListener("click", () => {
   if (commentValue.value.length > 0) {
