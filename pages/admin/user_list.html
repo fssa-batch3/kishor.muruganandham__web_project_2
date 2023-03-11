@@ -4,20 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Borrow-List</title>
+    <title>History</title>
     <link
       rel="icon"
       href="../../assets/images/book-half.svg"
       type="image/x-icon"
     />
     <link rel="stylesheet" href="../../assets/css/main_page.css" />
-    <link rel="stylesheet" href="../../assets/css/admin_pages.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
     <script src="../../assets/js/user/sidebar.js" defer></script>
@@ -31,15 +28,15 @@
         </div>
         <div class="divider-line"></div>
         <div class="nav-list">
-          <a href="./admin-dashboard.html" class="nav-items"
-            ><i class="bi bi-grid"></i>
-            <p>Dashboard</p>
+          <a href="./homepage.html" class="nav-items"
+            ><i class="bi bi-house"></i>
+            <p>Home</p>
             <div class="tooltip" role="tooltip" data-popper-placement="right">
-              Dashboard
+              Home
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./admin_library.html" class="nav-items"
+          <a href="../library.html" class="nav-items"
             ><i class="bi bi-building"></i>
             <p>Library</p>
             <div
@@ -52,29 +49,29 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="#" class="nav-items active"
-            ><i class="bi bi-inboxes-fill"></i>
-            <p>Borrow List</p>
+          <a href="./history.html" class="nav-items active"
+            ><i class="bi bi-hourglass-split"></i>
+            <p>History</p>
             <div
               class="tooltip"
               role="tooltip"
               style="top: 255px"
               data-popper-placement="right"
             >
-              Borrow List
+              History
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./admin_create-book.html" class="nav-items"
-            ><i class="bi bi-file-plus"></i>
-            <p>Create Book</p>
+          <a href="./favourites.html" class="nav-items"
+            ><i class="bi bi-bookmark-heart"></i>
+            <p>Favourites</p>
             <div
               class="tooltip"
               role="tooltip"
               style="top: 315px"
               data-popper-placement="right"
             >
-              Create Book
+              Favourites
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
@@ -124,7 +121,6 @@
         </div>
       </div>
     </nav>
-
     <section class="main-container">
       <header class="top-header">
         <div class="left-header">
@@ -151,9 +147,7 @@
             <div class="focus-out"></div>
             <div class="search-list">
               <div class="search-result"></div>
-              <a href="../user/library.html" class="show-all">
-                Show All Books
-              </a>
+              <a href="../library.html" class="show-all"> Show All Books </a>
             </div>
           </div>
           <a
@@ -170,133 +164,117 @@
         </div>
       </header>
 
-      <main class="dashboard-container">
-        <div class="first-row">
-          <canvas id="myChart"></canvas>
-        </div>
-        <div class="second-row">
-          <div class="comment-scroller">
-            <h4>Recent Comments</h4>
-            <div class="marquee">
-              <div class="marquee__item"></div>
-            </div>
-          </div>
-          <div class="pie-charts-container">
-            <canvas></canvas>
-            <canvas></canvas>
-          </div>
+      <main class="user-list-container">
+        <h3>User List</h3>
+        <div class="user-list-table-wrapper">
+          <select name="no-of-rows" id="no-of-rows">
+            <option value="2" selected>5</option>
+            <option value="3">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+          <div class="user-list-table-body"></div>
+        
         </div>
       </main>
     </section>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://unpkg.com/gridjs-jquery/dist/gridjs.production.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-      const sortedCommentList = commentList.sort((a, b) => {
-        const timeA = new Date(a.time);
-        const timeB = new Date(b.time);
-        return timeB - timeA;
-      });
+      let allUsers = getUserData();
+      console.log(allUsers);
 
-      if (sortedCommentList.length > 0) {
-        const loopLength = sortedCommentList.length;
-        const loopLengthOutput = loopLength < 10 ? loopLength : 10;
+//       for (const i in allUsers) {
 
-        for (let i = 0; i < loopLengthOutput; i++) {
-          const comment = sortedCommentList[i];
-          const user = user_data.find((user) => user.id == comment.user_id);
-          createScrollComment(comment, user);
-        }
-      }
-      function createScrollComment(comment, user) {
-        const parentElement = document.querySelector(".marquee__item");
 
-        const scrollCommentWrapper = document.createElement("div");
-        scrollCommentWrapper.className = "scroll-comment-wrapper";
+//         $(".user-list-table-body").Grid({
+//   columns: ['S.No','Name','Email'],
+//   data: [
+//     [+i +1,allUsers[i]["name"],allUsers[i]["username"] ],
+    
+//     // ...
+//   ],
+// });
+const userData = [];
 
-        const scrollCommentProfile = document.createElement("img");
-        scrollCommentProfile.className = "scroll-comment-profile";
-        scrollCommentProfile.src = user["profile"];
-        scrollCommentProfile.alt = user["name"];
+// loop through allUsers and push the data into userData array
+for (const i in allUsers) {
+  userData.push([+i +1,allUsers[i]["name"],allUsers[i]["username"]]);
+}
 
-        const scrollContent = document.createElement("div");
-        scrollContent.className = "scroll-content";
+// pass the userData array to the Grid function
+const tableGrid = $(".user-list-table-body").Grid({
+  columns: ['S.No','Name','Email'],
+  data: userData,
+  pagination: {
+    limit: 2
+  },
+});
 
-        const scrollUsername = document.createElement("p");
-        scrollUsername.className = "scroll-username";
-        scrollUsername.textContent = user["name"];
+$("#no-of-rows").on("change", function() {
+  // get the selected value from the select input
+//   const newLimit = parseInt($(this).val());
 
-        const scrollCommentMessage = document.createElement("p");
-        scrollCommentMessage.className = "scroll-comment-message";
-        scrollCommentMessage.textContent = comment["description"];
+  console.log(tableGrid);
+//   tableGrid.config.pagination.limit = 3
+  console.log(tableGrid.config.pagination.limit);
+  // update the Grid.js configuration with the new page limit
+//   $(".user-list-table-body").Grid({
+//     itemsPerPage: newLimit
+//   });
+});
+        // const tableBody = document.querySelector(".user-list-table-body");
 
-        const momentTime = moment(comment["time"]);
+        // const tableRow = document.createElement("tr");
+        // tableBody.append(tableRow);
 
-        const scrollCommentTimestamp = document.createElement("span");
-        scrollCommentTimestamp.className = "scroll-comment-timestamp";
-        scrollCommentTimestamp.textContent = momentTime.fromNow();
+        // const tableCellId = document.createElement("td");
+        // tableCellId.innerText = +i + 1;
+        // tableRow.append(tableCellId);
 
-        scrollContent.appendChild(scrollUsername);
-        scrollContent.appendChild(scrollCommentMessage);
+        // const tableCellName = document.createElement("td");
+        // tableCellName.innerText = allUsers[i]["name"];
+        // tableRow.append(tableCellName);
 
-        scrollCommentWrapper.appendChild(scrollCommentProfile);
-        scrollCommentWrapper.appendChild(scrollContent);
-        scrollCommentWrapper.appendChild(scrollCommentTimestamp);
+        // const tableCellEmail = document.createElement("td");
+        // const tableCellEmailSpan = document.createElement("a");
+        // tableCellEmailSpan.setAttribute(
+        //   "href",
+        //   `mailto:${allUsers[i]["username"]}`
+        // );
+        // tableCellEmailSpan.innerText = allUsers[i]["username"];
+        // tableCellEmail.append(tableCellEmailSpan);
+        // tableRow.append(tableCellEmail);
 
-        parentElement.append(scrollCommentWrapper);
-      }
-      // Get the canvas element
-      var ctx = document.getElementById("myChart").getContext("2d");
+        // const tableCellPhone = document.createElement("td");
+        // const tableCellPhoneSpan = document.createElement("a");
+        // tableCellPhoneSpan.setAttribute(
+        //   "href",
+        //   `tel:+91-${allUsers[i]["phone_number"]}`
+        // );
+        // tableCellPhoneSpan.innerText = allUsers[i]["phone_number"] || "-";
+        // tableCellPhone.append(tableCellPhoneSpan);
+        // tableRow.append(tableCellPhone);
 
-      const bookCountsByGenre = {};
-      book_list.forEach((book) => {
-        book.tags.forEach((tag) => {
-          if (bookCountsByGenre[tag]) {
-            bookCountsByGenre[tag]++;
-          } else {
-            bookCountsByGenre[tag] = 1;
-          }
-        });
-      });
+        // const tableCellRole = document.createElement("td");
+        // const tableCellRoleSpan = document.createElement("span");
+        // tableCellRoleSpan.setAttribute("class", "status");
+        // tableCellRoleSpan.innerText = allUsers[i]["role"];
+        // tableCellRole.append(tableCellRoleSpan);
+        // tableRow.append(tableCellRole);
 
-      const tagValues = Object.values(bookCountsByGenre);
-      const tagKeys = Object.keys(bookCountsByGenre);
+        // const tableCellAction = document.createElement("td");
+        // const tableCellActionSpan = document.createElement("a");
+        // tableCellActionSpan.setAttribute("class", "submit");
+        // tableCellActionSpan.setAttribute("href", `${allUsers[i]["id"]}`);
+        // tableCellActionSpan.innerText = "View";
+        // tableCellAction.append(tableCellActionSpan);
+        // tableRow.append(tableCellAction);
+      
 
-      var chartData = {
-        labels: tagKeys,
-        datasets: [
-          {
-            label: "Book Genres",
-            backgroundColor: "#8773e726",
-            borderColor: "#8875e8",
-            borderWidth: 1,
-            borderRadius: 10,
-            borderSkipped: false,
-            data: tagValues,
-            barThickness: 50,
-            hoverBackgroundColor: "#8875e8",
-            hoverBorderColor: "#8773e726",
-          },
-        ],
-        
-      };
 
-      // Define the chart options
-      var chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-        yAxes: [{
-        }]
-    }
-        
-      };
-
-      // Create the chart
-      var myChart = new Chart(ctx, {
-        type: "bar",
-        data: chartData,
-        options: chartOptions,
-      });
     </script>
   </body>
 </html>

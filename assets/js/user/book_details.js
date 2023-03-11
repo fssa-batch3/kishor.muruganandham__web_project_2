@@ -7,7 +7,7 @@ document.querySelector(".book-detail-image img").src = thisBook["image"]["src"];
 document.querySelector(".book-detail-image img").alt = thisBook["image"]["alt"];
 console.log();
 const bookViews = JSON.parse(localStorage.getItem("borrow-list")).filter((e) => e.book_id == thisBook["id"]).length;
-document.querySelector(".book-views").textContent = bookViews > 0 ? ` ${bookViews}`: `0` ;
+document.querySelector(".book-views").textContent = bookViews > 0 ? `${bookViews}`: `0` ;
 document.querySelector(".book-detail-header h2").textContent =
   thisBook["title"];
 document.querySelector(".book-detail-header p").textContent =
@@ -129,10 +129,14 @@ function hideElement(selector) {
   document.querySelector(selector)?.classList.remove("active");
 }
 
+
+
 const commentContainer = document.querySelector(
-  ".book-detail-comments-container"
+  ".comments-container"
 );
 
+function showComment(){
+  commentContainer.innerHTML =""
 commentList.forEach((comment) => {
   if (comment.book_id !== bookId || comment.isActive !== true) {
     return;
@@ -154,7 +158,7 @@ commentList.forEach((comment) => {
 
   const profileImage = document.createElement("img");
   profileImage.src = user.profile;
-  profileImage.alt = "";
+  profileImage.alt = user.name;
   profileImage.width = 40;
   profileElement.appendChild(profileImage);
 
@@ -210,13 +214,11 @@ commentList.forEach((comment) => {
   const likeCount = commentLikeList.filter(
     (like) => like.comment_id === comment.comment_id
   );
-  console.log(likeCount);
   const likeNameElement = document.createElement("div");
   likeNameElement.className = "tooltip";
   likeNameElement.setAttribute("role", "tooltip");
   likeNameElement.dataset.popperPlacement = "top";
   likeCount.forEach((names) => {
-    // console.log();
     likeNameElement.innerText += `${names["username"]}, `;
   });
   likeElement.addEventListener("mouseover", () => {
@@ -230,15 +232,20 @@ commentList.forEach((comment) => {
       likeNameElement.style.display = "none";
     }
   });
-
   let likeData;
-  if (isLiked) {
-    likeData = { comment_id: comment.comment_id, user_id: thisUser.id };
-    likeElement.dataset.likeData = JSON.stringify(likeData);
-    likeIconElement.className = "bi bi-heart-fill";
-  } else {
-    likeIconElement.className = "bi bi-heart";
+
+  function showLike(){
+
+    
+    if (isLiked) {
+      likeData = { comment_id: comment.comment_id, user_id: thisUser.id };
+      likeElement.dataset.likeData = JSON.stringify(likeData);
+      likeIconElement.className = "bi bi-heart-fill";
+    } else {
+      likeIconElement.className = "bi bi-heart";
+    }
   }
+  showLike()
 
   const likesCountElement = document.createElement("p");
   likesCountElement.classList.add("comment-like-number");
@@ -294,7 +301,7 @@ commentList.forEach((comment) => {
   commentElement.appendChild(headerElement);
   commentElement.appendChild(bodyElement);
   wrapper.appendChild(commentElement);
-  commentContainer.appendChild(wrapper);
+  commentContainer.prepend(wrapper);
 
   if (likeData) {
     likeElement.addEventListener("click", () => {
@@ -307,7 +314,7 @@ commentList.forEach((comment) => {
       if (index !== -1) {
         commentLikeList.splice(index, 1);
         localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
-        location.reload();
+        showComment()
       }
       likeElement.dataset.likeData = null;
     });
@@ -322,10 +329,11 @@ commentList.forEach((comment) => {
       };
       commentLikeList.push(like);
       localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
-      location.reload();
+      showComment()
     });
   }
 });
+}
 
 function getCurrentDateTime() {
   const now = new Date();
@@ -358,14 +366,15 @@ function getCurrentDateTime() {
 const sendBtn = document.querySelector(".add-comment-container .bi-telegram");
 const likeBtn = document.querySelector(".comment-like .bi-heart");
 const commentValue = document.querySelector("#add-comment");
-const commentId = generateGuid();
 
 commentValue.addEventListener("keydown", function (event) {
   if (event.shiftKey && event.keyCode === 13) {
-    sendBtn.click();
+    sendBtn.click();    
   }
 });
+
 sendBtn.addEventListener("click", () => {
+  const commentId = generateGuid();
   if (commentValue.value.length > 0) {
     const commentObj = {
       comment_id: commentId,
@@ -376,7 +385,10 @@ sendBtn.addEventListener("click", () => {
       book_id: bookId,
     };
     commentList.push(commentObj);
-    location.reload();
+    showComment()
     localStorage.setItem("comments", JSON.stringify(commentList));
+    commentValue.value = '';
   }
 });
+
+showComment();

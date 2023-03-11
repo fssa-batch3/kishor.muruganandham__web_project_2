@@ -37,7 +37,11 @@
   justify-content: center;
   align-items: center;
 }
-
+.comments-container{
+  margin: 20px 0;
+  height: 300px;
+  overflow-y: auto;
+}
 .book-detail-comments-wrap {
   display: flex;
   flex-direction: column;
@@ -118,7 +122,7 @@
 }
 .comment-description .bi-check-circle-fill:hover {
   transition: color 0.3s ease;
-  color: #000000;
+  color: var(--font-black);
   cursor: pointer;
 }
 .comment-description[contenteditable]:focus {
