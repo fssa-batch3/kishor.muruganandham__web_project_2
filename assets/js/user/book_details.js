@@ -5,7 +5,6 @@ const thisBook = bookList.find((e) => e.id === bookId);
 
 document.querySelector(".book-detail-image img").src = thisBook["image"]["src"];
 document.querySelector(".book-detail-image img").alt = thisBook["image"]["alt"];
-console.log();
 const bookViews = JSON.parse(localStorage.getItem("borrow-list")).filter((e) => e.book_id == thisBook["id"]).length;
 document.querySelector(".book-views").textContent = bookViews > 0 ? `${bookViews}`: `0` ;
 document.querySelector(".book-detail-header h2").textContent =
@@ -166,14 +165,14 @@ commentList.forEach((comment) => {
   usernameElement.classList.add("comment-username");
   usernameElement.textContent = user.name;
 
-  const honestCustomer = JSON.parse(localStorage.getItem("borrow-list")).find(
+  const honestCommenter = JSON.parse(localStorage.getItem("borrow-list")).find(
     (e) =>
       e.book_id === comment.book_id &&
       e.user_id === comment.user_id &&
       e.borrow_date < moment().format("YYYY-MM-DD")
   );
 
-  if (honestCustomer) {
+  if (honestCommenter) {
     const trustedElement = document.createElement("span");
     trustedElement.classList.add("trusted");
     trustedElement.textContent = "Trusted";

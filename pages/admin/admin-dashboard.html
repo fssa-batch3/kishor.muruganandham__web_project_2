@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Borrow-List</title>
+    <title>Dashboard</title>
     <link
       rel="icon"
       href="../../assets/images/book-half.svg"
@@ -22,7 +22,7 @@
     <script src="../../assets/js/user/header.js" defer></script>
     <script src="../../assets/js/user/sidebar.js" defer></script>
   </head>
-  <body>
+  <body onresize="responsiveFonts()">
     <nav class="sidebar" id="sidebar">
       <div class="side-header">
         <div class="logo">
@@ -31,8 +31,8 @@
         </div>
         <div class="divider-line"></div>
         <div class="nav-list">
-          <a href="./admin-dashboard.html" class="nav-items"
-            ><i class="bi bi-grid"></i>
+          <a href="#" class="nav-items active"
+            ><i class="bi bi-grid-fill"></i>
             <p>Dashboard</p>
             <div class="tooltip" role="tooltip" data-popper-placement="right">
               Dashboard
@@ -52,8 +52,8 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="#" class="nav-items active"
-            ><i class="bi bi-inboxes-fill"></i>
+          <a href="./borrow-list.html" class="nav-items "
+            ><i class="bi bi-inboxes"></i>
             <p>Borrow List</p>
             <div
               class="tooltip"
@@ -78,16 +78,16 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./book-request.html" class="nav-items"
-            ><i class="bi bi-file-earmark-text"></i>
-            <p>Request Book</p>
+          <a href="./user_list.html" class="nav-items"
+            ><i class="bi bi-person"></i>
+            <p>User List</p>
             <div
               class="tooltip"
               role="tooltip"
               style="top: 370px"
               data-popper-placement="right"
             >
-              Request Book
+              User List
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
@@ -172,7 +172,7 @@
 
       <main class="dashboard-container">
         <div class="first-row">
-          <canvas id="myChart"></canvas>
+          <canvas id="genreChart" height="380px"></canvas>
         </div>
         <div class="second-row">
           <div class="comment-scroller">
@@ -181,10 +181,8 @@
               <div class="marquee__item"></div>
             </div>
           </div>
-          <div class="pie-charts-container">
-            <canvas></canvas>
-            <canvas></canvas>
-          </div>
+          <canvas id="bookChart" class="chart-style"></canvas>
+          <canvas id="detailChart" class="chart-style"></canvas>
         </div>
       </main>
     </section>
@@ -203,8 +201,10 @@
 
         for (let i = 0; i < loopLengthOutput; i++) {
           const comment = sortedCommentList[i];
-          const user = user_data.find((user) => user.id == comment.user_id);
-          createScrollComment(comment, user);
+          if (sortedCommentList[i]["isActive"] === true) {
+            const user = user_data.find((user) => user.id == comment.user_id);
+            createScrollComment(comment, user);
+          }
         }
       }
       function createScrollComment(comment, user) {
@@ -244,59 +244,137 @@
 
         parentElement.append(scrollCommentWrapper);
       }
-      // Get the canvas element
-      var ctx = document.getElementById("myChart").getContext("2d");
 
       const bookCountsByGenre = {};
       book_list.forEach((book) => {
-        book.tags.forEach((tag) => {
-          if (bookCountsByGenre[tag]) {
-            bookCountsByGenre[tag]++;
-          } else {
-            bookCountsByGenre[tag] = 1;
-          }
-        });
+        if (book["isActive"]) {
+            book.tags.forEach((tag) => {
+              if (bookCountsByGenre[tag]) {
+                bookCountsByGenre[tag]++;
+              } else {
+                bookCountsByGenre[tag] = 1;
+              }
+            });
+        }
       });
 
       const tagValues = Object.values(bookCountsByGenre);
       const tagKeys = Object.keys(bookCountsByGenre);
 
-      var chartData = {
-        labels: tagKeys,
-        datasets: [
-          {
-            label: "Book Genres",
-            backgroundColor: "#8773e726",
-            borderColor: "#8875e8",
-            borderWidth: 1,
-            borderRadius: 10,
-            borderSkipped: false,
-            data: tagValues,
-            barThickness: 50,
-            hoverBackgroundColor: "#8875e8",
-            hoverBorderColor: "#8773e726",
+      let genreChart = new Chart(
+        document.getElementById("genreChart").getContext("2d"),
+        {
+          type: "bar",
+          data: {
+            labels: tagKeys,
+            datasets: [
+              {
+                label: "No of Book in specific Genres",
+                backgroundColor: "#8773e726",
+                borderColor: "#8875e8",
+                borderWidth: 1,
+                borderRadius: 10,
+                maxBarThickness: 50,
+                data: tagValues,
+                hoverBackgroundColor: "#8875e8",
+                hoverBorderColor: "#8773e726",
+              },
+            ],
           },
-        ],
-        
-      };
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                ticks: {
+                  color: "#000000",
+                  stepSize: 3,
+                },
+                beginAtZero: true,
+                max: book_list.length,
+              },
+              x: {
+                ticks: {
+                  color: "#000000",
+                },
+                beginAtZero: true,
+              },
+            },
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        }
+      );
 
-      // Define the chart options
-      var chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-        yAxes: [{
-        }]
-    }
-        
-      };
+      function responsiveFonts() {
+        if (window.innerWidth > 999) {
+          Chart.defaults.font.size = 18;
+        }
+        if (window.innerWidth < 999 && window.innerWidth > 444) {
+          Chart.defaults.font.size = 16;
+        }
+        if (window.innerWidth < 444) {
+          Chart.defaults.font.size = 12;
+        }
+        genreChart.update();
+      }
+      responsiveFonts();
 
-      // Create the chart
-      var myChart = new Chart(ctx, {
-        type: "bar",
-        data: chartData,
-        options: chartOptions,
-      });
+      const borrowedBook = JSON.parse(localStorage.getItem("borrow-list"));
+      const borrowedBookLength = borrowedBook.filter(
+        (e) => e.status == "Pending"
+      ).length;
+      let BookChart = new Chart(
+        document.getElementById("bookChart").getContext("2d"),
+        {
+          type: "pie",
+          data: {
+            labels: ["No of books available", "No of books borrowed"],
+            datasets: [
+              {
+                label: "Books",
+                data: [book_list.length, borrowedBookLength],
+                backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
+                hoverOffset: 10,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        }
+      );
+
+      const userLength = JSON.parse(localStorage.getItem("user_data")).length;
+      const commentLength = JSON.parse(localStorage.getItem("comments")).length;
+      const bookRequestLength = JSON.parse(
+        localStorage.getItem("book_req")
+      ).length;
+      let detailChart = new Chart(
+        document.getElementById("detailChart").getContext("2d"),
+        {
+          type: "doughnut",
+          data: {
+            labels: ["Users", "Comments", "Books requested"],
+            datasets: [
+              {
+                label: "Total",
+                data: [userLength, commentLength, bookRequestLength],
+                backgroundColor: ["Orange", "lightcoral", "teal"],
+                hoverOffset: 10,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        }
+      );
     </script>
   </body>
 </html>
