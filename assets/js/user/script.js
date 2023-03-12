@@ -93,6 +93,12 @@ function CloseDetailPage() {
   document.querySelector(".book-detail").classList.remove("active");
   document.querySelector(".focus-out").classList.remove("active");
 }
+
+book_list = JSON.parse(localStorage.getItem("book_list"));
+const id = JSON.parse(localStorage.getItem("id"));
+const user_data = getUserData();
+const userId = user_data.find((u) => u.id == id);
+
 // This function generates a book card element and appends it to a book rack container.
 function generateBook(book, bookRack) {
   try {

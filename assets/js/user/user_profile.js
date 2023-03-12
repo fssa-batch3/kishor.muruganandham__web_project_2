@@ -1,17 +1,4 @@
 
-// Calculate the Age using Given Date of Birth
-
-function calculateAge(dob) {
-	const today = new Date();
-	const birthDate = new Date(dob);
-	let ageCalculated = today.getFullYear() - birthDate.getFullYear();
-	const m = today.getMonth() - birthDate.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-		ageCalculated--;
-	}
-	return ageCalculated;
-}
-
 // Get user detail elements and display user data
 const profDisp = document.querySelector(".user-image");
 const udInput = document.querySelectorAll(".ud-input");
@@ -32,7 +19,8 @@ displayName.value = userId.name;
 dateOfBirth.value = userId.dob;
 emailAddress.value = userId.username;
 phoneNumber.value = userId.phone_number;
-age.value = calculateAge(dateOfBirth.value);
+age.value = moment().diff(dateOfBirth.value, "years");
+
 
 // Add event listeners to edit, save, cancel, and delete buttons
 const editBtn = document.querySelector(".user-detail-edit");
@@ -69,7 +57,7 @@ saveBtn.addEventListener("click", (e) => {
 	userId.last_name = lastName.value;
 	userId.name = displayName.value;
 	userId.dob = dateOfBirth.value;
-	userId.age = calculateAge(dateOfBirth.value);
+	userId.age = moment().diff(dateOfBirth.value, "years");
 	userId.phone_number = phoneNumber.value;
 
 	if (userId.username !== emailAddress.value) {
