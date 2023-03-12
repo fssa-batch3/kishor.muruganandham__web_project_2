@@ -52,7 +52,7 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./borrow-list.html" class="nav-items "
+          <a href="./borrow-list.html" class="nav-items"
             ><i class="bi bi-inboxes"></i>
             <p>Borrow List</p>
             <div
@@ -189,24 +189,21 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-      const sortedCommentList = commentList.sort((a, b) => {
+      let sortedCommentList = commentList.sort((a, b) => {
         const timeA = new Date(a.time);
         const timeB = new Date(b.time);
         return timeB - timeA;
       });
-
-      if (sortedCommentList.length > 0) {
-        const loopLength = sortedCommentList.length;
-        const loopLengthOutput = loopLength < 10 ? loopLength : 10;
-
-        for (let i = 0; i < loopLengthOutput; i++) {
-          const comment = sortedCommentList[i];
-          if (sortedCommentList[i]["isActive"] === true) {
-            const user = user_data.find((user) => user.id == comment.user_id);
-            createScrollComment(comment, user);
-          }
-        }
+      const filteredCommentList = sortedCommentList.filter(
+        (e) => e["isActive"] == true
+      );
+      const loopLength = filteredCommentList.length < 10 ? filteredCommentList.length : 10;
+      for (let i = 0; i < loopLength; i++) {
+          const comment = filteredCommentList[i];
+          const user = user_data.find((user) => user.id == comment.user_id);
+          createScrollComment(comment, user);
       }
+
       function createScrollComment(comment, user) {
         const parentElement = document.querySelector(".marquee__item");
 
@@ -248,13 +245,13 @@
       const bookCountsByGenre = {};
       book_list.forEach((book) => {
         if (book["isActive"]) {
-            book.tags.forEach((tag) => {
-              if (bookCountsByGenre[tag]) {
-                bookCountsByGenre[tag]++;
-              } else {
-                bookCountsByGenre[tag] = 1;
-              }
-            });
+          book.tags.forEach((tag) => {
+            if (bookCountsByGenre[tag]) {
+              bookCountsByGenre[tag]++;
+            } else {
+              bookCountsByGenre[tag] = 1;
+            }
+          });
         }
       });
 
@@ -305,6 +302,9 @@
                 position: "bottom",
               },
             },
+            animation: {
+        delay: 50
+    }
           },
         }
       );

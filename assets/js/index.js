@@ -42,7 +42,7 @@ signinForm.addEventListener("submit", function (e) {
 	// If there's a match, set user id in local storage and redirect
 	if (matchedUser) {
 		localStorage.setItem("id", JSON.stringify(matchedUser.id));
-		const redirectUrl = (loginRole.value === "admin") ? "./pages/admin/admin_create-book.html" : "./pages/user/homepage.html";
+		const redirectUrl = (loginRole.value === "admin") ? "./pages/admin/admin-dashboard.html" : "./pages/user/homepage.html";
 		window.location.href = redirectUrl;
 	} else {
 		// Otherwise, show an alert with error message
@@ -78,7 +78,6 @@ function registerUser() {
 		role: role.value,
 		dob: dob.value,
 		phone_number: null,
-		address: null,
 		age: null,
 		username: emailAdd.value,
 		password: pass.value,

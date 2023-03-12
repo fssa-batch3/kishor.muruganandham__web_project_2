@@ -1,97 +1,81 @@
 @import "../css/variables.css";
 
 body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	background: url("../images/Body-bg.svg") center center/cover no-repeat;
-	overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(../images/Body-bg.svg)center center/cover no-repeat;
+    overflow: hidden
 }
 
 .container {
-	text-align: center;
-	vertical-align: middle;
-	width: 100%;
-	max-width: 450px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+    max-width: 450px
 }
+
 .tab-content {
-	display: none;
-	background-color: var(--body-white);
-	padding: 15px 30px;
-	margin: 20px;
-	border-radius: 25px;
-	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
-	height: 580px;
-	overflow-y: auto;
+    display: none;
+    background-color: var(--body-white);
+    padding: 15px 30px;
+    margin: 20px;
+    border-radius: 25px;
+    box-shadow: 0 0 10px 1px rgba(0,0,0,.4);
+    height: 580px;
+    overflow-y: auto
 }
-.tab-content::-webkit-scrollbar{
-	display: none;
+
+.tab-content::-webkit-scrollbar {
+    display: none
 }
+
 #sign-in {
-	display: block;
+    display: block
 }
 
-.forget-password{
-	text-decoration: underline;
-	color: var(--primary-color);
+.forget-password {
+    text-decoration: underline;
+    color: var(--primary-color)
 }
+
 .pass-visible::before {
-	position: absolute;
-	display: flex;
-	font-size: 24px;
-	right: 15px;
-	top: 15px;
-	color: var(--font-purple);
-	cursor: pointer;
+    position: absolute;
+    display: flex;
+    font-size: 24px;
+    right: 15px;
+    top: 15px;
+    color: var(--font-purple);
+    cursor: pointer
 }
-
-
-/* .valid {
-	border: 1px solid var(--success-green);
-	box-shadow: 0 0 0 3px var(--success-green-shade);
-	outline: none;
-}
-.invalid {
-	border: 1px solid var(--danger-red);
-	box-shadow: 0 0 0 3px var(--danger-red-shade);
-	outline: none;
-}
-.error-msg small {
-	display: none;
-	color: var(--danger-red);
-	background-color: var(--danger-red-shade);
-	padding: 2px 5px;
-	border-radius: 5px;
-} */
 
 .tab-group {
-	position: relative;
-	height: 100%;
-	margin: 0 20px;
-	padding: 5px;
-	background-color: var(--body-white);
-	border-radius: 25px;
-	display: flex;
-	justify-content: space-between;
-	box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
-}
-.tab-group button {
-	width: 100%;
-	padding: 20px 0;
-	background-color: transparent;
-	border: none;
-	outline: none;
-	font-size: var(--h4-fs);
-	color: var(--font-black);
-	cursor: pointer;
-	transition: color 0.2s linear;
-}
-.tab-group button.active {
-	color: var(--font-white);
-	background-color: var(--primary-color);
-	border-radius: 20px;
+    position: relative;
+    height: 100%;
+    margin: 0 20px;
+    padding: 5px;
+    background-color: var(--body-white);
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 0 10px 1px rgba(0,0,0,.4)
 }
 
-@media only screen and (max-width: 400px) {
+.tab-group button {
+    width: 100%;
+    padding: 20px 0;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    font-size: var(--h4-fs);
+    color: var(--font-black);
+    cursor: pointer;
+    transition: color .2s linear
+}
+
+.tab-group button.active {
+    color: var(--font-white);
+    background-color: var(--primary-color);
+    border-radius: 20px
 }

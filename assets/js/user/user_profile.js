@@ -1,9 +1,4 @@
 
-// Get user data and ID from local storage
-// const data = getUserData();
-// const id = localStorage.getItem("id");
-// const userId = data.find(u => u.id == id);
-
 // Calculate the Age using Given Date of Birth
 
 function calculateAge(dob) {

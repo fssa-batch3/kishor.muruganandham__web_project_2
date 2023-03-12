@@ -1,3 +1,5 @@
+"use strict";
+
 const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id");
 const bookList = JSON.parse(localStorage.getItem("book_list"));
@@ -5,8 +7,11 @@ const thisBook = bookList.find((e) => e.id === bookId);
 
 document.querySelector(".book-detail-image img").src = thisBook["image"]["src"];
 document.querySelector(".book-detail-image img").alt = thisBook["image"]["alt"];
-const bookViews = JSON.parse(localStorage.getItem("borrow-list")).filter((e) => e.book_id == thisBook["id"]).length;
-document.querySelector(".book-views").textContent = bookViews > 0 ? `${bookViews}`: `0` ;
+const bookViews = JSON.parse(localStorage.getItem("borrow-list")).filter(
+  (e) => e.book_id == thisBook["id"]
+).length;
+document.querySelector(".book-views").textContent =
+  bookViews > 0 ? `${bookViews}` : `0`;
 document.querySelector(".book-detail-header h2").textContent =
   thisBook["title"];
 document.querySelector(".book-detail-header p").textContent =
@@ -57,10 +62,14 @@ if (thisBook?.isBorrowable === false && availableDate) {
   borrowBtn.innerText = "Borrow Now";
   borrowBtn.disabled = false;
 }
-function openBorrowModal() {
+function openBorrowModal(bookId, userId) {
+  const borrowList = JSON.parse(localStorage.getItem("borrow-list")) || [];
+  const bookList = JSON.parse(localStorage.getItem("book_list")) || [];
+  const user_data = JSON.parse(localStorage.getItem("user_data")) || {};
+
+  const thisBook = bookList.find((book) => book.id === bookId);
   showElement(".backdrop");
   showElement(".modal");
-
   document.getElementById("book-title").value = thisBook?.title;
 
   const borrowNowBtn = document.querySelector(".modal-submit");
@@ -116,7 +125,8 @@ function openBorrowModal() {
     localStorage.setItem("book_list", JSON.stringify(bookList));
     localStorage.setItem("borrow-list", JSON.stringify(borrowList));
     setUserData(user_data);
-    location.reload();
+    hideElement(".backdrop");
+    hideElement(".modal");
   }
 }
 
@@ -128,238 +138,214 @@ function hideElement(selector) {
   document.querySelector(selector)?.classList.remove("active");
 }
 
+const commentContainer = document.querySelector(".comments-container");
 
-
-const commentContainer = document.querySelector(
-  ".comments-container"
-);
-
-function showComment(){
-  commentContainer.innerHTML =""
-commentList.forEach((comment) => {
-  if (comment.book_id !== bookId || comment.isActive !== true) {
-    return;
-  }
-
-  const user = user_data.find((user) => user.id == comment.user_id);
-
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("book-detail-comments-wrap");
-
-  const commentElement = document.createElement("div");
-  commentElement.classList.add("book-detail-comment");
-
-  const headerElement = document.createElement("div");
-  headerElement.classList.add("comment-header");
-
-  const profileElement = document.createElement("div");
-  profileElement.classList.add("comment-profile");
-
-  const profileImage = document.createElement("img");
-  profileImage.src = user.profile;
-  profileImage.alt = user.name;
-  profileImage.width = 40;
-  profileElement.appendChild(profileImage);
-
-  const usernameElement = document.createElement("p");
-  usernameElement.classList.add("comment-username");
-  usernameElement.textContent = user.name;
-
-  const honestCommenter = JSON.parse(localStorage.getItem("borrow-list")).find(
-    (e) =>
-      e.book_id === comment.book_id &&
-      e.user_id === comment.user_id &&
-      e.borrow_date < moment().format("YYYY-MM-DD")
-  );
-
-  if (honestCommenter) {
-    const trustedElement = document.createElement("span");
-    trustedElement.classList.add("trusted");
-    trustedElement.textContent = "Trusted";
-    usernameElement.appendChild(trustedElement);
-  }
-
-  const momentTime = moment(comment.time);
-
-  const diffInDays = moment().diff(momentTime, "days");
-  let formattedDateTime;
-  if (diffInDays > 1) {
-    formattedDateTime = momentTime.format("DD-MMM-YYYY h:mm A");
-  } else {
-    formattedDateTime = momentTime.fromNow();
-  }
-  const timeElement = document.createElement("p");
-  timeElement.classList.add("comment-time");
-  timeElement.textContent = formattedDateTime;
-
-  profileElement.appendChild(usernameElement);
-  profileElement.appendChild(timeElement);
-  headerElement.appendChild(profileElement);
-
-  const actionsElement = document.createElement("div");
-  actionsElement.classList.add("comment-actions");
-
-  const likeElement = document.createElement("span");
-  likeElement.classList.add("comment-like");
-
-  const likeIconElement = document.createElement("i");
-  const thisUser = getUserData().find(
-    (e) => e.id == JSON.parse(localStorage.getItem("id"))
-  );
-  const isLiked = commentLikeList.find(
-    (like) =>
-      like.comment_id === comment.comment_id && like.user_id === thisUser.id
-  );
-  const likeCount = commentLikeList.filter(
-    (like) => like.comment_id === comment.comment_id
-  );
-  const likeNameElement = document.createElement("div");
-  likeNameElement.className = "tooltip";
-  likeNameElement.setAttribute("role", "tooltip");
-  likeNameElement.dataset.popperPlacement = "top";
-  likeCount.forEach((names) => {
-    likeNameElement.innerText += `${names["username"]}, `;
-  });
-  likeElement.addEventListener("mouseover", () => {
-    if (likeCount.length > 0) {
-      likeNameElement.style.display = "block";
-      likeElement.appendChild(likeNameElement);
+function showComment() {
+  commentContainer.innerHTML = "";
+  commentList.forEach((comment) => {
+    if (comment.book_id !== bookId || comment.isActive !== true) {
+      return;
     }
-  });
-  likeElement.addEventListener("mouseout", () => {
-    if (likeCount.length > 0) {
-      likeNameElement.style.display = "none";
+
+    const user = user_data.find((user) => user.id == comment.user_id);
+
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("book-detail-comments-wrap");
+
+    const commentElement = document.createElement("div");
+    commentElement.classList.add("book-detail-comment");
+
+    const headerElement = document.createElement("div");
+    headerElement.classList.add("comment-header");
+
+    const profileElement = document.createElement("div");
+    profileElement.classList.add("comment-profile");
+
+    const profileImage = document.createElement("img");
+    profileImage.src = user.profile;
+    profileImage.alt = user.name;
+    profileImage.width = 40;
+    profileElement.appendChild(profileImage);
+
+    const usernameElement = document.createElement("p");
+    usernameElement.classList.add("comment-username");
+    usernameElement.textContent = user.name;
+
+    const honestCommenter = JSON.parse(
+      localStorage.getItem("borrow-list")
+    ).find(
+      (e) =>
+        e.book_id === comment.book_id &&
+        e.user_id === comment.user_id &&
+        e.borrow_date < moment().format("YYYY-MM-DD")
+    );
+
+    if (honestCommenter) {
+      const trustedElement = document.createElement("span");
+      trustedElement.classList.add("trusted");
+      trustedElement.textContent = "Trusted";
+      usernameElement.appendChild(trustedElement);
     }
-  });
-  let likeData;
 
-  function showLike(){
+    const momentTime = moment(comment.time);
 
-    
-    if (isLiked) {
-      likeData = { comment_id: comment.comment_id, user_id: thisUser.id };
-      likeElement.dataset.likeData = JSON.stringify(likeData);
-      likeIconElement.className = "bi bi-heart-fill";
+    const diffInDays = moment().diff(momentTime, "days");
+    let formattedDateTime;
+    if (diffInDays > 1) {
+      formattedDateTime = momentTime.format("DD-MMM-YYYY h:mm A");
     } else {
-      likeIconElement.className = "bi bi-heart";
+      formattedDateTime = momentTime.fromNow();
     }
-  }
-  showLike()
+    const timeElement = document.createElement("p");
+    timeElement.classList.add("comment-time");
+    timeElement.textContent = formattedDateTime;
 
-  const likesCountElement = document.createElement("p");
-  likesCountElement.classList.add("comment-like-number");
-  likesCountElement.textContent = likeCount.length;
+    profileElement.appendChild(usernameElement);
+    profileElement.appendChild(timeElement);
+    headerElement.appendChild(profileElement);
 
-  likeElement.appendChild(likeIconElement);
-  likeElement.appendChild(likesCountElement);
-  actionsElement.appendChild(likeElement);
+    const actionsElement = document.createElement("div");
+    actionsElement.classList.add("comment-actions");
 
-  headerElement.appendChild(actionsElement);
+    const likeElement = document.createElement("span");
+    likeElement.classList.add("comment-like");
 
-  const bodyElement = document.createElement("div");
-  bodyElement.classList.add("comment-body");
-
-  const descriptionElement = document.createElement("div");
-  descriptionElement.classList.add("comment-description");
-  descriptionElement.textContent = comment.description;
-
-  const saveIconElement = document.createElement("span");
-  saveIconElement.classList.add("bi", "bi-check-circle-fill");
-  saveIconElement.style.display = "none";
-  descriptionElement.appendChild(saveIconElement);
-
-  if (thisUser["id"] === comment["user_id"]) {
-    const editIconElement = document.createElement("span");
-    editIconElement.classList.add("bi", "bi-pencil-square");
-    editIconElement.innerText = "Edit";
-    actionsElement.appendChild(editIconElement);
-
-    const trashIconElement = document.createElement("span");
-    trashIconElement.classList.add("bi", "bi-trash");
-    trashIconElement.innerText = "Delete";
-    actionsElement.appendChild(trashIconElement);
-
-    trashIconElement.addEventListener("click", () => {
-      comment["isActive"] = false;
-      localStorage.setItem("comments", JSON.stringify(commentList));
-      wrapper.remove();
+    const likeIconElement = document.createElement("i");
+    const thisUser = getUserData().find(
+      (e) => e.id == JSON.parse(localStorage.getItem("id"))
+    );
+    const isLiked = commentLikeList.find(
+      (like) =>
+        like.comment_id === comment.comment_id && like.user_id === thisUser.id
+    );
+    const likeCount = commentLikeList.filter(
+      (like) => like.comment_id === comment.comment_id
+    );
+    const likeNameElement = document.createElement("div");
+    likeNameElement.className = "tooltip";
+    likeNameElement.setAttribute("role", "tooltip");
+    likeNameElement.dataset.popperPlacement = "top";
+    likeCount.forEach((names) => {
+      likeNameElement.innerText += `${names["username"]}, `;
     });
-    editIconElement.addEventListener("click", () => {
-      descriptionElement.contentEditable = true;
-      saveIconElement.style.display = "flex";
-    });
-    saveIconElement.addEventListener("click", () => {
-      descriptionElement.removeAttribute("contentEditable");
-      saveIconElement.style.display = "none";
-      comment["description"] = descriptionElement.textContent;
-      localStorage.setItem("comments", JSON.stringify(commentList));
-    });
-  }
-  bodyElement.appendChild(descriptionElement);
-
-  commentElement.appendChild(headerElement);
-  commentElement.appendChild(bodyElement);
-  wrapper.appendChild(commentElement);
-  commentContainer.prepend(wrapper);
-
-  if (likeData) {
-    likeElement.addEventListener("click", () => {
-      const likeData = JSON.parse(likeElement.dataset.likeData);
-      const index = commentLikeList.findIndex(
-        (like) =>
-          like.comment_id === likeData.comment_id &&
-          like.user_id === likeData.user_id
-      );
-      if (index !== -1) {
-        commentLikeList.splice(index, 1);
-        localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
-        showComment()
+    likeElement.addEventListener("mouseover", () => {
+      if (likeCount.length > 0) {
+        likeNameElement.style.display = "block";
+        likeElement.appendChild(likeNameElement);
       }
-      likeElement.dataset.likeData = null;
     });
-  } else {
-    likeElement.addEventListener("click", () => {
-      const like = {
-        comment_id: comment.comment_id,
-        user_id: thisUser.id,
-        book_id: bookId,
-        username: thisUser.name,
-        like_id: generateGuid(),
-      };
-      commentLikeList.push(like);
-      localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
-      showComment()
+    likeElement.addEventListener("mouseout", () => {
+      if (likeCount.length > 0) {
+        likeNameElement.style.display = "none";
+      }
     });
-  }
-});
-}
+    let likeData;
 
-function getCurrentDateTime() {
-  const now = new Date();
-  const year = now.getFullYear().toString();
-  const monthNames = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-  ];
-  const month = monthNames[now.getMonth()];
-  const day = now.getDate().toString().padStart(2, "0");
-  let hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const strTime = `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
-  return `${day}-${month}-${year} ${strTime}`;
+    function showLike() {
+      if (isLiked) {
+        likeData = { comment_id: comment.comment_id, user_id: thisUser.id };
+        likeElement.dataset.likeData = JSON.stringify(likeData);
+        likeIconElement.className = "bi bi-heart-fill";
+      } else {
+        likeIconElement.className = "bi bi-heart";
+      }
+    }
+    showLike();
+
+    const likesCountElement = document.createElement("p");
+    likesCountElement.classList.add("comment-like-number");
+    likesCountElement.textContent = likeCount.length;
+
+    likeElement.appendChild(likeIconElement);
+    likeElement.appendChild(likesCountElement);
+    actionsElement.appendChild(likeElement);
+
+    headerElement.appendChild(actionsElement);
+
+    const bodyElement = document.createElement("div");
+    bodyElement.classList.add("comment-body");
+
+    const descriptionElement = document.createElement("div");
+    descriptionElement.classList.add("comment-description");
+    descriptionElement.textContent = comment.description;
+
+    const saveIconElement = document.createElement("span");
+    saveIconElement.classList.add("bi", "bi-check-circle-fill");
+    saveIconElement.style.display = "none";
+    descriptionElement.appendChild(saveIconElement);
+
+    if (thisUser["id"] === comment["user_id"]) {
+      const editIconElement = document.createElement("span");
+      editIconElement.classList.add("bi", "bi-pencil-square");
+      editIconElement.innerText = "Edit";
+      actionsElement.appendChild(editIconElement);
+
+      const trashIconElement = document.createElement("span");
+      trashIconElement.classList.add("bi", "bi-trash");
+      trashIconElement.innerText = "Delete";
+      actionsElement.appendChild(trashIconElement);
+
+      trashIconElement.addEventListener("click", () => {
+        const deleteConfirm = confirm(
+          "Are you sure want to delete this comment?"
+        );
+        if (deleteConfirm) {
+          comment["isActive"] = false;
+          localStorage.setItem("comments", JSON.stringify(commentList));
+          wrapper.remove();
+        }
+      });
+      editIconElement.addEventListener("click", () => {
+        descriptionElement.contentEditable = true;
+        saveIconElement.style.display = "flex";
+      });
+      saveIconElement.addEventListener("click", () => {
+        descriptionElement.removeAttribute("contentEditable");
+        saveIconElement.style.display = "none";
+        comment["description"] = descriptionElement.textContent;
+        localStorage.setItem("comments", JSON.stringify(commentList));
+      });
+    }
+    bodyElement.appendChild(descriptionElement);
+
+    commentElement.appendChild(headerElement);
+    commentElement.appendChild(bodyElement);
+    wrapper.appendChild(commentElement);
+    commentContainer.prepend(wrapper);
+
+    if (likeData) {
+      likeElement.addEventListener("click", () => {
+        const likeData = JSON.parse(likeElement.dataset.likeData);
+        const index = commentLikeList.findIndex(
+          (like) =>
+            like.comment_id === likeData.comment_id &&
+            like.user_id === likeData.user_id
+        );
+        if (index !== -1) {
+          commentLikeList.splice(index, 1);
+          localStorage.setItem(
+            "comment_likes",
+            JSON.stringify(commentLikeList)
+          );
+          showComment();
+        }
+        likeElement.dataset.likeData = null;
+      });
+    } else {
+      likeElement.addEventListener("click", () => {
+        const like = {
+          comment_id: comment.comment_id,
+          user_id: thisUser.id,
+          book_id: bookId,
+          username: thisUser.name,
+          like_id: generateGuid(),
+        };
+        commentLikeList.push(like);
+        localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
+        showComment();
+      });
+    }
+  });
 }
 
 const sendBtn = document.querySelector(".add-comment-container .bi-telegram");
@@ -368,25 +354,27 @@ const commentValue = document.querySelector("#add-comment");
 
 commentValue.addEventListener("keydown", function (event) {
   if (event.shiftKey && event.keyCode === 13) {
-    sendBtn.click();    
+    commentValue.insertAdjacentHTML("beforeend", "");
+  } else if (event.keyCode === 13) {
+    sendBtn.click();
   }
 });
 
 sendBtn.addEventListener("click", () => {
   const commentId = generateGuid();
-  if (commentValue.value.length > 0) {
+  if (commentValue.value.trim().length > 0) {
     const commentObj = {
       comment_id: commentId,
       description: commentValue.value,
       isActive: true,
-      time: getCurrentDateTime(),
+      time:  moment().format('DD-MMM-YYYY hh:mm A'),
       user_id: userId["id"],
       book_id: bookId,
     };
     commentList.push(commentObj);
-    showComment()
+    showComment();
     localStorage.setItem("comments", JSON.stringify(commentList));
-    commentValue.value = '';
+    commentValue.value = "";
   }
 });
 

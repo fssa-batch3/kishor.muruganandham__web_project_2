@@ -313,8 +313,8 @@
 					} else {
 						bookDetail["isBorrowable"] = false;
 					}
-					userBorrowHistory["status"] = borrowStatus.value; 
 					const userBorrowHistory = userDetail["borrow_history"].find((e) => e.id == borrowDetail["id"])
+					userBorrowHistory["status"] = borrowStatus.value; 
 					const borrowIndex = borrowList.indexOf(borrowDetail);
 					borrowList[borrowIndex] = borrowDetail;
 					localStorage.setItem("borrow-list",JSON.stringify(borrowList));
