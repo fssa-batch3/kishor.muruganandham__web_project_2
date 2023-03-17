@@ -1,3 +1,10 @@
+book_list = JSON.parse(localStorage.getItem("book_list"));
+const id = JSON.parse(localStorage.getItem("id"));
+const user_data = getUserData();
+const userId = user_data.find((u) => u.id == id);
+
+
+
 // Dark Mode
 // Get the current value of the "dark-mode" key from local storage
 const isDarkMode = localStorage.getItem("dark-mode");
@@ -94,16 +101,13 @@ function CloseDetailPage() {
   document.querySelector(".focus-out").classList.remove("active");
 }
 
-book_list = JSON.parse(localStorage.getItem("book_list"));
-const id = JSON.parse(localStorage.getItem("id"));
-const user_data = getUserData();
-const userId = user_data.find((u) => u.id == id);
+
 
 // This function generates a book card element and appends it to a book rack container.
 function generateBook(book, bookRack) {
   try {
     // Check if the book is active before proceeding.
-    if (book.isActive !== true) throw new Error("Book is not active.");
+    if (book.isActive !== true) return;
 
     // Create a new div element to hold the book card.
     const bookDiv = document.createElement("div");

@@ -1,267 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Book Detail</title>
-		<link rel="stylesheet" href="../assets/css/main_page.css" />
-		<link rel="stylesheet" href="../assets/css/book-request.css" />
-		<link rel="stylesheet" href="../assets/css/book_detail.css" />
-		<link rel="icon" href="../assets/images/book-half.svg" type="image/x-icon" />
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-			<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-		<script src="../assets/js/user/script.js"></script>
-		<script src="../assets/js/user/header.js" defer></script>
-		<script src="../assets/js/user/sidebar.js" defer></script>
-		<script src="../assets/js/user/book_details.js" defer></script>
-	</head>
-	<body>
-		<nav class="sidebar" id="sidebar">
-			<div class="side-header">
-				<div class="logo">
-					<i class="bi bi-book-half"></i>
-					<p>Bookly</p>
-				</div>
-				<div class="divider-line"></div>
-				<div class="nav-list">
-					<a href="./user/homepage.html" class="nav-items"
-						><i class="bi bi-house"></i>
-						<p>Home</p>
-						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Home
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./library.html" class="nav-items"
-						><i class="bi bi-building"></i>
-						<p>Library</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 195px"
-							data-popper-placement="right">
-							Library
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user/history.html" class="nav-items"
-						><i class="bi bi-hourglass"></i>
-						<p>History</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 255px"
-							data-popper-placement="right">
-							History
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user/favourites.html" class="nav-items"
-						><i class="bi bi-bookmark-heart"></i>
-						<p>Favourites</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 315px"
-							data-popper-placement="right">
-							Favourites
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user/book-request.html" class="nav-items"
-						><i class="bi bi-file-earmark-text"></i>
-						<p>Request Book</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 370px"
-							data-popper-placement="right">
-							Request Book
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="side-footer">
-				<div class="dark-toggle">
-					<a href="#" onclick="darkMode()" class="nav-items"
-						><i class="bi bi-moon-stars-fill dark-light"></i>
-						<p class="da-li-text">Dark mode</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 115px; top: unset"
-							data-popper-placement="right">
-							Theme
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items" id="sign-out"
-						><i class="bi bi-box-arrow-left"></i>
-						<p>Log Out</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 55px; top: unset"
-							data-popper-placement="right">
-							Log-Out
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Detail</title>
+    <link rel="stylesheet" href="../assets/css/main_page.css" />
+    <link rel="stylesheet" href="../assets/css/book-request.css" />
+    <link rel="stylesheet" href="../assets/css/book_detail.css" />
+    <link
+      rel="icon"
+      href="../assets/images/book-half.svg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="../assets/js/user/script.js"></script>
+    <script src="../assets/js/user/header.js" defer></script>
+    <script src="../assets/js/user/sidebar.js" defer></script>
+    <script src="../assets/js/borrow.js"></script>
+    <script src="../assets/js/comment.js"></script>
+    <script src="../assets/js/book.js"></script>
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="side-header">
+        <div class="logo">
+          <i class="bi bi-book-half"></i>
+          <p>Bookly</p>
+        </div>
+        <div class="divider-line"></div>
+        <div class="nav-list">
+          <a href="./user/homepage.html" class="nav-items"
+            ><i class="bi bi-house"></i>
+            <p>Home</p>
+            <div class="tooltip" role="tooltip" data-popper-placement="right">
+              Home
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./library.html" class="nav-items"
+            ><i class="bi bi-building"></i>
+            <p>Library</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 195px"
+              data-popper-placement="right"
+            >
+              Library
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user/history.html" class="nav-items"
+            ><i class="bi bi-hourglass"></i>
+            <p>History</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 255px"
+              data-popper-placement="right"
+            >
+              History
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user/favourites.html" class="nav-items"
+            ><i class="bi bi-bookmark-heart"></i>
+            <p>Favourites</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 315px"
+              data-popper-placement="right"
+            >
+              Favourites
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user/book-request.html" class="nav-items"
+            ><i class="bi bi-file-earmark-text"></i>
+            <p>Request Book</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 370px"
+              data-popper-placement="right"
+            >
+              Request Book
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="side-footer">
+        <div class="dark-toggle">
+          <a href="#" onclick="darkMode()" class="nav-items"
+            ><i class="bi bi-moon-stars-fill dark-light"></i>
+            <p class="da-li-text">Dark mode</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 115px; top: unset"
+              data-popper-placement="right"
+            >
+              Theme
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items" id="sign-out"
+            ><i class="bi bi-box-arrow-left"></i>
+            <p>Log Out</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 55px; top: unset"
+              data-popper-placement="right"
+            >
+              Log-Out
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
 
-		<section class="main-container">
-			<header class="top-header">
-				<div class="left-header">
-					<div class="side-toggle">
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-					</div>
-					<div class="user-date">
-						<h4 class="header-username">Hello</h4>
-						<p>Have a Great Day!</p>
-					</div>
-				</div>
-				<div class="right-header">
-					<div class="search-field">
-						<label for="head-search"><i class="bi bi-search"></i></label>
-						<input
-							type="search"
-							name="head-search"
-							id="head-search"
-							placeholder="Search..."
-							class="search-list-show" />
-						<div class="focus-out"></div>
-						<div class="search-list">
-							<div class="search-result"></div>
-							<a href="../user/library.html" class="show-all"> Show All Books </a>
-						</div>
-					</div>
-					
-					<a
-						href="../pages/user/user_profile.html"
-						aria-label="profile-page"
-						class="profile-area">
-						<div class="profile-field"></div>
-						<div class="tooltip" role="tooltip" data-popper-placement="top">
-							User Profile
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</header>
+    <section class="main-container">
+      <header class="top-header">
+        <div class="left-header">
+          <div class="side-toggle">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </div>
+          <div class="user-date">
+            <h4 class="header-username">Hello</h4>
+            <p>Have a Great Day!</p>
+          </div>
+        </div>
+        <div class="right-header">
+          <div class="search-field">
+            <label for="head-search"><i class="bi bi-search"></i></label>
+            <input
+              type="search"
+              name="head-search"
+              id="head-search"
+              placeholder="Search..."
+              class="search-list-show"
+            />
+            <div class="focus-out"></div>
+            <div class="search-list">
+              <div class="search-result"></div>
+              <a href="../user/library.html" class="show-all">
+                Show All Books
+              </a>
+            </div>
+          </div>
 
-			<main class="book-detail-container">
-				<div class="book-detail-left-wrap">
-					<div class="book-detail-sticky-div">
-						<div class="book-detail-image">
-							<img
-								src="https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp"
-								alt=""
-								width="250px" />
-						</div>
-						<div class="book-detail-info">
-							<div class="book-detail-info-one info-row">
-								<span class="book-detail-pages-info">Pages : <br /></span>
-								<span class="book-detail-language-info">Language : <br /></span>
-							</div>
-						</div>
-						<div class="book-detail-star-ratings">
-							<span id="stars"></span>
-							<p>Average Rating Out of 5</p>
-						</div>
-						<div class="book-detail-borrow-now">
-							<button id="borrow-now">Borrow Now</button>
-						</div>
-					</div>
-				</div>
-				<div class="book-detail-right-wrap">
-					<div class="book-detail-header">
-						<h2>Title Goes Here</h2>
-						<p>Author Name Goes Here</p>
-						<div class="book-detail-tags-list"></div>
-						<div class="book-viewer-container">
-							No of Borrowers : <span class="book-views status "> 20</span> 
-						</div>
-					</div>
-					<div class="book-detail-description">
-						<h3>Description</h3>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus eaque iste
-							est dolores ullam dicta totam. Nesciunt, rerum? Tempore aut sequi autem.
-							Deleniti consectetur id illum ducimus fugit, est rem? Lorem ipsum dolor, sit
-							amet consectetur adipisicing elit. Explicabo a accusamus ullam cumque maxime,
-							nisi nemo assumenda minus rerum cupiditate, aperiam, in perspiciatis aliquam!
-							Praesentium mollitia officia veritatis est itaque?
-						</p>
-					</div>
-					<div class="book-detail-comments-container">
-						<h4>Comments</h4>
-						<div class="add-comment-container">
-							<div class="input-group">
-								<label for="add-comment">Add a Comment :</label>
-								<div class="input-field">
-									<textarea
-										name="add-comment"
-										id="add-comment"
-										placeholder="Write your thoughts here....[Shift+Enter for New Line]"
-										class="input"></textarea>
-									<button class="bi bi-telegram"></button>
-								</div>
-							</div>
-							<div class="trusted-container">
-								<span class="trusted">Trusted</span><p> - The Reader who comments after Reading the book.</p>
-							</div>
-						</div>
-						<div class="comments-container">
+          <a
+            href="../pages/user/user_profile.html"
+            aria-label="profile-page"
+            class="profile-area"
+          >
+            <div class="profile-field"></div>
+            <div class="tooltip" role="tooltip" data-popper-placement="top">
+              User Profile
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </header>
 
-						</div>
-					</div>
-				</div>
-			</main>
+      <main class="book-detail-container">
+        <div class="book-detail-left-wrap">
+          <div class="book-detail-sticky-div">
+            <div class="book-detail-image">
+              <img
+                src="https://media.springernature.com/full/springer-static/cover-hires/book/978-1-4842-4221-6?as=webp"
+                alt=""
+                width="250px"
+              />
+            </div>
+            <div class="book-detail-info">
+              <div class="book-detail-info-one info-row">
+                <span class="book-detail-pages-info">Pages : <br /></span>
+                <span class="book-detail-language-info">Language : <br /></span>
+              </div>
+            </div>
+            <div class="book-detail-star-ratings">
+              <span id="stars"></span>
+              <p>Average Rating Out of 5</p>
+            </div>
+            <div class="book-detail-borrow-now">
+              <button id="borrow-now">Borrow Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="book-detail-right-wrap">
+          <div class="book-detail-header">
+            <h2>Title Goes Here</h2>
+            <p>Author Name Goes Here</p>
+            <div class="book-detail-tags-list"></div>
+            <div class="book-viewer-container">
+              No of Borrowers : <span class="book-views status"> 20</span>
+            </div>
+          </div>
+          <div class="book-detail-description">
+            <h3>Description</h3>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus
+              eaque iste est dolores ullam dicta totam. Nesciunt, rerum? Tempore
+              aut sequi autem. Deleniti consectetur id illum ducimus fugit, est
+              rem? Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Explicabo a accusamus ullam cumque maxime, nisi nemo assumenda
+              minus rerum cupiditate, aperiam, in perspiciatis aliquam!
+              Praesentium mollitia officia veritatis est itaque?
+            </p>
+          </div>
+          <div class="book-detail-comments-container">
+            <h4>Comments</h4>
+            <div class="add-comment-container">
+              <div class="input-group">
+                <label for="add-comment">Add a Comment :</label>
+                <div class="input-field">
+                  <textarea
+                    name="add-comment"
+                    id="add-comment"
+                    placeholder="Write your thoughts here....[Shift+Enter for New Line]"
+                    class="input"
+                  ></textarea>
+                  <button class="bi bi-telegram"></button>
+                </div>
+              </div>
+              <div class="trusted-container">
+                <span class="trusted">Trusted</span>
+                <p>- The Reader who comments after Reading the book.</p>
+              </div>
+            </div>
+            <div class="comments-container"></div>
+          </div>
+        </div>
+      </main>
 
-			<div class="backdrop"></div>
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-title">Borrow-Book</h3>
-					<div class="modal-close">
-						<i class="bi bi-x-lg"></i>
-					</div>
-				</div>
-				<div class="modal-body">
-					<div class="input-group" style="width: 100%">
-						<label for="book-title">Book Name :</label>
-						<div class="input-field">
-							<input type="text" name="book-title" id="book-title" value="" disabled />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="borrow-date">Borrow Date :</label>
-						<div class="input-field">
-							<input type="date" name="borrow-date" id="borrow-date" required  />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="due-date">Due Date :</label>
-						<div class="input-field">
-							<input type="date" name="due-date" id="due-date" required disabled/>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="modal-submit">Borrow Now</button>
-				</div>
-			</div>
-		</section>
+      <div class="backdrop"></div>
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Borrow-Book</h3>
+          <div class="modal-close">
+            <i class="bi bi-x-lg"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="input-group" style="width: 100%">
+            <label for="book-title">Book Name :</label>
+            <div class="input-field">
+              <input
+                type="text"
+                name="book-title"
+                id="book-title"
+                value=""
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1">
+            <label for="borrow-date">Borrow Date :</label>
+            <div class="input-field">
+              <input type="date" name="borrow-date" id="borrow-date" required />
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1">
+            <label for="due-date">Due Date :</label>
+            <div class="input-field">
+              <input
+                type="date"
+                name="due-date"
+                id="due-date"
+                required
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-submit">Borrow Now</button>
+        </div>
+      </div>
+      <a href="../assets/js/borrow.js"></a>
+    </section>
 
-		<script>
-			
-		</script>
-	</body>
+    <script>
+      const borrowBtn = document.getElementById("borrow-now");
+      const borrowBtnElement = document.querySelector(
+        ".book-detail-borrow-now"
+      );
+
+      showBookDetails();
+
+      // Borrow Modal
+
+      const modalCloseBtn = document.querySelector(".modal-close");
+      const borrowList = JSON.parse(localStorage.getItem("borrow-list")) || [];
+
+      const borrowNowBtn = document.querySelector(".modal-submit");
+      const borrowDateInput = document.getElementById("borrow-date");
+      const dueDateInput = document.getElementById("due-date");
+
+      modalCloseBtn.addEventListener("click", closeBorrowModal);
+      borrowBtn.addEventListener("click", openBorrowModal);
+
+      // Comments
+
+      const commentContainer = document.querySelector(".comments-container");
+
+      showComment();
+    </script>
+  </body>
 </html>
