@@ -112,9 +112,6 @@
   min-width: 250px;
 }
 
-.comment-like {
-  display: inline-block;
-}
 
 .comment-description {
   font-size: var(--me-fs);

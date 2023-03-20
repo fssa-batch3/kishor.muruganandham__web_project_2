@@ -17,7 +17,7 @@ document.querySelector(".borrow-chart").dataset.percent = `${borrow_list.length}
 
 const elements = document.querySelectorAll(".chart");
 elements.forEach((element) => {
-  new EasyPieChart(element, {
+   EasyPieChart(element, {
     size: 120,
     lineWidth: 13,
     barColor: "#ffffff",
