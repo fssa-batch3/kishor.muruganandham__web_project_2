@@ -1,3 +1,60 @@
+function saveUser(newUser) {
+  return fetch(
+    "https://64134e33a68505ea732ffd2a.mockapi.io/" + "user",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser),
+    }
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error posting user deatils:", error);
+      return
+    });
+  
+}
+
+function getUserDetails(thisUser) {
+  return fetch(`https://64134e33a68505ea732ffd2a.mockapi.io/user/?id=${thisUser}`)
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
+    })
+    .catch((error) => {
+      console.error("Error fetching user details:", error);
+    });
+}
+
+function getAllUser() {
+  return fetch(`https://64134e33a68505ea732ffd2a.mockapi.io/user/`)
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error fetching all user:", error);
+    });
+}
+
+function getUserByEmail(email) {
+  return fetch(
+    `https://64134e33a68505ea732ffd2a.mockapi.io/user?username=${email}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0]
+    })
+    .catch((error) => {
+      console.error("Error getting user:", error);
+      return null;
+    });
+}
+
+
+
 // This function gets the user data from local storage and returns it as an object.
 function getUserData() {
   let userData;
@@ -38,9 +95,8 @@ function setUserData(data) {
 }
 
 book_list = JSON.parse(localStorage.getItem("book_list"));
-const id = JSON.parse(localStorage.getItem("id"));
+const thisUser = JSON.parse(localStorage.getItem("user"));
 const user_data = getUserData();
-const userId = user_data.find((u) => u.id === id);
 
 
 
@@ -115,7 +171,7 @@ function getStars(rating) {
   let output = [];
 
   // Append all the filled whole stars
-  for (var i = rating; i >= 1; i--)
+  for (let i = rating; i >= 1; i--)
     output.push(
       '<i class="bi bi-star-fill" aria-hidden="true" style="color: gold;"></i>&nbsp;'
     );
@@ -153,10 +209,10 @@ function generateBook(book, bookRack) {
     bookDiv.dataset.id = book.id;
     bookDiv.className = "book";
 
-    // Get the current user data from local storage.
-    const thisUser = getUserData().find(
-      (e) => e.id == JSON.parse(localStorage.getItem("id"))
-    );
+    // // Get the current user data from local storage.
+    // const thisUser = getUserData().find(
+    //   (e) => e.id == JSON.parse(localStorage.getItem("id"))
+    // );
 
     // Create a new anchor element for the book cover image, and set the link based on user role.
     const bookCover = document.createElement("a");
@@ -214,7 +270,7 @@ function toggleFavourites() {
     favButtons.forEach((button) => {
       const bookId = button.parentElement.dataset.id;
       button.addEventListener("click", () => {
-        const userFavourites = userId["favourites"];
+        const userFavourites = thisUser["favourites"];
         if (userFavourites.includes(bookId)) {
           const index = userFavourites.indexOf(bookId);
           userFavourites.splice(index, 1);
@@ -235,7 +291,7 @@ function toggleFavourites() {
 function checkForFavourites() {
   try {
     // Get the user's favourites data.
-    const favourites = userId.favourites;
+    const favourites = thisUser.favourites;
 
     // Get all the favourite buttons on the page.
     const favButtons = document.querySelectorAll(".fav-btn");

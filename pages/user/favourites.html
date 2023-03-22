@@ -153,11 +153,10 @@
 		<script>
 			
 
-			if (userId.favourites.length != 0) {
+			if (thisUser.favourites.length != 0) {
 				const bookRack = document.querySelector(".generated-books");
-				userId.favourites.forEach((id) => {
+				thisUser.favourites.forEach((id) => {
 					const book = book_list.find((b) => b.id == id);
-					console.log(userId.favourites);
 					if (book) {
 						generateBook(book, bookRack);
 						checkForFavourites();

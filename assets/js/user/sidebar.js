@@ -16,6 +16,6 @@ for (const i of navBtns) {
 const signOut = document.getElementById("sign-out");
 
 signOut.addEventListener("click", () => {
-	localStorage.removeItem("id");
+	localStorage.removeItem("user");
 	(window.location.href = "../../index.html");
 });

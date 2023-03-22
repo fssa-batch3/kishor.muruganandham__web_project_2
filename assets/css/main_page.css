@@ -517,7 +517,22 @@ th.gridjs-th{
 }
 .gridjs-th-content{
   color: var(--font-white);
-
+}
+.gridjs-summary{
+  margin: 10px 0;
+}
+.gridjs-pages{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.gridjs-pages button{
+  padding: 5px 15px;
+  background-color: var(--primary-color);
+  color: var(--font-white);
+  border-radius: 5px;
+  border: 1px solid var(--primary-border);
+  cursor: pointer;
 }
 @media only screen and (max-width: 600px) {
   .hero-section {

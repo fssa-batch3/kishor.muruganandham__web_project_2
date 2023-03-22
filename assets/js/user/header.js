@@ -16,7 +16,7 @@ sideToggle.addEventListener("click", () => {
 });
 
 // Display user name and profile picture
-const thisuser = getUserData().find((u) => u.id == id);
+
 
 function displayUserData() {
   try {
@@ -31,8 +31,8 @@ function displayUserData() {
       profileDisplay.nextElementSibling.style.display = "none";
     });
 
-    nameDisplay.textContent += ` ${thisuser.name}`;
-    profileDisplay.style.background = `url(${thisuser.profile}) no-repeat center center/cover`;
+    nameDisplay.textContent += ` ${thisUser.name}`;
+    profileDisplay.style.background = `url(${thisUser.profile}) no-repeat center center/cover`;
   } catch (error) {
     console.error(`Error in displayUserData function: ${error}`);
   }
@@ -51,7 +51,7 @@ function addSearchResults() {
         const searchItem = document.createElement("a");
         searchItem.setAttribute("class", "search-item");
         searchItem.setAttribute("data-id", book["id"]);
-        if (thisuser.role === "admin") {
+        if (thisUser.role === "admin") {
           searchItem.setAttribute(
             "href",
             "../../pages/admin/book_edit.html?id=" + book["id"]

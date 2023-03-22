@@ -10,15 +10,15 @@ const phoneNumber = document.getElementById("ud-phone-number");
 const emailAddress = document.getElementById("ud-email");
 const age = document.getElementById("ud-age");
 const profileEditBtn = document.querySelector(".user-image .bi-pencil-fill");
-const indexOfUser = user_data.indexOf(userId);
+const indexOfUser = user_data.indexOf(thisUser);
 
-profDisp.style.background = `url(${userId.profile}) no-repeat center center/cover`;
-firstName.value = userId.first_name;
-lastName.value = userId.last_name;
-displayName.value = userId.name;
-dateOfBirth.value = userId.dob;
-emailAddress.value = userId.username;
-phoneNumber.value = userId.phone_number;
+profDisp.style.background = `url(${thisUser.profile}) no-repeat center center/cover`;
+firstName.value = thisUser.first_name;
+lastName.value = thisUser.last_name;
+displayName.value = thisUser.name;
+dateOfBirth.value = thisUser.dob;
+emailAddress.value = thisUser.username;
+phoneNumber.value = thisUser.phone_number;
 age.value = moment().diff(dateOfBirth.value, "years");
 
 
@@ -41,7 +41,7 @@ editBtn.addEventListener("click", (e) => {
 profileEditBtn.addEventListener("click", () => {
 	const profileUrl = prompt("Enter the Profile Image Url");
 	if (profileUrl) {
-		userId.profile = profileUrl;
+		thisUser.profile = profileUrl;
 		profDisp.style.background = `url(${profileUrl}) no-repeat center center/cover`;
 	}
 });
@@ -53,19 +53,19 @@ cancelBtn.addEventListener("click", (e) => {
 
 saveBtn.addEventListener("click", (e) => {
 	e.preventDefault();
-	userId.first_name = firstName.value;
-	userId.last_name = lastName.value;
-	userId.name = displayName.value;
-	userId.dob = dateOfBirth.value;
-	userId.age = moment().diff(dateOfBirth.value, "years");
-	userId.phone_number = phoneNumber.value;
+	thisUser.first_name = firstName.value;
+	thisUser.last_name = lastName.value;
+	thisUser.name = displayName.value;
+	thisUser.dob = dateOfBirth.value;
+	thisUser.age = moment().diff(dateOfBirth.value, "years");
+	thisUser.phone_number = phoneNumber.value;
 
-	if (userId.username !== emailAddress.value) {
+	if (thisUser.username !== emailAddress.value) {
 		alert("You can't change the Email Address");
 		return;
 	}
 
-	user_data[indexOfUser] = userId;
+	user_data[indexOfUser] = thisUser;
 	setUserData(user_data);
 	location.reload();
 });
@@ -74,8 +74,8 @@ deleteBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	const confirmValue = confirm("Are you sure you want to delete your account?");
 	if (confirmValue === true) {
-		const promptValue = prompt(`This action cannot be undone. This will permanently delete the ${userId.username} account and remove all details associated with it. Please type your password to confirm.`);
-		if (promptValue === userId.password) {
+		const promptValue = prompt(`This action cannot be undone. This will permanently delete the ${thisUser.username} account and remove all details associated with it. Please type your password to confirm.`);
+		if (promptValue === thisUser.password) {
 			user_data.splice(indexOfUser, 1);
 			setUserData(user_data);
 			alert("The journey has come to an end, your account has been deleted.");

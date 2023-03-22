@@ -227,7 +227,7 @@
     width: 100%;
     min-width: 300px;
     max-width: 350px;
-    padding: 15px 10px;
+    padding: 20px 10px 15px 10px;
     margin: 10px 0;
     position: relative;
     display: flex;
@@ -260,6 +260,6 @@
 .scroll-comment-timestamp {
     font-size: var(--v-sm-fs);
     position: absolute;
-    top: 13px;
+    top: 5px;
     right: 15px
 }
