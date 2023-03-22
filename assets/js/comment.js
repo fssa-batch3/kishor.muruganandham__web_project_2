@@ -1,6 +1,7 @@
 
 
 function showComment() {
+  const commentContainer = document.querySelector(".comments-container");
   commentContainer.innerHTML = "";
 
   commentList.forEach((comment) => {
@@ -33,7 +34,7 @@ function showComment() {
     usernameElement.textContent = user.name;
 
     const honestCommenter = JSON.parse(localStorage.getItem("borrow-list"))
-      .find(
+      ?.find(
         e =>
           e.book_id === comment.book_id &&
           e.user_id === comment.user_id &&
@@ -207,7 +208,7 @@ function showComment() {
 
 document.addEventListener("DOMContentLoaded",()=>{
   const sendBtn = document.querySelector(".add-comment-container .bi-telegram");
-  const likeBtn = document.querySelector(".comment-like .bi-heart");
+  // const likeBtn = document.querySelector(".comment-like .bi-heart");
   const commentValue = document.querySelector("#add-comment");
   
   commentValue.addEventListener("keydown", event => {

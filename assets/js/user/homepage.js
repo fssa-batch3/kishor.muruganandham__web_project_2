@@ -4,16 +4,18 @@ const tagSettings = JSON.parse(localStorage.getItem("settings"));
 
 const popularBookData = popular_book_list;
 const intrestingBookData = intresting_book_list;
+const borrowListLength = borrow_list?.length ? borrow_list.length : 0; 
+const bookListLength = book_list?.length ? book_list.length : 0; 
 
-document.querySelector(".avail-books").innerHTML = `${book_list.length}`;
+document.querySelector(".avail-books").innerHTML = `${bookListLength}`;
 document.querySelector(".fav-books").innerHTML = `${userId.favourites.length}`;
 document.querySelector(".card-text p").innerHTML = `Our Goal : ${tagSettings["books"]["avail_books"]}`;
 
-document.querySelector(".chart").dataset.percent = `${book_list.length}`;
+document.querySelector(".chart").dataset.percent = `${bookListLength}`;
 document.querySelector(".fav-chart").dataset.percent = `${userId.favourites.length}`;
 
-document.querySelector(".borrowed-books").innerHTML = `${borrow_list.length}`;
-document.querySelector(".borrow-chart").dataset.percent = `${borrow_list.length}`;
+document.querySelector(".borrowed-books").innerHTML = `${borrowListLength}`;
+document.querySelector(".borrow-chart").dataset.percent = `${borrowListLength}`;
 
 const elements = document.querySelectorAll(".chart");
 elements.forEach((element) => {

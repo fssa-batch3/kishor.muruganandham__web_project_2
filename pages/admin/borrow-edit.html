@@ -313,7 +313,7 @@
 					} else {
 						bookDetail["isBorrowable"] = false;
 					}
-					const userBorrowHistory = userDetail["borrow_history"].find((e) => e.id == borrowDetail["id"])
+					const userBorrowHistory = borrowList.find((e) => e.id == borrowDetail["id"])
 					userBorrowHistory["status"] = borrowStatus.value; 
 					const borrowIndex = borrowList.indexOf(borrowDetail);
 					borrowList[borrowIndex] = borrowDetail;

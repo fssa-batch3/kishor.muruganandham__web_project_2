@@ -77,7 +77,7 @@ function showBookDetails() {
       thisBook["image"]["src"];
     document.querySelector(".book-detail-image img").alt =
       thisBook["image"]["alt"];
-    const bookViews = JSON.parse(localStorage.getItem("borrow-list")).filter(
+    const bookViews = JSON.parse(localStorage.getItem("borrow-list"))?.filter(
       (e) => e.book_id == thisBook["id"]
     ).length;
     document.querySelector(".book-views").textContent =
@@ -102,7 +102,7 @@ function showBookDetails() {
   
     starRating.innerHTML = getStars(thisBook.star_rating);
   
-    const availableDate = JSON.parse(localStorage.getItem("borrow-list")).find(
+    const availableDate = JSON.parse(localStorage.getItem("borrow-list"))?.find(
       (e) => e.book_id == thisBook["id"] && e.status == "Pending"
     );
     if (thisBook?.isBorrowable === false && availableDate) {

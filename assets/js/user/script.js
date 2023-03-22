@@ -1,7 +1,46 @@
+// This function gets the user data from local storage and returns it as an object.
+function getUserData() {
+  let userData;
+  try {
+    // Get the user data from local storage and Parse the user data and return it as an object.
+    userData = JSON.parse(localStorage.getItem("user_data"));
+    
+    if (!userData) {
+      // If there was an error, return an empty array as a default value.
+      userData = []
+      localStorage.setItem("user_data", JSON.stringify(userData)); 
+    }
+    return userData;
+  } catch (error) {
+    console.error("An error occurred in getUserData function:", error);
+    
+  }
+}
+
+// This function removes the user data from local storage.
+function removeUserData() {
+  try {
+    // Remove the user data from local storage.
+    localStorage.removeItem("user_data");
+  } catch (error) {
+    console.error("An error occurred in removeUserData function:", error);
+  }
+}
+
+// This function sets the user data in local storage.
+function setUserData(data) {
+  try {
+    // Convert the user data to a JSON string and store it in local storage.
+    localStorage.setItem("user_data", JSON.stringify(data));
+  } catch (error) {
+    console.error("An error occurred in setUserData function:", error);
+  }
+}
+
 book_list = JSON.parse(localStorage.getItem("book_list"));
 const id = JSON.parse(localStorage.getItem("id"));
 const user_data = getUserData();
-const userId = user_data.find((u) => u.id == id);
+const userId = user_data.find((u) => u.id === id);
 
 
 
@@ -224,34 +263,4 @@ function checkForFavourites() {
   }
 }
 
-// This function gets the user data from local storage and returns it as an object.
-function getUserData() {
-  try {
-    // Get the user data from local storage and Parse the user data and return it as an object.
-    return JSON.parse(localStorage.getItem("user_data"));
-  } catch (error) {
-    console.error("An error occurred in getUserData function:", error);
-    // If there was an error, return an empty array as a default value.
-    return [];
-  }
-}
 
-// This function removes the user data from local storage.
-function removeUserData() {
-  try {
-    // Remove the user data from local storage.
-    localStorage.removeItem("user_data");
-  } catch (error) {
-    console.error("An error occurred in removeUserData function:", error);
-  }
-}
-
-// This function sets the user data in local storage.
-function setUserData(data) {
-  try {
-    // Convert the user data to a JSON string and store it in local storage.
-    localStorage.setItem("user_data", JSON.stringify(data));
-  } catch (error) {
-    console.error("An error occurred in setUserData function:", error);
-  }
-}

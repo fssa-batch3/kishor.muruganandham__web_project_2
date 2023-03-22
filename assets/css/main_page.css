@@ -508,7 +508,17 @@ table tbody tr:nth-child(even) {
 .history-delete .bi-trash:hover {
   background-color: var(--danger-red-shade);
 }
+.gridjs-wrapper{
+  border-radius: 25px;
+}
 
+th.gridjs-th{
+  background-color: var(--primary-color);
+}
+.gridjs-th-content{
+  color: var(--font-white);
+
+}
 @media only screen and (max-width: 600px) {
   .hero-section {
     flex-wrap: wrap-reverse;

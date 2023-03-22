@@ -353,7 +353,7 @@
       const commentLength = JSON.parse(localStorage.getItem("comments")).length;
       const bookRequestLength = JSON.parse(
         localStorage.getItem("book_req")
-      ).length;
+      )?.length;
       let detailChart = new Chart(
         document.getElementById("detailChart").getContext("2d"),
         {
