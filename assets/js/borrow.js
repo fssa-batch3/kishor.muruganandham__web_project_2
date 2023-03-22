@@ -52,7 +52,6 @@ function openBorrowModal() {
   
     localStorage.setItem("book_list", JSON.stringify(book_list));
     localStorage.setItem("borrow-list", JSON.stringify(borrowList));
-    setUserData(user_data);
     closeBorrowModal();
     showBookDetails();
   }

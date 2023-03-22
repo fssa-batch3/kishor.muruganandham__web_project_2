@@ -187,13 +187,15 @@
 
 		<script>
 			// Get book data and generate book rack
-			const bookData = JSON.parse(localStorage.getItem("book_list"));
-			const bookRack = document.querySelector(".generated-books");
-			bookData.forEach((book) => generateBook(book, bookRack, bookData));
 
+			const bookRack = document.querySelector(".generated-books");
+			getDetails("book").then((details) =>{
+				const books = details[0].book_list
+				books.forEach((book) => generateBook(book, bookRack));
+				toggleFavourites();
+				checkForFavourites();
+			});
 			// Get user data and check for favorites
-			toggleFavourites();
-			checkForFavourites();
 
 			function searchBooks() {
 				const searchValue = document.getElementById("head-search").value.toLowerCase();
@@ -230,7 +232,6 @@
 				tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
 				tagBtn.innerText = tags
 				document.querySelector(".library-tags").append(tagBtn)
-				// console.log(tags);
 			})
 			tagFilterBooks('All')
 		</script>

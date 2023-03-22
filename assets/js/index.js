@@ -34,7 +34,7 @@ signinForm.addEventListener("submit", async function (e) {
     const matchedUser =
       userData.username === usernameLogin.value &&
       userData.password === passwordLogin.value &&
-      userData.role === loginRole.value;
+      userData.role === loginRole.value && userData.isActive === true;
 
     //   If there's a match, set user id in local storage and redirect
     if (matchedUser) {
@@ -77,11 +77,8 @@ function registerUser() {
   // 	return;
   // }
   getUserByEmail(emailAdd.value).then((userExists) => {
-    if (userExists) {
-      console.log("User exists!");
-      return;
-    } else {
-      console.log("User does not exist.");
+    if (!userExists) {
+      alert("User does not exist.");
       return;
     }
   });
@@ -95,6 +92,7 @@ function registerUser() {
     dob: dob.value,
     phone_number: null,
     age: null,
+    isActive: true,
     username: emailAdd.value,
     password: pass.value,
     profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
@@ -103,8 +101,7 @@ function registerUser() {
 
   user_data.push(newUser);
 
-  saveUser(newUser).then((data) => {
-    console.log(data);
+  createAndUpdateDetails("user", "POST", newUser).then((data) => {
     // localStorage.setItem("user_data", JSON.stringify(user_data));
     location.reload();
   });

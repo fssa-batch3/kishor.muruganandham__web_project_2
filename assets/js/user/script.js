@@ -1,24 +1,25 @@
-function saveUser(newUser) {
-  return fetch(
-    "https://64134e33a68505ea732ffd2a.mockapi.io/" + "user",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newUser),
-    }
-  )
-    .then((res) => {
-      return res.json();
+function createAndUpdateDetails(url, method, data) {
+  return fetch("https://64134e33a68505ea732ffd2a.mockapi.io/" + url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
-      console.error("Error posting user deatils:", error);
-      return
+      // handle error response
+      console.error(error);
     });
-  
 }
 
 function getUserDetails(thisUser) {
-  return fetch(`https://64134e33a68505ea732ffd2a.mockapi.io/user/?id=${thisUser}`)
+  return fetch(
+    `https://64134e33a68505ea732ffd2a.mockapi.io/user/?id=${thisUser}`
+  )
     .then((response) => response.json())
     .then((data) => {
       return data[0];
@@ -28,8 +29,8 @@ function getUserDetails(thisUser) {
     });
 }
 
-function getAllUser() {
-  return fetch(`https://64134e33a68505ea732ffd2a.mockapi.io/user/`)
+function getDetails(url) {
+  return fetch(`https://64134e33a68505ea732ffd2a.mockapi.io/` + url)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -45,7 +46,7 @@ function getUserByEmail(email) {
   )
     .then((response) => response.json())
     .then((data) => {
-      return data[0]
+      return data[0];
     })
     .catch((error) => {
       console.error("Error getting user:", error);
@@ -53,24 +54,21 @@ function getUserByEmail(email) {
     });
 }
 
-
-
 // This function gets the user data from local storage and returns it as an object.
 function getUserData() {
   let userData;
   try {
     // Get the user data from local storage and Parse the user data and return it as an object.
     userData = JSON.parse(localStorage.getItem("user_data"));
-    
+
     if (!userData) {
       // If there was an error, return an empty array as a default value.
-      userData = []
-      localStorage.setItem("user_data", JSON.stringify(userData)); 
+      userData = [];
+      localStorage.setItem("user_data", JSON.stringify(userData));
     }
     return userData;
   } catch (error) {
     console.error("An error occurred in getUserData function:", error);
-    
   }
 }
 
@@ -97,8 +95,6 @@ function setUserData(data) {
 book_list = JSON.parse(localStorage.getItem("book_list"));
 const thisUser = JSON.parse(localStorage.getItem("user"));
 const user_data = getUserData();
-
-
 
 // Dark Mode
 // Get the current value of the "dark-mode" key from local storage
@@ -169,9 +165,9 @@ function getStars(rating) {
   // Round to nearest half
   rating = Math.round(rating * 2) / 2;
   let output = [];
-
+  let i;
   // Append all the filled whole stars
-  for (let i = rating; i >= 1; i--)
+  for (i = rating; i >= 1; i--)
     output.push(
       '<i class="bi bi-star-fill" aria-hidden="true" style="color: gold;"></i>&nbsp;'
     );
@@ -196,8 +192,6 @@ function CloseDetailPage() {
   document.querySelector(".focus-out").classList.remove("active");
 }
 
-
-
 // This function generates a book card element and appends it to a book rack container.
 function generateBook(book, bookRack) {
   try {
@@ -208,11 +202,6 @@ function generateBook(book, bookRack) {
     const bookDiv = document.createElement("div");
     bookDiv.dataset.id = book.id;
     bookDiv.className = "book";
-
-    // // Get the current user data from local storage.
-    // const thisUser = getUserData().find(
-    //   (e) => e.id == JSON.parse(localStorage.getItem("id"))
-    // );
 
     // Create a new anchor element for the book cover image, and set the link based on user role.
     const bookCover = document.createElement("a");
@@ -278,8 +267,18 @@ function toggleFavourites() {
           userFavourites.push(bookId);
         }
         // Update the user data in local storage and refresh the page.
-        setUserData(user_data);
-        location.reload();
+        // setUserData(user_data);
+
+        createAndUpdateDetails(
+          `user/${thisUser.json_id}`,
+          "PUT",
+          thisUser
+        ).then(() => {
+          localStorage.removeItem("user");
+          localStorage.setItem("user", JSON.stringify(thisUser))
+          checkForFavourites();
+        });
+        // location.reload();
       });
     });
   } catch (error) {
@@ -292,7 +291,6 @@ function checkForFavourites() {
   try {
     // Get the user's favourites data.
     const favourites = thisUser.favourites;
-
     // Get all the favourite buttons on the page.
     const favButtons = document.querySelectorAll(".fav-btn");
 
@@ -318,5 +316,3 @@ function checkForFavourites() {
     console.error("An error occurred in checkForFavourites function:", error);
   }
 }
-
-

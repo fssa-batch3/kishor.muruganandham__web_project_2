@@ -105,6 +105,7 @@ function showBookDetails() {
     const availableDate = JSON.parse(localStorage.getItem("borrow-list"))?.find(
       (e) => e.book_id == thisBook["id"] && e.status == "Pending"
     );
+
     if (thisBook?.isBorrowable === false && availableDate) {
       const targetDate = moment(availableDate["due_date"]);
       const duration = moment.duration(targetDate.diff(moment()));

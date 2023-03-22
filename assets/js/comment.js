@@ -70,7 +70,7 @@ function showComment() {
 
     const likeIconElement = document.createElement("i");
 
-    const thisUser = getUserData().find(e => e.id === JSON.parse(localStorage.getItem("id")));
+   
     const isLiked = commentLikeList.find(like => like.comment_id === comment.comment_id && like.user_id === thisUser.id);
     const likeCount = commentLikeList.filter(like => like.comment_id === comment.comment_id);
 

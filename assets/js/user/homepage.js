@@ -3,8 +3,6 @@ let borrow_list = JSON.parse(localStorage.getItem("borrow-list"));
 const tagSettings = JSON.parse(localStorage.getItem("settings"));
 
 
-console.log(thisUser);
-
 const popularBookData = popular_book_list;
 const intrestingBookData = intresting_book_list;
 const borrowListLength = borrow_list?.length ? borrow_list.length : 0; 
@@ -31,6 +29,7 @@ elements.forEach((element) => {
     
   });
 });
+
 
 function displayBooks(books, bookRack) {
   for (const book of books) {

@@ -67,7 +67,12 @@ saveBtn.addEventListener("click", (e) => {
 
 	user_data[indexOfUser] = thisUser;
 	setUserData(user_data);
-	location.reload();
+	console.log(thisUser);
+	createAndUpdateDetails(`user/${thisUser.json_id}`, "PUT", thisUser).then(() => {
+		localStorage.removeItem("user");
+		localStorage.setItem("user", JSON.stringify(thisUser))
+		location.reload();
+	})
 });
 
 deleteBtn.addEventListener("click", (e) => {
@@ -76,10 +81,15 @@ deleteBtn.addEventListener("click", (e) => {
 	if (confirmValue === true) {
 		const promptValue = prompt(`This action cannot be undone. This will permanently delete the ${thisUser.username} account and remove all details associated with it. Please type your password to confirm.`);
 		if (promptValue === thisUser.password) {
-			user_data.splice(indexOfUser, 1);
-			setUserData(user_data);
-			alert("The journey has come to an end, your account has been deleted.");
-			window.location.href = "../../../index.html";
+			// user_data.splice(indexOfUser, 1);
+			// setUserData(user_data);
+			thisUser.isActive = false;
+			createAndUpdateDetails(`"user/${thisUser.json_id}`, "PUT", thisUser).then(() => {
+				localStorage.removeItem("user");
+				localStorage.setItem("user", JSON.stringify(thisUser))
+				alert("The journey has come to an end, your account has been deleted.");
+				window.location.href = "../../index.html";
+			});
 		}
 	}
 });

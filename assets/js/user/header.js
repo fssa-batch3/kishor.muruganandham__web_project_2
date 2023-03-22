@@ -43,11 +43,14 @@ displayUserData();
 function addSearchResults() {
   try {
     const searchResult = document.querySelector(".search-result");
-    if (searchResult == null || searchResult === undefined) {
-      // Do nothing
-    } else {
-      // Iterate through book list and add search result elements
-      for (const book of book_list) {
+    if (searchResult ) {
+      getDetails("book").then((details) =>{
+        const books = details[0].book_list
+        // Iterate through book list and add search result elements
+      for (const book of books) {
+        if (book.isActive === true) {
+          
+        
         const searchItem = document.createElement("a");
         searchItem.setAttribute("class", "search-item");
         searchItem.setAttribute("data-id", book["id"]);
@@ -80,6 +83,9 @@ function addSearchResults() {
         searchArrow.setAttribute("class", "bi bi-caret-right-fill");
         searchItem.append(searchArrow);
       }
+    }
+    });
+
 
       // Show search list when search input is focused
       document
