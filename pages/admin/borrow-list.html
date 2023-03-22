@@ -175,20 +175,20 @@
 		</section>
 
 		<script>
-			const data = getUserData();
+			getDetails("user").then((data) =>{
+  
 			const borrow_arr = JSON.parse(localStorage.getItem("borrow-list"))
 			borrow_arr.sort((a, b) => {
 			const statusOrder = { "Pending": 0, "Completed": 1, "Rejected": 2 };
 			return statusOrder[a.status] - statusOrder[b.status];
 			});
 			
-			if (borrow_arr != null || borrow_arr != undefined) {
-				
+			if (borrow_arr) {
 			for (const i of borrow_arr) {
 				const thisBook = book_list.find((e) => e["id"] == i["book_id"]);
 				const thisUser = data.find((e) => e["id"] == i["user_id"]);
 				const tableBody = document.querySelector(".Borrow-table-body");
-
+				console.log(data);
 				const tableRow = document.createElement("tr");
 				tableBody.append(tableRow);
 
@@ -196,6 +196,7 @@
 				tableCellId.setAttribute("class", "borrow-id count");
 				tableCellId.innerText = i["borrow_id"];
 				tableRow.append(tableCellId);
+
 
 				const tableCellUser = document.createElement("td");
 				tableCellUser.setAttribute("class", "borrow-bookName");
@@ -230,6 +231,8 @@
 
 			}
 		}
+})
+
 		</script>
 	
 	</body>

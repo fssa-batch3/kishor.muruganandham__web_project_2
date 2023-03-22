@@ -40,6 +40,9 @@ function getDetails(url) {
     });
 }
 
+
+
+
 function getUserByEmail(email) {
   return fetch(
     `https://64134e33a68505ea732ffd2a.mockapi.io/user?username=${email}`

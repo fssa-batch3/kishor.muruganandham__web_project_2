@@ -36,6 +36,8 @@ signinForm.addEventListener("submit", async function (e) {
       userData.password === passwordLogin.value &&
       userData.role === loginRole.value && userData.isActive === true;
 
+	  console.log(userData );
+	  console.log(loginRole.value );
     //   If there's a match, set user id in local storage and redirect
     if (matchedUser) {
       localStorage.setItem("user", JSON.stringify(userData));

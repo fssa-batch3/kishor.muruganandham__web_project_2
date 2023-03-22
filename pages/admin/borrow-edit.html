@@ -1,331 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Borrow-Edit</title>
-		<link rel="stylesheet" href="../../assets/css/main_page.css" />
-		<link rel="stylesheet" href="../../assets/css/admin_pages.css" />
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-		<script src="../../assets/js/user/header.js" defer></script>
-		<script src="../../assets/js/user/sidebar.js" defer></script>
-		<script src="../../assets/js/user/script.js"></script>
-	</head>
-	<body>
-		<nav class="sidebar" id="sidebar">
-			<div class="side-header">
-				<div class="logo">
-					<i class="bi bi-book-half"></i>
-					<p>Bookly</p>
-				</div>
-				<div class="divider-line"></div>
-				<div class="nav-list">
-					<a href="./admin-dashboard.html" class="nav-items"
-						><i class="bi bi-grid"></i>
-						<p>Dashboard</p>
-						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Dashboard
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./admin_library.html" class="nav-items"
-						><i class="bi bi-building"></i>
-						<p>Library</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 195px"
-							data-popper-placement="right">
-							Library
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./borrow-list.html" class="nav-items"
-						><i class="bi bi-inboxes"></i>
-						<p>Borrow List</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 255px"
-							data-popper-placement="right">
-							Borrow List
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./admin_create-book.html" class="nav-items"
-						><i class="bi bi-file-plus"></i>
-						<p>Create Book</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 315px"
-							data-popper-placement="right">
-							Create Book
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./book-request.html" class="nav-items"
-						><i class="bi bi-file-earmark-text"></i>
-						<p>Request Book</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 370px"
-							data-popper-placement="right">
-							Request Book
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="side-footer">
-				<div class="dark-toggle">
-					<a href="#" onclick="darkMode()" class="nav-items"
-						><i class="bi bi-moon-stars-fill dark-light"></i>
-						<p class="da-li-text">Dark mode</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 115px; top: unset"
-							data-popper-placement="right">
-							Theme
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items" id="sign-out"
-						><i class="bi bi-box-arrow-left"></i>
-						<p>Log Out</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 55px; top: unset"
-							data-popper-placement="right">
-							Log-Out
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</nav>
-		
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Borrow-Edit</title>
+    <link rel="stylesheet" href="../../assets/css/main_page.css" />
+    <link rel="stylesheet" href="../../assets/css/admin_pages.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <script src="../../assets/js/user/header.js" defer></script>
+    <script src="../../assets/js/user/sidebar.js" defer></script>
+    <script src="../../assets/js/user/script.js"></script>
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="side-header">
+        <div class="logo">
+          <i class="bi bi-book-half"></i>
+          <p>Bookly</p>
+        </div>
+        <div class="divider-line"></div>
+        <div class="nav-list">
+          <a href="./admin-dashboard.html" class="nav-items"
+            ><i class="bi bi-grid"></i>
+            <p>Dashboard</p>
+            <div class="tooltip" role="tooltip" data-popper-placement="right">
+              Dashboard
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./admin_library.html" class="nav-items"
+            ><i class="bi bi-building"></i>
+            <p>Library</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 195px"
+              data-popper-placement="right"
+            >
+              Library
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./borrow-list.html" class="nav-items"
+            ><i class="bi bi-inboxes"></i>
+            <p>Borrow List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 255px"
+              data-popper-placement="right"
+            >
+              Borrow List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./admin_create-book.html" class="nav-items"
+            ><i class="bi bi-file-plus"></i>
+            <p>Create Book</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 315px"
+              data-popper-placement="right"
+            >
+              Create Book
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user_list.html" class="nav-items"
+            ><i class="bi bi-person"></i>
+            <p>User List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 370px"
+              data-popper-placement="right"
+            >
+              User List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="side-footer">
+        <div class="dark-toggle">
+          <a href="#" onclick="darkMode()" class="nav-items"
+            ><i class="bi bi-moon-stars-fill dark-light"></i>
+            <p class="da-li-text">Dark mode</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 115px; top: unset"
+              data-popper-placement="right"
+            >
+              Theme
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items" id="sign-out"
+            ><i class="bi bi-box-arrow-left"></i>
+            <p>Log Out</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 55px; top: unset"
+              data-popper-placement="right"
+            >
+              Log-Out
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
 
-		<section class="main-container">
-			<header class="top-header">
-				<div class="left-header">
-					<div class="side-toggle">
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-					</div>
-					<div class="user-date">
-						<h4 class="header-username">Hello</h4>
-						<p>Have a Great Day!</p>
-					</div>
-				</div>
-				<div class="right-header">
-					<div class="search-field">
-						<label for="head-search"><i class="bi bi-search"></i></label>
-						<input
-							type="search"
-							name="head-search"
-							id="head-search"
-							placeholder="Search..."
-							class="search-list-show" />
-						<div class="focus-out"></div>
-						<div class="search-list">
-							<div class="search-result"></div>
-							<a href="../user/library.html" class="show-all"> Show All Books </a>
-						</div>
-					</div>
-					<a href="../user/user_profile.html" aria-label="profile-page" class="profile-area">
-						<div class="profile-field"></div>
-						<div
-							class="tooltip"
-							role="tooltip"
-							data-popper-placement="top">
-							User Profile
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</header>
+    <section class="main-container">
+      <header class="top-header">
+        <div class="left-header">
+          <div class="side-toggle">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </div>
+          <div class="user-date">
+            <h4 class="header-username">Hello</h4>
+            <p>Have a Great Day!</p>
+          </div>
+        </div>
+        <div class="right-header">
+          <div class="search-field">
+            <label for="head-search"><i class="bi bi-search"></i></label>
+            <input
+              type="search"
+              name="head-search"
+              id="head-search"
+              placeholder="Search..."
+              class="search-list-show"
+            />
+            <div class="focus-out"></div>
+            <div class="search-list">
+              <div class="search-result"></div>
+              <a href="../user/library.html" class="show-all">
+                Show All Books
+              </a>
+            </div>
+          </div>
+          <a
+            href="../user/user_profile.html"
+            aria-label="profile-page"
+            class="profile-area"
+          >
+            <div class="profile-field"></div>
+            <div class="tooltip" role="tooltip" data-popper-placement="top">
+              User Profile
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </header>
 
-			<main class="borrow-edit-container">
-                <div class="borrow-edit-user-detail">
-                    <div class="profile-area">
-						<div class="profile-field"></div>
-					</div>
-                    <div class="user-name">
-                        <h4>User Name</h4>
-                    </div>
-                    <div class="button-group">
-                        <button class="save-borrow-edit ">Save</button>
-                        <button class="cancel-borrow-edit " style="background-color: var(--danger-red);">Cancel</button>
-                    </div>
+      <main class="borrow-edit-container">
+        <div class="borrow-edit-user-detail">
+          <div class="profile-area">
+            <div class="profile-field"></div>
+          </div>
+          <div class="user-name">
+            <h4>User Name</h4>
+          </div>
+          <div class="button-group">
+            <button class="save-borrow-edit">Save</button>
+            <button
+              class="cancel-borrow-edit"
+              style="background-color: var(--danger-red)"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div class="borrow-status-container">
+          <div class="input-group">
+            <label for="borrow-status">Set the Status : <sup>*</sup></label>
+            <div class="input-field">
+              <select name="borrow-status" id="borrow-status" class="input">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="borrow-edit-book-detail">
+          <div class="book-detail-left-col">
+            <div class="book-detail-left-row">
+              <div class="input-group">
+                <label for="borrow-edit-book-name">Book-Name :</label>
+                <div class="input-field">
+                  <input
+                    type="text"
+                    name="borrow-edit-book-name"
+                    id="borrow-edit-book-name"
+                    placeholder="Book-Name"
+                    class="input"
+                    disabled
+                  />
                 </div>
-                <div class="borrow-status-container">
-                    <div class="input-group">
-                        <label for="borrow-status">Set the Status : <sup>*</sup></label>
-                        <div class="input-field">
-                            <select name="borrow-status" id="borrow-status" class="input">
-                                <option value="Pending">Pending</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                        </div>
-                    </div>
+              </div>
+              <div class="input-group">
+                <label for="borrow-edit-availability">Availability :</label>
+                <div class="input-field">
+                  <input
+                    type="text"
+                    name="borrow-edit-availability"
+                    id="borrow-edit-availability"
+                    placeholder="availability"
+                    class="input"
+                    disabled
+                  />
                 </div>
-                <div class="borrow-edit-book-detail">
-                    <div class="book-detail-left-col">
-                        <div class="book-detail-left-row">
-                            <div class="input-group">
-                                <label for="borrow-edit-book-name">Book-Name :</label>
-                                <div class="input-field">
-                                    <input
-                                        type="text"
-                                        name="borrow-edit-book-name"
-                                        id="borrow-edit-book-name"
-                                        placeholder="Book-Name"
-                                        class="input"
-                                        disabled />
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label for="borrow-edit-availability">Availability :</label>
-                                <div class="input-field">
-                                    <input
-                                        type="text"
-                                        name="borrow-edit-availability"
-                                        id="borrow-edit-availability"
-                                        placeholder="availability"
-                                        class="input"
-                                        disabled />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="book-detail-left-row">
-                            <div class="input-group">
-                                <label for="borrow-edit-borrow-date">Borrow-date :</label>
-                                <div class="input-field">
-                                    <input
-                                        type="date"
-                                        name="borrow-edit-borrow-date"
-                                        id="borrow-edit-borrow-date"
-                                        placeholder="borrow-date"
-                                        class="input"/>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label for="borrow-edit-due-date">due-date :</label>
-                                <div class="input-field">
-                                    <input
-                                        type="date"
-                                        name="borrow-edit-due-date"
-                                        id="borrow-edit-due-date"
-                                        placeholder="due-date"
-                                        class="input"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="book-detail-left-row">
-                            <div class="input-group">
-                                <label for="borrow-edit-issue-date">Issue-date :</label>
-                                <div class="input-field">
-                                    <input
-                                        type="text"
-                                        name="borrow-edit-issue-date"
-                                        id="borrow-edit-issue-date"
-                                        placeholder="issue-date"
-                                        class="input"
-                                        disabled />
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label for="borrow-edit-submitted-date">Submitted-date :</label>
-                                <div class="input-field">
-                                    <input
-                                        type="text"
-                                        name="borrow-edit-submitted-date"
-                                        id="borrow-edit-submitted-date"
-                                        placeholder="submitted-date"
-                                        class="input"
-                                        disabled />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="book-detail-right-col">
-                        <img src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-2-CRC.png" alt="" width="180px" >
-                    </div>
+              </div>
+            </div>
+            <div class="book-detail-left-row">
+              <div class="input-group">
+                <label for="borrow-edit-borrow-date">Borrow-date :</label>
+                <div class="input-field">
+                  <input
+                    type="date"
+                    name="borrow-edit-borrow-date"
+                    id="borrow-edit-borrow-date"
+                    placeholder="borrow-date"
+                    class="input"
+                  />
                 </div>
-            </main>
+              </div>
+              <div class="input-group">
+                <label for="borrow-edit-due-date">due-date :</label>
+                <div class="input-field">
+                  <input
+                    type="date"
+                    name="borrow-edit-due-date"
+                    id="borrow-edit-due-date"
+                    placeholder="due-date"
+                    class="input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="book-detail-left-row">
+              <div class="input-group">
+                <label for="borrow-edit-remarks">Remarks :</label>
+                <div class="input-field">
+                  <textarea
+                    id="borrow-edit-remarks"
+                    placeholder="If there is any damage it can also be noted here"
+                    class="input"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="book-detail-right-col">
+            <img
+              src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-2-CRC.png"
+              alt=""
+              width="180px"
+            />
+          </div>
+        </div>
+      </main>
+    </section>
+  </body>
+  <script>
+    getDetails("user").then((data) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const borrowId = urlParams.get("id");
+      let borrowList = JSON.parse(localStorage.getItem("borrow-list"));
+      let bookList = JSON.parse(localStorage.getItem("book_list"));
+      let userList = JSON.parse(localStorage.getItem("user_data"));
+      const borrowDetail = borrowList.find((b) => b["borrow_id"] == borrowId);
+      const bookDetail = bookList.find(
+        (b) => b["id"] == borrowDetail["book_id"]
+      );
+      const userDetail = data.find((b) => b["id"] == borrowDetail["user_id"]);
 
-			
-		</section>
-	</body>
-	<script>            
-                const urlParams = new URLSearchParams( window.location.search);        
-                const borrowId = urlParams.get("id") 
-				let borrowList = JSON.parse(localStorage.getItem("borrow-list"));
-				let bookList = JSON.parse(localStorage.getItem("book_list"));
-				let userList = JSON.parse(localStorage.getItem("user_data"));
-				const borrowDetail = borrowList.find((b) => b["borrow_id"] == borrowId)
-				const bookDetail = bookList.find((b) => b["id"] == borrowDetail["book_id"])
-				const userDetail = userList.find((b) => b["id"] == borrowDetail["user_id"])
-				
-				const userName = document.querySelector(".user-name h4")
-				const saveBtn = document.querySelector(".save-borrow-edit ")
-				const cancelBtn = document.querySelector(".cancel-borrow-edit ")
-				const profilePic = document.querySelector(".borrow-edit-user-detail .profile-field")
-				const bookImage = document.querySelector(".book-detail-right-col img");
-				const bookName = document.getElementById("borrow-edit-book-name");
-				const borrowStatus = document.getElementById("borrow-status");
-				const bookAvailablity = document.getElementById("borrow-edit-availability");
-				const bookBorrowDate = document.getElementById("borrow-edit-borrow-date");
-				const bookDueDate = document.getElementById("borrow-edit-due-date");
-				const bookIssueDate = document.getElementById("borrow-edit-issue-date");
-				const bookSubmittedDate = document.getElementById("borrow-edit-submitted-date");
+      const userName = document.querySelector(".user-name h4");
+      const saveBtn = document.querySelector(".save-borrow-edit ");
+      const cancelBtn = document.querySelector(".cancel-borrow-edit ");
+      const profilePic = document.querySelector(
+        ".borrow-edit-user-detail .profile-field"
+      );
+      const bookImage = document.querySelector(".book-detail-right-col img");
+      const bookName = document.getElementById("borrow-edit-book-name");
+      const borrowStatus = document.getElementById("borrow-status");
+      const bookAvailablity = document.getElementById(
+        "borrow-edit-availability"
+      );
+      const bookBorrowDate = document.getElementById("borrow-edit-borrow-date");
+      const bookDueDate = document.getElementById("borrow-edit-due-date");
+      const bookSubmittedDate = document.getElementById("borrow-edit-remarks");
 
-				userName.innerHTML = userDetail["name"]
-				profilePic.style.background = `url(${userDetail["profile"]}) no-repeat center center/cover`;
-				bookName.value = bookDetail["title"]
-				if (bookDetail["isBorrowable"] === true) {
-					bookAvailablity.value = "Yes"
-				}else{
-					bookAvailablity.value = "No"
-				}
-				bookImage.setAttribute("src",bookDetail["image"]["src"])
-				bookImage.setAttribute("alt",bookDetail["image"]["alt"])
-				bookBorrowDate.value = borrowDetail["borrow_date"]
-				bookDueDate.value = borrowDetail["due_date"]
-				bookIssueDate.value = borrowDetail["issue_date"]
-				bookSubmittedDate.value = borrowDetail["submitted_date"]
-				borrowStatus.value = borrowDetail["status"]
-				
-				saveBtn.addEventListener("click",function (e){
-					borrowDetail["borrow_date"] = bookBorrowDate.value
-					borrowDetail["due_date"] = bookDueDate.value 
-					borrowDetail["status"] = borrowStatus.value;
-					if (borrowStatus.value == "Completed") {
-						bookDetail["isBorrowable"] = true;
-					} else {
-						bookDetail["isBorrowable"] = false;
-					}
-					const userBorrowHistory = borrowList.find((e) => e.id == borrowDetail["id"])
-					userBorrowHistory["status"] = borrowStatus.value; 
-					const borrowIndex = borrowList.indexOf(borrowDetail);
-					borrowList[borrowIndex] = borrowDetail;
-					localStorage.setItem("borrow-list",JSON.stringify(borrowList));
-					history.back()
-				})
-				cancelBtn.addEventListener("click",function (e){	
-					history.back()
-			})
-				
-                
+      userName.innerHTML = userDetail["name"];
+      profilePic.style.background = `url(${userDetail["profile"]}) no-repeat center center/cover`;
+      bookName.value = bookDetail["title"];
+      if (bookDetail["isBorrowable"] === true) {
+        bookAvailablity.value = "Yes";
+      } else {
+        bookAvailablity.value = "No";
+      }
+      bookImage.setAttribute("src", bookDetail["image"]["src"]);
+      bookImage.setAttribute("alt", bookDetail["image"]["alt"]);
+      bookBorrowDate.value = borrowDetail["borrow_date"];
+      bookDueDate.value = borrowDetail["due_date"];
+      bookSubmittedDate.value = borrowDetail["remarks"];
+      borrowStatus.value = borrowDetail["status"];
 
-
-	</script>
+      saveBtn.addEventListener("click", function (e) {
+        borrowDetail["borrow_date"] = bookBorrowDate.value;
+        borrowDetail["due_date"] = bookDueDate.value;
+        borrowDetail["status"] = borrowStatus.value;
+        if (borrowStatus.value == "Completed") {
+          bookDetail["isBorrowable"] = true;
+        } else {
+          bookDetail["isBorrowable"] = false;
+        }
+        const userBorrowHistory = borrowList.find(
+          (e) => e.id == borrowDetail["id"]
+        );
+        userBorrowHistory["status"] = borrowStatus.value;
+        const borrowIndex = borrowList.indexOf(borrowDetail);
+        borrowList[borrowIndex] = borrowDetail;
+        localStorage.setItem("borrow-list", JSON.stringify(borrowList));
+        history.back();
+      });
+      cancelBtn.addEventListener("click", function (e) {
+        history.back();
+      });
+    });
+  </script>
 </html>

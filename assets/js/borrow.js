@@ -43,8 +43,9 @@ function openBorrowModal() {
       status: "Pending",
       return_date: "-",
       book_id: bookId,
-      user_id: userId.id,
-      username: userId.name,
+      user_id: thisUser.id,
+      username: thisUser.name,
+      remarks: null,
       borrow_id: generateGuid(),
     };
     thisBook.isBorrowable = false;
@@ -52,6 +53,7 @@ function openBorrowModal() {
   
     localStorage.setItem("book_list", JSON.stringify(book_list));
     localStorage.setItem("borrow-list", JSON.stringify(borrowList));
+    setUserData(user_data);
     closeBorrowModal();
     showBookDetails();
   }

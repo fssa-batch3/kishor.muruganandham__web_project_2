@@ -8,8 +8,8 @@ function showComment() {
     if (comment.book_id !== bookId || !comment.isActive) {
       return;
     }
-
-    const user = user_data.find(user => user.id === comment.user_id);
+    getDetails("user").then((data) =>{
+    const user = data.find(user => user.id === comment.user_id);
 
     const wrapper = document.createElement("div");
     wrapper.classList.add("book-detail-comments-wrap");
@@ -32,7 +32,6 @@ function showComment() {
     const usernameElement = document.createElement("p");
     usernameElement.classList.add("comment-username");
     usernameElement.textContent = user.name;
-
     const honestCommenter = JSON.parse(localStorage.getItem("borrow-list"))
       ?.find(
         e =>
@@ -204,6 +203,8 @@ function showComment() {
       }
     });
   });
+
+  });
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
@@ -226,7 +227,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     description: commentValue.value,
     isActive: true,
     time: moment().format("DD-MMM-YYYY hh:mm A"),
-    user_id: userId["id"],
+    user_id: thisUser["id"],
     book_id: bookId,
   };
   
