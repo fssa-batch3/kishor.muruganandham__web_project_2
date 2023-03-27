@@ -4,9 +4,11 @@ const bookId = urlParams.get("id");
 
 // Load book list from local storage and find the book with the matching ID
 const book_list = JSON.parse(localStorage.getItem("book_list"));
-const thisBook = book_list.find((book) => book.id === bookId);
-
 function showBookEditDetails(){
+  getDetails("book").then((details) =>{
+    const books = details[0].book_list
+    
+    const thisBook = books.find((book) => book.id === bookId);
 
 // Set the values of form fields based on the data for the book
 bookIdNo.value = thisBook.id;
@@ -69,10 +71,18 @@ saveBtn.addEventListener("click", function(e) {
   localStorage.setItem("book_list", JSON.stringify(book_list));
   location.reload();
 });
+});
+
 
 }
 
 function showBookDetails() {
+  getDetails("book").then((details) =>{
+
+    const books = details[0].book_list
+    
+    const thisBook = books.find((book) => book.id === bookId);
+
     document.querySelector(".book-detail-image img").src =
       thisBook["image"]["src"];
     document.querySelector(".book-detail-image img").alt =
@@ -121,4 +131,5 @@ function showBookDetails() {
       borrowBtn.style.display = "none";
       borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`
     }
+  });
   }

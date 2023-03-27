@@ -79,33 +79,33 @@ function registerUser() {
   // 	return;
   // }
   getUserByEmail(emailAdd.value).then((userExists) => {
-    if (!userExists) {
-      alert("User does not exist.");
+    if (userExists) {
+      alert("Email id exist.");
       return;
     }
+    const newUser = {
+      id: generateGuid(),
+      first_name: firstName.value,
+      last_name: lastName.value,
+      name: `${firstName.value} ${lastName.value}`,
+      role: role.value,
+      dob: dob.value,
+      phone_number: null,
+      age: null,
+      isActive: true,
+      username: emailAdd.value,
+      password: pass.value,
+      profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
+      favourites: [],
+    };
+  
+    user_data.push(newUser);
+  
+    createAndUpdateDetails("user", "POST", newUser).then((data) => {
+      // localStorage.setItem("user_data", JSON.stringify(user_data));
+      location.reload();
+    });
   });
 
-  const newUser = {
-    id: generateGuid(),
-    first_name: firstName.value,
-    last_name: lastName.value,
-    name: `${firstName.value} ${lastName.value}`,
-    role: role.value,
-    dob: dob.value,
-    phone_number: null,
-    age: null,
-    isActive: true,
-    username: emailAdd.value,
-    password: pass.value,
-    profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
-    favourites: [],
-  };
-
-  user_data.push(newUser);
-
-  createAndUpdateDetails("user", "POST", newUser).then((data) => {
-    // localStorage.setItem("user_data", JSON.stringify(user_data));
-    location.reload();
-  });
 }
 
