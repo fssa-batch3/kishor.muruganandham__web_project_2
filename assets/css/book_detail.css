@@ -237,8 +237,9 @@
 .comment-like .tooltip {
   inset: unset;
   height: fit-content;
+  max-height: 100px;
   bottom: 30px;
-  right: -100px;
+  right: -50px;
   width: 200px;
   text-align: center;
 }

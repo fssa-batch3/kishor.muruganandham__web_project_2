@@ -175,7 +175,8 @@
     <script src="https://unpkg.com/gridjs-jquery/dist/gridjs.production.min.js"></script>
 
     <script type="module">
-      const allUsers = getUserData();
+
+      const allUsers = await getDetails("user");
 
       const userData = allUsers.map((user, index) => [
         index + 1,user["name"],

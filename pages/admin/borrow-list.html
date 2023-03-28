@@ -182,19 +182,18 @@
 			const statusOrder = { "Pending": 0, "Completed": 1, "Rejected": 2 };
 			return statusOrder[a.status] - statusOrder[b.status];
 			});
-			
+			let count = 1
 			if (borrow_arr) {
 			for (const i of borrow_arr) {
 				const thisBook = book_list.find((e) => e["id"] == i["book_id"]);
 				const thisUser = data.find((e) => e["id"] == i["user_id"]);
 				const tableBody = document.querySelector(".Borrow-table-body");
-				console.log(data);
 				const tableRow = document.createElement("tr");
 				tableBody.append(tableRow);
 
 				const tableCellId = document.createElement("td");
 				tableCellId.setAttribute("class", "borrow-id count");
-				tableCellId.innerText = i["borrow_id"];
+				tableCellId.innerText = count++;
 				tableRow.append(tableCellId);
 
 

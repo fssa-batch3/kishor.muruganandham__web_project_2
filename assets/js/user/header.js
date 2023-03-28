@@ -45,7 +45,7 @@ function addSearchResults() {
     const searchResult = document.querySelector(".search-result");
     if (searchResult ) {
       getDetails("book").then((details) =>{
-        const books = details[0].book_list
+        const books = details
         // Iterate through book list and add search result elements
       for (const book of books) {
         if (book.isActive === true) {

@@ -200,8 +200,11 @@
       const loopLength = filteredCommentList.length < 10 ? filteredCommentList.length : 10;
       for (let i = 0; i < loopLength; i++) {
           const comment = filteredCommentList[i];
-          const user = user_data.find((user) => user.id == comment.user_id);
-          createScrollComment(comment, user);
+          getDetails("user").then((users) =>{
+            console.log(users);
+            const user = users.find((user) => user.id == comment.user_id);
+            createScrollComment(comment, user);
+          })
       }
 
       function createScrollComment(comment, user) {

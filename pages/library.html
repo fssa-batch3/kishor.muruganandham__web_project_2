@@ -189,12 +189,11 @@
 			// Get book data and generate book rack
 
 			const bookRack = document.querySelector(".generated-books");
-			getDetails("book").then((details) =>{
-				const books = details[0].book_list
-				books.forEach((book) => generateBook(book, bookRack));
-				toggleFavourites();
-				checkForFavourites();
-			});
+			
+			book_list.forEach((book) => generateBook(book, bookRack));
+			toggleFavourites();
+			checkForFavourites();
+			
 			// Get user data and check for favorites
 
 			function searchBooks() {

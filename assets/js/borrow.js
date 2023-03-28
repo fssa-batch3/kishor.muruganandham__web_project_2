@@ -1,3 +1,5 @@
+
+
 function openBorrowModal() {
     document.querySelector(".backdrop").classList.add("active");
     document.querySelector(".modal").classList.add("active");
@@ -50,7 +52,6 @@ function openBorrowModal() {
     };
     thisBook.isBorrowable = false;
     borrowList.push(borrowObj);
-  
     localStorage.setItem("book_list", JSON.stringify(book_list));
     localStorage.setItem("borrow-list", JSON.stringify(borrowList));
     setUserData(user_data);
