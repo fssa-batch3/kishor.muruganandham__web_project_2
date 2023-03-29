@@ -27,8 +27,6 @@ Looking for a user-friendly and efficient way to manage your library? Look no fu
 >4.) De-Active the Comment (Completed) <br>
 
 
-# Library management
-
 ## Student
 
 ### Create an account
