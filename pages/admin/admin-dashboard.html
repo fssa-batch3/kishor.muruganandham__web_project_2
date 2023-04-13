@@ -338,7 +338,7 @@
         );
 
         const borrowedBook = JSON.parse(localStorage.getItem("borrow-list"));
-        const borrowedBookLength = borrowedBook.filter((e) => e.status === "Pending")?.length;
+        const borrowedBookLength = borrowedBook?.filter((e) => e.status === "Pending")?.length;
         let BookChart = new Chart(
           document.getElementById("bookChart").getContext("2d"),
           {
