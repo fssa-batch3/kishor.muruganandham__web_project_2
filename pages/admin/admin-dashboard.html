@@ -201,7 +201,7 @@
         filteredCommentList.length < 10 ? filteredCommentList.length : 10;
       for (let i = 0; i < loopLength; i++) {
         const comment = filteredCommentList[i];
-        getDetails("user").then((users) => {
+        getData("user").then((users) => {
           console.log(users);
           const user = users.find((user) => user.id === comment.user_id);
           createScrollComment(comment, user);
@@ -246,18 +246,7 @@
         parentElement.append(scrollCommentWrapper);
       }
 
-      // function responsiveFonts() {
-      //   if (window.innerWidth > 999) {
-      //     Chart.defaults.font.size = 18;
-      //   }
-      //   if (window.innerWidth < 999 && window.innerWidth > 444) {
-      //     Chart.defaults.font.size = 16;
-      //   }
-      //   if (window.innerWidth < 444) {
-      //     Chart.defaults.font.size = 12;
-      //   }
-      //   genreChart.update();
-      // }
+
 
       async function showChart() {
         const bookList = await getData("book");
@@ -382,8 +371,20 @@
             },
           }
         );
-        // responsiveFonts();
+        function responsiveFonts() {
+        if (window.innerWidth > 999) {
+          Chart.defaults.font.size = 18;
+        }
+        if (window.innerWidth < 999 && window.innerWidth > 444) {
+          Chart.defaults.font.size = 16;
+        }
+        if (window.innerWidth < 444) {
+          Chart.defaults.font.size = 12;
+        }
+        genreChart.update();
       }
+    }
+    responsiveFonts();
       showChart();
     </script>
   </body>
