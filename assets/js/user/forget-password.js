@@ -1,47 +1,4 @@
-// const forgetPassword = document.getElementById("forget-password-form");
-// const emailAddress = document.getElementById("username-forget");
-// const oldPassword = document.getElementById("old-password-forget");
-// const newPassword = document.getElementById("new-password-forget");
-// const confirmPassword = document.getElementById("new-confirm-password-forget");
 
-
-// forgetPassword.addEventListener("submit",function (e){
-//     const emailAddressValue = emailAddress.value;
-//     const oldPasswordValue = oldPassword.value;
-//     const newPasswordValue = newPassword.value;
-//     const confirmPasswordValue = confirmPassword.value;
-    
-//     e.preventDefault();
-    
-//     const id = localStorage.getItem("id");
-// 	const data = getUserData();
-// 	let userId = data.find((u) => u.id == id);
-
-//     if (userId['username'] != emailAddressValue) {
-//         alert("The Entered Email Doesn't exists in our Record");
-//         return
-//     } else
-//     if (userId['password'] != oldPasswordValue ) {
-//         alert("Please Enter your Old Password Correctly");
-//         return
-//     } else
-//     if (userId['password'] == newPasswordValue ) {
-//         alert("New Password Cannot be same as Old Password");
-//         return
-//     } else
-//     if(newPasswordValue == confirmPasswordValue){
-//         userId['password'] = confirmPasswordValue
-//         const indexOfUser = data.indexOf(userId);
-//         data.splice(indexOfUser, 1);
-//         data.push(userId);
-//         setUserData(data);
-//         alert("Hurray! Password Changed Successfully")
-//     }
-//     window.location.href = "/index.html"; 
-// });
-
-
-// Get DOM elements
 const form = document.getElementById("forget-password-form");
 const emailInput = document.getElementById("username-forget");
 const oldPasswordInput = document.getElementById("old-password-forget");
@@ -49,7 +6,7 @@ const newPasswordInput = document.getElementById("new-password-forget");
 const confirmPasswordInput = document.getElementById("new-confirm-password-forget");
 
 // Add form submit listener
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   // Get form input values
@@ -59,7 +16,7 @@ form.addEventListener("submit", (event) => {
   const confirmPassword = confirmPasswordInput.value.trim();
 
   // Retrieve user data from localStorage
-  const users = getUserData() || [];
+  const users = await getData("user");
   const currentUser = users.find((user) => user.username === email);
 
   // Check if user exists and old password is correct
@@ -87,11 +44,15 @@ form.addEventListener("submit", (event) => {
 
   // Update user data in localStorage
   currentUser.password = newPassword;
-  setUserData(data);
-
-  // Redirect to home page
-  window.location.href = "/index.html";
-
-  // Show success message
-  alert("Password updated successfully");
+  putData(`user/${currentUser.json_id}`, currentUser)
+  .then((result) => {
+    
+    // Redirect to home page
+    window.location.href = "/index.html";
+  
+    // Show success message
+    alert("Password updated successfully");
+  }).catch((err) => {
+    console.log(err);
+  });
 });

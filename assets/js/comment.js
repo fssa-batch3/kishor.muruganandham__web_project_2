@@ -132,7 +132,7 @@ function showComment() {
     const saveIconElement = document.createElement("span");
     saveIconElement.classList.add("bi", "bi-check-circle-fill");
     saveIconElement.style.display = "none";
-    descriptionElement.appendChild(saveIconElement);
+    bodyElement.appendChild(saveIconElement);
 
     if (thisUser["id"] === comment["user_id"]) {
       const editIconElement = document.createElement("span");
