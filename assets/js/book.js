@@ -36,12 +36,6 @@ async function showBookEditDetails() {
     location.reload();
   });
 
-  // Find the book in the borrowed book list, if it exists
-  let borrowList = JSON.parse(localStorage.getItem("borrow-list"));
-  const thisBorrow = borrowList.find(
-    (borrow) => borrow.book_id === thisBook.id
-  );
-
   // Add event listener to Delete button to mark the book as inactive and update the book list in local storage
   deleteBtn.addEventListener("click", function () {
     thisBook.isActive = false;

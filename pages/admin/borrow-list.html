@@ -192,7 +192,7 @@
       			getData("user").then(async (data) =>{
 
       			const borrow_arr = JSON.parse(localStorage.getItem("borrow-list"))
-      			borrow_arr.sort((a, b) => {
+      			borrow_arr?.sort((a, b) => {
       			const statusOrder = { "Pending": 0, "Completed": 1, "Rejected": 2 };
       			return statusOrder[a.status] - statusOrder[b.status];
       			});

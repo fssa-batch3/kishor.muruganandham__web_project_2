@@ -246,7 +246,6 @@
         parentElement.append(scrollCommentWrapper);
       }
 
-      
       // function responsiveFonts() {
       //   if (window.innerWidth > 999) {
       //     Chart.defaults.font.size = 18;
@@ -259,12 +258,14 @@
       //   }
       //   genreChart.update();
       // }
-      
+
       async function showChart() {
         const bookList = await getData("book");
         const userList = await getData("user");
         const userLength = userList.length;
-        const commentLength = JSON.parse(localStorage.getItem("comments"))?.length;
+        const commentLength = JSON.parse(
+          localStorage.getItem("comments")
+        )?.length;
         const bookRequestLength = JSON.parse(
           localStorage.getItem("book_req")
         )?.length;
@@ -337,9 +338,7 @@
         );
 
         const borrowedBook = JSON.parse(localStorage.getItem("borrow-list"));
-        const borrowedBookLength = borrowedBook.filter(
-          (e) => e.status == "Pending"
-        ).length;
+        const borrowedBookLength = borrowedBook.filter((e) => e.status === "Pending")?.length;
         let BookChart = new Chart(
           document.getElementById("bookChart").getContext("2d"),
           {
@@ -384,7 +383,6 @@
           }
         );
         // responsiveFonts();
-
       }
       showChart();
     </script>
