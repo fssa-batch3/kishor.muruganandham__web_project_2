@@ -8,7 +8,8 @@ function showComment() {
     if (comment.book_id !== bookId || !comment.isActive) {
       return;
     }
-    getDetails("user").then((data) =>{
+    getData("user")
+    .then((data) =>{
     const user = data.find(user => user.id === comment.user_id);
 
     const wrapper = document.createElement("div");

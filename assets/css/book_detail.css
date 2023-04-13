@@ -69,8 +69,11 @@
   border: 1px solid var(--primary-border);
   background-color: var(--card-white);
 }
-
+.add-comment-container .bi-telegram{
+  visibility: hidden;
+}
 .add-comment-container .bi-telegram::before {
+  visibility: visible;
   position: absolute;
   top: 25%;
   right: 10px;

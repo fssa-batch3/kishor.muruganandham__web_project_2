@@ -32,7 +32,7 @@ async function handleBorrow() {
   }
 
   const borrowedBook = borrowList.find(
-    (borrowed) => borrowed.book_id === bookId
+    borrowed => borrowed.book_id === bookId
   );
 
   if (borrowedBook && borrowedBook.status == "Pending") {
@@ -53,9 +53,14 @@ async function handleBorrow() {
   };
   thisBook.isBorrowable = false;
   borrowList.push(borrowObj);
-  localStorage.setItem("borrow-list", JSON.stringify(borrowList));
-  closeBorrowModal();
-  showBookDetails();
+  putData(`book/${thisBook.json_id}`, thisBook)
+  .then((data) => {
+    console.log(data);
+    // Success notification
+    localStorage.setItem("borrow-list", JSON.stringify(borrowList));
+    closeBorrowModal();
+    showBookDetails();
+  });
 }
 
 function closeBorrowModal() {

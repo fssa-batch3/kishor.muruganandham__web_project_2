@@ -4,7 +4,7 @@ const bookId = urlParams.get("id");
 
 async function showBookEditDetails() {
   const bookList = await getData("book");
-  const thisBook = bookList.find(book => book.id === bookId);
+  const thisBook = bookList.find((book) => book.id === bookId);
   const indexOfBook = bookList.indexOf(thisBook);
 
   // Set the values of form fields based on the data for the book
@@ -73,7 +73,7 @@ async function showBookEditDetails() {
 
 async function showBookDetails() {
   const bookList = await getData("book");
-  const thisBook = bookList.find(book => book.id === bookId);
+  const thisBook = bookList.find((book) => book.id === bookId);
   document.querySelector(".book-detail-image img").src =
     thisBook["image"]["src"];
   document.querySelector(".book-detail-image img").alt =
@@ -93,7 +93,7 @@ async function showBookDetails() {
     thisBook["pages"];
   document.querySelector(".book-detail-language-info").innerHTML +=
     thisBook["language"];
-  thisBook["tags"].forEach(tag => {
+  thisBook["tags"].forEach((tag) => {
     const tagSpan = document.createElement("span");
     tagSpan.className = "book-detail-tags";
     tagSpan.innerText = tag;
