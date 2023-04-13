@@ -1,7 +1,4 @@
-const bookList = JSON.parse(localStorage.getItem("book_list"));
-if (!bookList) {
-  localStorage.setItem("book_list", JSON.stringify(book_list));
-}
+
 
 if (localStorage.getItem("id")) {
   window.location.href = "./pages/user/homepage.html";
@@ -26,7 +23,9 @@ signinForm.addEventListener("submit", async function (e) {
   e.preventDefault();
   // Get user data from local storage
 
-  getUserByEmail(usernameLogin.value).then((userData) => {
+  getData(`user?username=${usernameLogin.value}`)
+  .then(data => {
+    const userData = data[0];
     if (!userData) {
       alert("User does not exist.");
       return;
@@ -34,10 +33,9 @@ signinForm.addEventListener("submit", async function (e) {
     const matchedUser =
       userData.username === usernameLogin.value &&
       userData.password === passwordLogin.value &&
-      userData.role === loginRole.value && userData.isActive === true;
+      userData.role === loginRole.value &&
+      userData.isActive === true;
 
-	  console.log(userData );
-	  console.log(loginRole.value );
     //   If there's a match, set user id in local storage and redirect
     if (matchedUser) {
       localStorage.setItem("user", JSON.stringify(userData));
@@ -53,8 +51,8 @@ signinForm.addEventListener("submit", async function (e) {
   });
 });
 
-function registerUser() {
-  event.preventDefault();
+function registerUser(e) {
+  e.preventDefault();
   const firstName = document.getElementById("firstname-sign-up");
   const lastName = document.getElementById("lastname-sign-up");
   const dob = document.getElementById("DOB-sign-up");
@@ -62,23 +60,14 @@ function registerUser() {
   const pass = document.getElementById("password-sign-up");
   const role = document.getElementById("role-sign-up");
 
-  if (
-    firstName.value === "" ||
-    lastName.value === "" ||
-    dob.value === "" ||
-    emailAdd.value === "" ||
-    pass.value === "" ||
-    role.value === ""
-  ) {
+  const formInputs = [firstName, lastName, dob, emailAdd, pass, role];
+
+  if (formInputs.some((input) => input.value === "")) {
     return alert("All fields should be filled");
   }
 
-  let user_data = getUserData() || [];
-  // if (user_data.find(user => user.username === emailAdd.value)) {
-  // 	alert("Email address already exists");
-  // 	return;
-  // }
-  getUserByEmail(emailAdd.value).then((userExists) => {
+  getData(`user?username=${emailAdd.value}`)
+  .then(userExists => {
     if (userExists) {
       alert("Email id exist.");
       return;
@@ -98,14 +87,15 @@ function registerUser() {
       profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
       favourites: [],
     };
-  
-    user_data.push(newUser);
-  
-    createAndUpdateDetails("user", "POST", newUser).then((data) => {
-      // localStorage.setItem("user_data", JSON.stringify(user_data));
-      location.reload();
-    });
+
+
+    postData("user", newUser)
+  .then(data => {
+    location.reload();
+  })
+  .catch(error => {
+    alert(error);
   });
 
+  });
 }
-

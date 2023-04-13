@@ -10,6 +10,7 @@
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+			<script src="../assets/js/db.js"></script>
 		<script src="../assets/js/user/script.js"></script>
 		<script src="../assets/js/user/header.js" defer></script>
 		<script src="../assets/js/user/sidebar.js" defer></script>
@@ -134,7 +135,7 @@
 							placeholder="Search..."
 							oninput="tagFilterBooks('All'),searchBooks()" />
 					</div>
-					<a href="../user/user_profile.html" aria-label="profile-page" class="profile-area">
+					<a href="./user/user_profile.html" aria-label="profile-page" class="profile-area">
 						<div class="profile-field"></div>
 						<div class="tooltip" role="tooltip" data-popper-placement="top">
 							User Profile
@@ -186,32 +187,31 @@
 		</section>
 
 		<script>
+			async function showBook(){
+				const bookList = await getData("book");
+				const bookRack = document.querySelector(".generated-books");
+				bookList.forEach(book => generateBook(book, bookRack));
+			}
+			showBook();
 			// Get book data and generate book rack
-
-			const bookRack = document.querySelector(".generated-books");
-			
-			book_list.forEach((book) => generateBook(book, bookRack));
 			toggleFavourites();
 			checkForFavourites();
-			
 			// Get user data and check for favorites
 
 			function searchBooks() {
 				const searchValue = document.getElementById("head-search").value.toLowerCase();
 
 				const books = document.querySelectorAll(".book");
-				books.forEach((book) => {
+				books.forEach(book => {
 					const title = book.innerHTML.toLowerCase();
 					const display = title.includes(searchValue) ? "block" : "none";
 					book.style.display = display;
 				});
 			}
-			
-
 			// Filter books by tag
 			function tagFilterBooks(value) {
 				const btns = document.querySelectorAll(".library-tags button");
-				btns.forEach((btn) => {
+				btns.forEach(btn => {
 					if (value.toLowerCase() == btn.innerHTML.toLowerCase().trim()) {
 						btn.classList.add("active");
 					} else {
@@ -219,7 +219,7 @@
 					}
 				});
 				const books = document.querySelectorAll(".book-cover");
-				books.forEach((book) => {
+				books.forEach(book => {
 					const bookTag = book.dataset.filterTag.toLowerCase();
 					book.parentElement.style.display = value.toLowerCase() == "all" || bookTag.includes(value.toLowerCase())? "block": "none";
 				});
@@ -229,10 +229,10 @@
 			tagSettings["tags"].forEach((tags) => {
 				const tagBtn = document.createElement("button");
 				tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
-				tagBtn.innerText = tags
-				document.querySelector(".library-tags").append(tagBtn)
-			})
-			tagFilterBooks('All')
+				tagBtn.innerText = tags;
+				document.querySelector(".library-tags").append(tagBtn);
+			});
+			tagFilterBooks('All');
 		</script>
 	</body>
 </html>

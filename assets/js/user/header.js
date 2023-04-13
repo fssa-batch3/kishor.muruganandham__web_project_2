@@ -12,7 +12,7 @@ const menuLines = document.querySelectorAll(".menu-line");
 
 sideToggle.addEventListener("click", () => {
   sidebar.classList.toggle("active");
-  menuLines.forEach((line) => line.classList.toggle("active"));
+  menuLines.forEach(line => line.classList.toggle("active"));
 });
 
 // Display user name and profile picture
@@ -44,7 +44,7 @@ function addSearchResults() {
   try {
     const searchResult = document.querySelector(".search-result");
     if (searchResult ) {
-      getDetails("book").then((details) =>{
+      getData("book").then((details) =>{
         const books = details
         // Iterate through book list and add search result elements
       for (const book of books) {

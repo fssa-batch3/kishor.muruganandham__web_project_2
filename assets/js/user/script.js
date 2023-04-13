@@ -1,103 +1,6 @@
-function createAndUpdateDetails(url, method, data) {
-  return fetch("https://64134e33a68505ea732ffd2a.mockapi.io/" + url, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      // handle error response
-      console.error(error);
-    });
-}
-
-function getUserDetails(thisUser) {
-  return fetch(
-    `https://64134e33a68505ea732ffd2a.mockapi.io/user/?id=${thisUser}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      return data[0];
-    })
-    .catch((error) => {
-      console.error("Error fetching user details:", error);
-    });
-}
-
-function getDetails(url) {
-  return fetch(`https://64134e33a68505ea732ffd2a.mockapi.io/` + url)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.error("Error fetching all user:", error);
-    });
-}
 
 
-
-
-function getUserByEmail(email) {
-  return fetch(
-    `https://64134e33a68505ea732ffd2a.mockapi.io/user?username=${email}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      return data[0];
-    })
-    .catch((error) => {
-      console.error("Error getting user:", error);
-      return null;
-    });
-}
-
-// This function gets the user data from local storage and returns it as an object.
-function getUserData() {
-  let userData;
-  try {
-    // Get the user data from local storage and Parse the user data and return it as an object.
-    userData = JSON.parse(localStorage.getItem("user_data"));
-
-    if (!userData) {
-      // If there was an error, return an empty array as a default value.
-      userData = [];
-      localStorage.setItem("user_data", JSON.stringify(userData));
-    }
-    return userData;
-  } catch (error) {
-    console.error("An error occurred in getUserData function:", error);
-  }
-}
-
-// This function removes the user data from local storage.
-function removeUserData() {
-  try {
-    // Remove the user data from local storage.
-    localStorage.removeItem("user_data");
-  } catch (error) {
-    console.error("An error occurred in removeUserData function:", error);
-  }
-}
-
-// This function sets the user data in local storage.
-function setUserData(data) {
-  try {
-    // Convert the user data to a JSON string and store it in local storage.
-    localStorage.setItem("user_data", JSON.stringify(data));
-  } catch (error) {
-    console.error("An error occurred in setUserData function:", error);
-  }
-}
-
-book_list = JSON.parse(localStorage.getItem("book_list"));
 const thisUser = JSON.parse(localStorage.getItem("user"));
-const user_data = getUserData();
 
 // Dark Mode
 // Get the current value of the "dark-mode" key from local storage
@@ -209,7 +112,7 @@ function generateBook(book, bookRack) {
     // Create a new anchor element for the book cover image, and set the link based on user role.
     const bookCover = document.createElement("a");
     bookCover.className = "book-cover";
-    if (thisUser.role == "admin") {
+    if (thisUser.role === "admin") {
       bookCover.href = "../../pages/admin/book_edit.html?id=" + book.id;
     } else {
       bookCover.href = "../../pages/book_details.html?id=" + book.id;

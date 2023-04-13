@@ -1,238 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Borrow-List</title>
-		<link rel="icon" href="../../assets/images/book-half.svg" type="image/x-icon" />
-		<link rel="stylesheet" href="../../assets/css/main_page.css" />
-		<link rel="stylesheet" href="../../assets/css/admin_pages.css" />
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-		<script src="../../assets/js/user/script.js"></script>
-		<script src="../../assets/js/user/header.js" defer></script>
-		<script src="../../assets/js/user/sidebar.js" defer></script>
-	</head>
-	<body>
-		<nav class="sidebar" id="sidebar">
-			<div class="side-header">
-				<div class="logo">
-					<i class="bi bi-book-half"></i>
-					<p>Bookly</p>
-				</div>
-				<div class="divider-line"></div>
-				<div class="nav-list">
-					<a href="./admin-dashboard.html" class="nav-items"
-						><i class="bi bi-grid"></i>
-						<p>Dashboard</p>
-						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Dashboard
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./admin_library.html" class="nav-items"
-						><i class="bi bi-building"></i>
-						<p>Library</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 195px"
-							data-popper-placement="right">
-							Library
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items active"
-						><i class="bi bi-inboxes-fill"></i>
-						<p>Borrow List</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 255px"
-							data-popper-placement="right">
-							Borrow List
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./admin_create-book.html" class="nav-items"
-						><i class="bi bi-file-plus"></i>
-						<p>Create Book</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 315px"
-							data-popper-placement="right">
-							Create Book
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user_list.html" class="nav-items"
-						><i class="bi bi-person"></i>
-						<p>User List</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 370px"
-							data-popper-placement="right">
-							User List
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="side-footer">
-				<div class="dark-toggle">
-					<a href="#" onclick="darkMode()" class="nav-items"
-						><i class="bi bi-moon-stars-fill dark-light"></i>
-						<p class="da-li-text">Dark mode</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 115px; top: unset"
-							data-popper-placement="right">
-							Theme
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items" id="sign-out"
-						><i class="bi bi-box-arrow-left"></i>
-						<p>Log Out</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 55px; top: unset"
-							data-popper-placement="right">
-							Log-Out
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</nav>
-		
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Borrow-List</title>
+    <link
+      rel="icon"
+      href="../../assets/images/book-half.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../../assets/css/main_page.css" />
+    <link rel="stylesheet" href="../../assets/css/admin_pages.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <script src="../../assets/js/db.js"></script>
+    <script src="../../assets/js/user/script.js"></script>
+    <script src="../../assets/js/user/header.js" defer></script>
+    <script src="../../assets/js/user/sidebar.js" defer></script>
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="side-header">
+        <div class="logo">
+          <i class="bi bi-book-half"></i>
+          <p>Bookly</p>
+        </div>
+        <div class="divider-line"></div>
+        <div class="nav-list">
+          <a href="./admin-dashboard.html" class="nav-items"
+            ><i class="bi bi-grid"></i>
+            <p>Dashboard</p>
+            <div class="tooltip" role="tooltip" data-popper-placement="right">
+              Dashboard
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./admin_library.html" class="nav-items"
+            ><i class="bi bi-building"></i>
+            <p>Library</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 195px"
+              data-popper-placement="right"
+            >
+              Library
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items active"
+            ><i class="bi bi-inboxes-fill"></i>
+            <p>Borrow List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 255px"
+              data-popper-placement="right"
+            >
+              Borrow List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./admin_create-book.html" class="nav-items"
+            ><i class="bi bi-file-plus"></i>
+            <p>Create Book</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 315px"
+              data-popper-placement="right"
+            >
+              Create Book
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user_list.html" class="nav-items"
+            ><i class="bi bi-person"></i>
+            <p>User List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 370px"
+              data-popper-placement="right"
+            >
+              User List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="side-footer">
+        <div class="dark-toggle">
+          <a href="#" onclick="darkMode()" class="nav-items"
+            ><i class="bi bi-moon-stars-fill dark-light"></i>
+            <p class="da-li-text">Dark mode</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 115px; top: unset"
+              data-popper-placement="right"
+            >
+              Theme
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items" id="sign-out"
+            ><i class="bi bi-box-arrow-left"></i>
+            <p>Log Out</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 55px; top: unset"
+              data-popper-placement="right"
+            >
+              Log-Out
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
 
-		<section class="main-container">
-			<header class="top-header">
-				<div class="left-header">
-					<div class="side-toggle">
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-					</div>
-					<div class="user-date">
-						<h4 class="header-username">Hello</h4>
-						<p>Have a Great Day!</p>
-					</div>
-				</div>
-				<div class="right-header">
-					<div class="search-field">
-						<label for="head-search"><i class="bi bi-search"></i></label>
-						<input
-							type="search"
-							name="head-search"
-							id="head-search"
-							placeholder="Search..."
-							class="search-list-show" />
-						<div class="focus-out"></div>
-						<div class="search-list">
-							<div class="search-result"></div>
-							<a href="../user/library.html" class="show-all"> Show All Books </a>
-						</div>
-					</div>
-					<a href="../user/user_profile.html" aria-label="profile-page" class="profile-area">
-						<div class="profile-field"></div>
-						<div
-							class="tooltip"
-							role="tooltip"
-							data-popper-placement="top">
-							User Profile
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</header>
+    <section class="main-container">
+      <header class="top-header">
+        <div class="left-header">
+          <div class="side-toggle">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </div>
+          <div class="user-date">
+            <h4 class="header-username">Hello</h4>
+            <p>Have a Great Day!</p>
+          </div>
+        </div>
+        <div class="right-header">
+          <div class="search-field">
+            <label for="head-search"><i class="bi bi-search"></i></label>
+            <input
+              type="search"
+              name="head-search"
+              id="head-search"
+              placeholder="Search..."
+              class="search-list-show"
+            />
+            <div class="focus-out"></div>
+            <div class="search-list">
+              <div class="search-result"></div>
+              <a href="../user/library.html" class="show-all">
+                Show All Books
+              </a>
+            </div>
+          </div>
+          <a
+            href="../user/user_profile.html"
+            aria-label="profile-page"
+            class="profile-area"
+          >
+            <div class="profile-field"></div>
+            <div class="tooltip" role="tooltip" data-popper-placement="top">
+              User Profile
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </header>
 
-			<main class="Borrow-container">
-				<h3 id="Borrow-table-heading">Borrow</h3>
-				<div class="Borrow-table-wrapper">
-					<table class="Borrow-table" aria-describedby="Borrow-table-heading">
-						<thead>
-							<tr>
-								<th>Id</th>
-								<th>User Name</th>
-								<th>Book Name</th>
-								<th>Status</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody class="Borrow-table-body"></tbody>
-					</table>
-				</div>
-			</main>
-			
-		</section>
+      <main class="Borrow-container">
+        <h3 id="Borrow-table-heading">Borrow</h3>
+        <div class="Borrow-table-wrapper">
+          <table class="Borrow-table" aria-describedby="Borrow-table-heading">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>User Name</th>
+                <th>Book Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody class="Borrow-table-body"></tbody>
+          </table>
+        </div>
+      </main>
+    </section>
 
-		<script>
-			getDetails("user").then((data) =>{
-  
-			const borrow_arr = JSON.parse(localStorage.getItem("borrow-list"))
-			borrow_arr.sort((a, b) => {
-			const statusOrder = { "Pending": 0, "Completed": 1, "Rejected": 2 };
-			return statusOrder[a.status] - statusOrder[b.status];
-			});
-			let count = 1
-			if (borrow_arr) {
-			for (const i of borrow_arr) {
-				const thisBook = book_list.find((e) => e["id"] == i["book_id"]);
-				const thisUser = data.find((e) => e["id"] == i["user_id"]);
-				const tableBody = document.querySelector(".Borrow-table-body");
-				const tableRow = document.createElement("tr");
-				tableBody.append(tableRow);
+    <script>
+      			getData("user").then(async (data) =>{
 
-				const tableCellId = document.createElement("td");
-				tableCellId.setAttribute("class", "borrow-id count");
-				tableCellId.innerText = count++;
-				tableRow.append(tableCellId);
+      			const borrow_arr = JSON.parse(localStorage.getItem("borrow-list"))
+      			borrow_arr.sort((a, b) => {
+      			const statusOrder = { "Pending": 0, "Completed": 1, "Rejected": 2 };
+      			return statusOrder[a.status] - statusOrder[b.status];
+      			});
+      			let count = 1
+        		const bookList = await getData("book");
+
+      			if (borrow_arr) {
+      			for (const i of borrow_arr) {
+      				const thisBook = bookList.find((e) => e["id"] == i["book_id"]);
+      				const thisUser = data.find((e) => e["id"] == i["user_id"]);
+      				const tableBody = document.querySelector(".Borrow-table-body");
+      				const tableRow = document.createElement("tr");
+      				tableBody.append(tableRow);
+
+      				const tableCellId = document.createElement("td");
+      				tableCellId.setAttribute("class", "borrow-id count");
+      				tableCellId.innerText = count++;
+      				tableRow.append(tableCellId);
 
 
-				const tableCellUser = document.createElement("td");
-				tableCellUser.setAttribute("class", "borrow-bookName");
-				tableCellUser.innerText = thisUser["name"];
-				tableRow.append(tableCellUser);
-				const tableCellBook = document.createElement("td");
-				tableCellBook.setAttribute("class", "borrow-bookName");
-				tableCellBook.innerText = thisBook["title"];
-				tableRow.append(tableCellBook);
+      				const tableCellUser = document.createElement("td");
+      				tableCellUser.setAttribute("class", "borrow-bookName");
+      				tableCellUser.innerText = thisUser["name"];
+      				tableRow.append(tableCellUser);
+      				const tableCellBook = document.createElement("td");
+      				tableCellBook.setAttribute("class", "borrow-bookName");
+      				tableCellBook.innerText = thisBook["title"];
+      				tableRow.append(tableCellBook);
 
-				const tableCellStatus = document.createElement("td");
-				const tableCellStatusSpan = document.createElement("span");
-				tableCellStatusSpan.setAttribute("class", "borrow-status status");
-				tableCellStatusSpan.innerText = i["status"];
-				tableCellStatus.append(tableCellStatusSpan);
-				tableRow.append(tableCellStatus);
+      				const tableCellStatus = document.createElement("td");
+      				const tableCellStatusSpan = document.createElement("span");
+      				tableCellStatusSpan.setAttribute("class", "borrow-status status");
+      				tableCellStatusSpan.innerText = i["status"];
+      				tableCellStatus.append(tableCellStatusSpan);
+      				tableRow.append(tableCellStatus);
 
-				if (i["status"] == "Completed") {
-					tableCellStatusSpan.setAttribute("class", "borrow-status status completed");
-				} else if (i["status"] == "Rejected") {
-					tableCellStatusSpan.setAttribute("class", "borrow-status status rejected");
-				}
-				const tableCellAction = document.createElement("td");
-				tableCellAction.setAttribute("class", "borrow-action");
-				tableRow.append(tableCellAction);
+      				if (i["status"] == "Completed") {
+      					tableCellStatusSpan.setAttribute("class", "borrow-status status completed");
+      				} else if (i["status"] == "Rejected") {
+      					tableCellStatusSpan.setAttribute("class", "borrow-status status rejected");
+      				}
+      				const tableCellAction = document.createElement("td");
+      				tableCellAction.setAttribute("class", "borrow-action");
+      				tableRow.append(tableCellAction);
 
-				const tableCellActionBtn = document.createElement("a");
-				tableCellActionBtn.setAttribute("class", "borrow-action-btn submit");
-				tableCellActionBtn.setAttribute("href",  "../admin/borrow-edit.html?id=" + i["borrow_id"]);
-				tableCellActionBtn.innerHTML = `<i class="bi bi-eye-fill"></i>View`;
-				tableCellAction.append(tableCellActionBtn);
+      				const tableCellActionBtn = document.createElement("a");
+      				tableCellActionBtn.setAttribute("class", "borrow-action-btn submit");
+      				tableCellActionBtn.setAttribute("href",  "../admin/borrow-edit.html?id=" + i["borrow_id"]);
+      				tableCellActionBtn.innerHTML = `<i class="bi bi-eye-fill"></i>View`;
+      				tableCellAction.append(tableCellActionBtn);
 
-			}
-		}
-})
-
-		</script>
-	
-	</body>
+      			}
+      		}
+      })
+    </script>
+  </body>
 </html>

@@ -3,8 +3,7 @@ async function getData(endpoint) {
     const response = await fetch(
       `https://64134e33a68505ea732ffd2a.mockapi.io/${endpoint}`
     );
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error(error);
   }
@@ -17,13 +16,12 @@ async function postData(endpoint, data) {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       }
     );
-    const responseData = await response.json();
-    return responseData;
+    return await response.json();
   } catch (error) {
     console.error(error);
   }
@@ -41,8 +39,7 @@ async function putData(endpoint, data) {
         body: JSON.stringify(data),
       }
     );
-    const responseData = await response.json();
-    return responseData;
+    return await response.json();
   } catch (error) {
     console.error(error);
   }
@@ -56,8 +53,7 @@ async function deleteData(endpoint) {
         method: "DELETE",
       }
     );
-    const responseData = await response.json();
-    return responseData;
+    return await response.json();
   } catch (error) {
     console.error(error);
   }
