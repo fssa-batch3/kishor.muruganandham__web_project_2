@@ -332,7 +332,8 @@ button:disabled:hover {
     position: absolute;
     top: 140px;
     left: 90px;
-    z-index: 2
+    z-index: 2;
+    animation: display .4s;
 }
 
 .arrow,.arrow::before {

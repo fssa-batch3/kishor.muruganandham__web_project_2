@@ -12,6 +12,7 @@
     />
     <link rel="icon" href="./assets/images/book-half.svg" type="image/x-icon" />
     <script src="./assets/js/db.js"></script>
+    <script src="./assets/json/book_list.js"></script>
     <script src="./assets/js/index.js" defer></script>
     <script src="./assets/js/user/script.js" defer></script>
     <script src="./assets/js/validation.js" defer></script>
@@ -28,8 +29,6 @@
       </div>
 
       <form
-        action=""
-        method="post"
         id="sign-in"
         class="tab-content"
         style="height: fit-content"
@@ -103,11 +102,10 @@
         </div>
       </form>
       <form
-        action=""
-        method="post"
+
         id="sign-up"
         class="tab-content"
-        onsubmit="registerUser()"
+        
       >
         <div class="title">
           <h1>Welcome !</h1>
@@ -232,7 +230,7 @@
           </div>
         </div>
         <div class="input-group">
-          <button class="submit">Submit</button>
+          <button class="submit" id="registerSubmit" type="submit">Submit</button>
         </div>
       </form>
     </div>

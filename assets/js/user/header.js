@@ -12,15 +12,34 @@ const menuLines = document.querySelectorAll(".menu-line");
 
 sideToggle.addEventListener("click", () => {
   sidebar.classList.toggle("active");
-  menuLines.forEach(line => line.classList.toggle("active"));
+  menuLines.forEach((line) => line.classList.toggle("active"));
 });
 
 // Display user name and profile picture
 
-
-function displayUserData() {
+async function displayUserData() {
+  const currentUser = await getData(`Users/${thisUser.id}`);
   try {
     const nameDisplay = document.querySelector(".header-username");
+    const greetings = document.querySelector(".greetings");
+    const now = moment();
+    if (
+      now.isBetween(
+        moment("05:00:00", "HH:mm:ss"),
+        moment("12:00:00", "HH:mm:ss")
+      )
+    ) {
+      greetings.textContent = `Good morning! 🌞`;
+    } else if (
+      now.isBetween(
+        moment("12:00:00", "HH:mm:ss"),
+        moment("18:00:00", "HH:mm:ss")
+      )
+    ) {
+      greetings.textContent = `Good afternoon! ☀️`;
+    } else {
+      greetings.textContent = `Good evening! 🌙`;
+    }
     const profileDisplay = document.querySelector(".profile-field");
 
     profileDisplay.addEventListener("mouseenter", () => {
@@ -30,9 +49,8 @@ function displayUserData() {
     profileDisplay.addEventListener("mouseleave", () => {
       profileDisplay.nextElementSibling.style.display = "none";
     });
-
-    nameDisplay.textContent += ` ${thisUser.name}`;
-    profileDisplay.style.background = `url(${thisUser.profile}) no-repeat center center/cover`;
+    nameDisplay.textContent = `Hello ${currentUser.name}`;
+    profileDisplay.style.background = `url(${currentUser.profile}) no-repeat center center/cover`;
   } catch (error) {
     console.error(`Error in displayUserData function: ${error}`);
   }
@@ -40,52 +58,50 @@ function displayUserData() {
 
 displayUserData();
 
-function addSearchResults() {
+async function addSearchResults() {
   try {
+    const currentUser = await getData(`Users/${thisUser.id}`);
     const searchResult = document.querySelector(".search-result");
-    if (searchResult ) {
-      getData("book").then((details) =>{
-        const books = details
+    if (searchResult) {
+      getData("Books").then((details) => {
+        const books = details;
         // Iterate through book list and add search result elements
-      for (const book of books) {
-        if (book.isActive === true) {
-          
-        
-        const searchItem = document.createElement("a");
-        searchItem.setAttribute("class", "search-item");
-        searchItem.setAttribute("data-id", book["id"]);
-        if (thisUser.role === "admin") {
-          searchItem.setAttribute(
-            "href",
-            "../../pages/admin/book_edit.html?id=" + book["id"]
-          );
-        } else {
-          searchItem.setAttribute(
-            "href",
-            "../../pages/book_details.html?id=" + book["id"]
-          );
+        for (const book of books) {
+          if (book.isActive === true) {
+            const searchItem = document.createElement("a");
+            searchItem.setAttribute("class", "search-item");
+            searchItem.setAttribute("data-id", book["id"]);
+            if (currentUser.role === "admin") {
+              searchItem.setAttribute(
+                "href",
+                "../../pages/admin/book_edit.html?id=" + book["id"]
+              );
+            } else {
+              searchItem.setAttribute(
+                "href",
+                "../../pages/book_details.html?id=" + book["id"]
+              );
+            }
+            searchResult.append(searchItem);
+
+            const searchImg = document.createElement("img");
+            searchImg.setAttribute("class", "search-item-img");
+            searchImg.setAttribute("src", book["image"]["src"]);
+            searchImg.setAttribute("alt", book["image"]["alt"]);
+            searchImg.setAttribute("width", "70px");
+            searchItem.append(searchImg);
+
+            const searchTitle = document.createElement("p");
+            searchTitle.setAttribute("class", "search-item-title");
+            searchTitle.innerText = book["title"];
+            searchItem.append(searchTitle);
+
+            const searchArrow = document.createElement("i");
+            searchArrow.setAttribute("class", "bi bi-caret-right-fill");
+            searchItem.append(searchArrow);
+          }
         }
-        searchResult.append(searchItem);
-
-        const searchImg = document.createElement("img");
-        searchImg.setAttribute("class", "search-item-img");
-        searchImg.setAttribute("src", book["image"]["src"]);
-        searchImg.setAttribute("alt", book["image"]["alt"]);
-        searchImg.setAttribute("width", "70px");
-        searchItem.append(searchImg);
-
-        const searchTitle = document.createElement("p");
-        searchTitle.setAttribute("class", "search-item-title");
-        searchTitle.innerText = book["title"];
-        searchItem.append(searchTitle);
-
-        const searchArrow = document.createElement("i");
-        searchArrow.setAttribute("class", "bi bi-caret-right-fill");
-        searchItem.append(searchArrow);
-      }
-    }
-    });
-
+      });
 
       // Show search list when search input is focused
       document
@@ -124,4 +140,4 @@ function addSearchResults() {
   }
 }
 
-addSearchResults()
+addSearchResults();

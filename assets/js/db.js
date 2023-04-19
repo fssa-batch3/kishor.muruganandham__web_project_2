@@ -1,7 +1,7 @@
 async function getData(endpoint) {
   try {
     const response = await fetch(
-      `https://64134e33a68505ea732ffd2a.mockapi.io/${endpoint}`
+      `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`
     );
     return await response.json();
   } catch (error) {
@@ -12,7 +12,7 @@ async function getData(endpoint) {
 async function postData(endpoint, data) {
   try {
     const response = await fetch(
-      `https://64134e33a68505ea732ffd2a.mockapi.io/${endpoint}`,
+      `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`,
       {
         method: "POST",
         headers: {
@@ -30,7 +30,7 @@ async function postData(endpoint, data) {
 async function putData(endpoint, data) {
   try {
     const response = await fetch(
-      `https://64134e33a68505ea732ffd2a.mockapi.io/${endpoint}`,
+      `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`,
       {
         method: "PUT",
         headers: {
@@ -48,7 +48,7 @@ async function putData(endpoint, data) {
 async function deleteData(endpoint) {
   try {
     const response = await fetch(
-      `https://64134e33a68505ea732ffd2a.mockapi.io/${endpoint}`,
+      `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`,
       {
         method: "DELETE",
       }

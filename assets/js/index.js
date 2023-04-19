@@ -13,6 +13,7 @@ localStorage.setItem("settings", JSON.stringify(settingsObject));
 
 // Get form inputs and form element
 const signinForm = document.getElementById("sign-in");
+const signupForm = document.getElementById("sign-up");
 const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
@@ -23,9 +24,10 @@ signinForm.addEventListener("submit", async function (e) {
   e.preventDefault();
   // Get user data from local storage
 
-  getData(`user?username=${usernameLogin.value}`)
+  getData(`Users`)
   .then(data => {
-    const userData = data[0];
+    console.log();
+    const userData = Object.values(data).find(f => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
       return;
@@ -51,29 +53,32 @@ signinForm.addEventListener("submit", async function (e) {
   });
 });
 
-function registerUser(e) {
-  e.preventDefault();
+signupForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+  console.log(event);
   const firstName = document.getElementById("firstname-sign-up");
   const lastName = document.getElementById("lastname-sign-up");
   const dob = document.getElementById("DOB-sign-up");
   const emailAdd = document.getElementById("email-sign-up");
   const pass = document.getElementById("password-sign-up");
   const role = document.getElementById("role-sign-up");
-
   const formInputs = [firstName, lastName, dob, emailAdd, pass, role];
-
-  if (formInputs.some((input) => input.value === "")) {
+  
+  if (formInputs.some(input => input.value === "")) {
     return alert("All fields should be filled");
   }
-
-  getData(`user?username=${emailAdd.value}`)
-  .then(userExists => {
+  
+  getData("Users")
+  .then(data => {
+    console.log(data);
+    const userExists = Object.values(data).find(user => user.username === emailAdd.value);
     if (userExists) {
       alert("Email id exist.");
       return;
     }
+    const thisId = generateGuid();
     const newUser = {
-      id: generateGuid(),
+      id: thisId,
       first_name: firstName.value,
       last_name: lastName.value,
       name: `${firstName.value} ${lastName.value}`,
@@ -85,17 +90,21 @@ function registerUser(e) {
       username: emailAdd.value,
       password: pass.value,
       profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
-      favourites: [],
+      favourites: [0],
     };
-
-
-    postData("user", newUser)
+  
+  
+    putData(`Users/${thisId}`, newUser)
   .then(data => {
+    alert(`User with ${emailAdd.value} created successfully!`);
     location.reload();
   })
   .catch(error => {
     alert(error);
   });
-
+  
   });
-}
+
+});
+
+

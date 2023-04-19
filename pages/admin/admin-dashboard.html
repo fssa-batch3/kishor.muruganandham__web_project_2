@@ -22,7 +22,7 @@
     <script src="../../assets/js/user/header.js" defer></script>
     <script src="../../assets/js/user/sidebar.js" defer></script>
   </head>
-  <body onresize="responsiveFonts()">
+  <body>
     <nav class="sidebar" id="sidebar">
       <div class="side-header">
         <div class="logo">
@@ -202,7 +202,6 @@
       for (let i = 0; i < loopLength; i++) {
         const comment = filteredCommentList[i];
         getData("user").then((users) => {
-          console.log(users);
           const user = users.find((user) => user.id === comment.user_id);
           createScrollComment(comment, user);
         });
@@ -246,18 +245,12 @@
         parentElement.append(scrollCommentWrapper);
       }
 
-
-
       async function showChart() {
         const bookList = await getData("book");
         const userList = await getData("user");
         const userLength = userList.length;
-        const commentLength = JSON.parse(
-          localStorage.getItem("comments")
-        )?.length;
-        const bookRequestLength = JSON.parse(
-          localStorage.getItem("book_req")
-        )?.length;
+        const commentLength = JSON.parse(localStorage.getItem("comments"))?.length;
+        const bookRequestLength = JSON.parse(localStorage.getItem("book_req"))?.length;
 
         const bookCountsByGenre = {};
         bookList.forEach((book) => {
@@ -271,10 +264,10 @@
             });
           }
         });
-
+        console.log(bookCountsByGenre);
         const tagValues = Object.values(bookCountsByGenre);
         const tagKeys = Object.keys(bookCountsByGenre);
-
+        Chart.defaults.font.size = 16;
         let genreChart = new Chart(
           document.getElementById("genreChart").getContext("2d"),
           {
@@ -327,7 +320,9 @@
         );
 
         const borrowedBook = JSON.parse(localStorage.getItem("borrow-list"));
-        const borrowedBookLength = borrowedBook?.filter((e) => e.status === "Pending")?.length;
+        const borrowedBookLength = borrowedBook?.filter(
+          (e) => e.status === "Pending"
+        )?.length;
         let BookChart = new Chart(
           document.getElementById("bookChart").getContext("2d"),
           {
@@ -371,20 +366,8 @@
             },
           }
         );
-        function responsiveFonts() {
-        if (window.innerWidth > 999) {
-          Chart.defaults.font.size = 18;
-        }
-        if (window.innerWidth < 999 && window.innerWidth > 444) {
-          Chart.defaults.font.size = 16;
-        }
-        if (window.innerWidth < 444) {
-          Chart.defaults.font.size = 12;
-        }
-        genreChart.update();
-      }
-      responsiveFonts();
-    }
+
+      };
       showChart();
     </script>
   </body>

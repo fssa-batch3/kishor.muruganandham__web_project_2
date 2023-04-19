@@ -32,16 +32,6 @@ function darkMode() {
   }
 }
 
-let commentList = JSON.parse(localStorage.getItem("comments"));
-if (!localStorage.getItem("comments")) {
-  commentList = [];
-}
-let commentLikeList = JSON.parse(localStorage.getItem("comment_likes"));
-if (!localStorage.getItem("comment_likes")) {
-  commentLikeList = [];
-  localStorage.setItem("comment_likes", JSON.stringify(commentLikeList));
-}
-
 function generateGuid() {
   let result, i, j;
   result = "";
@@ -93,10 +83,6 @@ function getStars(rating) {
   return output.join("");
 }
 
-function CloseDetailPage() {
-  document.querySelector(".book-detail").classList.remove("active");
-  document.querySelector(".focus-out").classList.remove("active");
-}
 
 // This function generates a book card element and appends it to a book rack container.
 function generateBook(book, bookRack) {
@@ -156,35 +142,27 @@ function generateBook(book, bookRack) {
 }
 
 // This function adds event listeners to the favorite buttons on the book cards.
-function toggleFavourites() {
+async function toggleFavourites() {
   try {
+    const currentUser = await getData(`Users/${thisUser.id}`);
     // Get all the favorite buttons on the page.
     const favButtons = document.querySelectorAll(".fav-btn");
 
     // Add an event listener to each favorite button to toggle the book's favorite status.
-    favButtons.forEach((button) => {
+    favButtons.forEach(button => {
       const bookId = button.parentElement.dataset.id;
       button.addEventListener("click", () => {
-        const userFavourites = thisUser["favourites"];
-        if (userFavourites.includes(bookId)) {
+        const userFavourites = currentUser["favourites"];
+        if (userFavourites?.includes(bookId)) {
           const index = userFavourites.indexOf(bookId);
           userFavourites.splice(index, 1);
         } else {
-          userFavourites.push(bookId);
+          userFavourites?.push(bookId);
         }
-        // Update the user data in local storage and refresh the page.
-        // setUserData(user_data);
-
-        createAndUpdateDetails(
-          `user/${thisUser.json_id}`,
-          "PUT",
-          thisUser
-        ).then(() => {
-          localStorage.removeItem("user");
-          localStorage.setItem("user", JSON.stringify(thisUser))
+        putData(`Users/${currentUser.id}`, currentUser)
+        .then(() => {
           checkForFavourites();
         });
-        // location.reload();
       });
     });
   } catch (error) {
@@ -193,16 +171,18 @@ function toggleFavourites() {
 }
 
 // This function updates the active state of favourite buttons based on the user's favourites data.
-function checkForFavourites() {
+async function checkForFavourites() {
   try {
+    const currentUser = await getData(`Users/${thisUser.id}`);
     // Get the user's favourites data.
-    const favourites = thisUser.favourites;
+    const favourites = currentUser.favourites;
     // Get all the favourite buttons on the page.
     const favButtons = document.querySelectorAll(".fav-btn");
 
     // Loop through each button and update its active state based on the favourites data.
     favButtons.forEach((button) => {
-      const isFavourite = favourites.includes(button.parentElement.dataset.id);
+
+      const isFavourite = favourites?.includes(button.parentElement.dataset.id);
 
       if (isFavourite) {
         button.classList.add("active");
@@ -222,3 +202,5 @@ function checkForFavourites() {
     console.error("An error occurred in checkForFavourites function:", error);
   }
 }
+
+

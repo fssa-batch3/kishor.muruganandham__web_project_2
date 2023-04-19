@@ -10,18 +10,19 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-
     <link
-      rel="icon"
-      href="../../assets/images/book-half.svg"
-      type="image/x-icon"
+    rel="icon"
+    href="../../assets/images/book-half.svg"
+    type="image/x-icon"
     />
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/easypiechart.js"></script>
     <script src="../../assets/json/home_books.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
     <script src="../../assets/js/user/sidebar.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../../assets/js/user/homepage.js" defer></script>
   </head>
   <body>
@@ -136,7 +137,7 @@
           </div>
           <div class="user-date">
             <h4 class="header-username">Hello</h4>
-            <p>Have a Great Day!</p>
+            <p class="greetings">Have a Great Day!</p>
           </div>
         </div>
         <div class="right-header">
@@ -171,39 +172,39 @@
 
       <main class="main-section">
         <section class="card-section">
-          <div class="cards">
-            <div class="card-content">
-              <div class="card-text">
-                <h4>No of Books in Library :</h4>
-                <p>Our Goal : 100</p>
-              </div>
-              <div class="card-chart">
-                <h4 class="avail-books chart-percent"></h4>
-                <span class="chart" data-percent=""></span>
-              </div>
+          <div class="user-info-container">
+            <div class="user-info-content">
+              No of Books in library : <span class="book-count-info">0</span>
+            </div>
+            <div class="user-info-content">
+              No of Borrowed Books : <span class="borrow-count-info">0</span>
+            </div>
+            <div class="user-info-content">
+              No of Favourite Books :
+              <span class="favourites-count-info">0</span>
+            </div>
+            <div class="user-info-content">
+              No of Comments written :
+              <span class="comments-count-info">0</span>
             </div>
           </div>
-          <div class="cards">
-            <div class="card-content">
-              <div class="card-text">
-                <h4>No of Books Borrowed :</h4>
-              </div>
-              <div class="card-chart">
-                <h4 class="borrowed-books chart-percent">15</h4>
-                <span class="chart borrow-chart" data-percent="40"></span>
-              </div>
-            </div>
-          </div>
-          <div class="cards">
-            <div class="card-content">
-              <div class="card-text">
-                <h4>No of Book in Favourites :</h4>
-              </div>
-              <div class="card-chart">
-                <h4 class="fav-books chart-percent"></h4>
-                <span class="chart fav-chart" data-percent=""></span>
-              </div>
-            </div>
+
+          <div class="instructions">
+            <h3>Instructions</h3>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum
+              vero consequatur mollitia voluptates eveniet. Temporibus culpa,
+              eaque sint quam sed beatae expedita quasi cupiditate reiciendis
+              excepturi laboriosam eveniet odio voluptatum possimus sequi, neque
+              dolorem rerum odit doloremque eum! Nobis ea nulla officia eius
+              nisi unde a explicabo nihil cumque? Blanditiis minima porro
+              eveniet magnam dolore quis numquam molestias commodi pariatur
+              odit, mollitia tempora aperiam cum nihil, odio ipsam! Rerum
+              temporibus laudantium quod facere eos saepe enim repudiandae
+              architecto veritatis non reiciendis obcaecati sint, rem eaque eius
+              deserunt reprehenderit fugit est adipisci doloribus dignissimos.
+              Impedit quisquam deserunt ratione eligendi dolor debitis.
+            </p>
           </div>
         </section>
         <section class="hero-section">
@@ -235,6 +236,5 @@
         </section>
       </main>
     </section>
-    
   </body>
 </html>

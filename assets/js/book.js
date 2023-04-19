@@ -3,9 +3,10 @@ const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id");
 
 async function showBookEditDetails() {
-  const bookList = await getData("book");
-  const thisBook = bookList.find((book) => book.id === bookId);
-  const indexOfBook = bookList.indexOf(thisBook);
+  const bookList = await getData("Books");
+  const books = Object.values(bookList);
+  const thisBook = books.find((book) => book.id === bookId);
+  const indexOfBook = books.indexOf(thisBook);
 
   // Set the values of form fields based on the data for the book
   bookIdNo.value = thisBook.id;
@@ -39,7 +40,7 @@ async function showBookEditDetails() {
   // Add event listener to Delete button to mark the book as inactive and update the book list in local storage
   deleteBtn.addEventListener("click", function () {
     thisBook.isActive = false;
-    bookList[indexOfBook] = thisBook;
+    books[indexOfBook] = thisBook;
     putData(`book/${thisBook.json_id}`, thisBook).then((data) => {
       console.log(data);
     });
@@ -62,8 +63,9 @@ async function showBookEditDetails() {
     thisBook.description = bookDesc.value;
     thisBook.image.src = bookImage.src;
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
-    bookList[indexOfBook] = thisBook;
-    putData(`book/${thisBook.json_id}`, thisBook).then((data) => {
+    books[indexOfBook] = thisBook;
+    putData(`book/${thisBook.json_id}`, thisBook)
+    .then((data) => {
       console.log(data);
       // Success notification
       location.reload();
@@ -72,8 +74,8 @@ async function showBookEditDetails() {
 }
 
 async function showBookDetails() {
-  const bookList = await getData("book");
-  const thisBook = bookList.find((book) => book.id === bookId);
+  const books = await getData("Books");
+  const thisBook = books.find((book) => book.id === bookId);
   document.querySelector(".book-detail-image img").src =
     thisBook["image"]["src"];
   document.querySelector(".book-detail-image img").alt =
@@ -106,7 +108,6 @@ async function showBookDetails() {
   const availableDate = JSON.parse(localStorage.getItem("borrow-list"))?.find(
     (e) => e.book_id === thisBook["id"] && e.status === "Pending"
   );
-
   if (thisBook?.isBorrowable === false && availableDate) {
     const targetDate = moment(availableDate["due_date"]);
     const duration = moment.duration(targetDate.diff(moment()));

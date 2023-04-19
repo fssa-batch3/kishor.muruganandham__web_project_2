@@ -1,5 +1,5 @@
 async function openBorrowModal() {
-  const bookList = await getData("book");
+  const bookList = await getData("Books");
   const thisBook = bookList.find((book) => book.id === bookId);
   document.querySelector(".backdrop").classList.add("active");
   document.querySelector(".modal").classList.add("active");
@@ -21,7 +21,7 @@ async function openBorrowModal() {
   borrowNowBtn.addEventListener("click", handleBorrow);
 }
 async function handleBorrow() {
-  const bookList = await getData("book");
+  const bookList = await getData("Books");
   const thisBook = bookList.find((book) => book.id === bookId);
   const borrowDate = borrowDateInput.value;
   const dueDate = dueDateInput.value;
@@ -53,11 +53,10 @@ async function handleBorrow() {
   };
   thisBook.isBorrowable = false;
   borrowList.push(borrowObj);
-  putData(`book/${thisBook.json_id}`, thisBook)
+  putData(`Books/${thisBook.json_id}`, thisBook)
   .then((data) => {
     console.log(data);
     // Success notification
-    localStorage.setItem("borrow-list", JSON.stringify(borrowList));
     closeBorrowModal();
     showBookDetails();
   });

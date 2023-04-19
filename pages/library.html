@@ -1,239 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Library</title>
-		<link rel="stylesheet" href="../assets/css/main_page.css" />
-		<link rel="icon" href="../assets/images/book-half.svg" type="image/x-icon" />
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-			<script src="../assets/js/db.js"></script>
-		<script src="../assets/js/user/script.js"></script>
-		<script src="../assets/js/user/header.js" defer></script>
-		<script src="../assets/js/user/sidebar.js" defer></script>
-	</head>
-	<body>
-		<nav class="sidebar" id="sidebar">
-			<div class="side-header">
-				<div class="logo">
-					<i class="bi bi-book-half"></i>
-					<p>Bookly</p>
-				</div>
-				<div class="divider-line"></div>
-				<div class="nav-list">
-					<a href="./user/homepage.html" class="nav-items"
-						><i class="bi bi-house"></i>
-						<p>Home</p>
-						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Home
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items active"
-						><i class="bi bi-building-fill"></i>
-						<p>Library</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 195px"
-							data-popper-placement="right">
-							Library
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user/history.html" class="nav-items"
-						><i class="bi bi-hourglass"></i>
-						<p>History</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 255px"
-							data-popper-placement="right">
-							History
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user/favourites.html" class="nav-items"
-						><i class="bi bi-bookmark-heart"></i>
-						<p>Favourites</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 315px"
-							data-popper-placement="right">
-							Favourites
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user/book-request.html" class="nav-items"
-						><i class="bi bi-file-earmark-text"></i>
-						<p>Request Book</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 370px"
-							data-popper-placement="right">
-							Request Book
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="side-footer">
-				<div class="dark-toggle">
-					<a href="#" onclick="darkMode()" class="nav-items"
-						><i class="bi bi-moon-stars-fill dark-light"></i>
-						<p class="da-li-text">Dark mode</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 115px; top: unset"
-							data-popper-placement="right">
-							Theme
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items" id="sign-out"
-						><i class="bi bi-box-arrow-left"></i>
-						<p>Log Out</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 55px; top: unset"
-							data-popper-placement="right">
-							Log-Out
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="stylesheet" href="../assets/css/main_page.css" />
+    <link
+      rel="icon"
+      href="../assets/images/book-half.svg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="../assets/js/db.js"></script>
+    <script src="../assets/js/user/script.js"></script>
+    <script src="../assets/js/user/header.js" defer></script>
+    <script src="../assets/js/user/sidebar.js" defer></script>
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="side-header">
+        <div class="logo">
+          <i class="bi bi-book-half"></i>
+          <p>Bookly</p>
+        </div>
+        <div class="divider-line"></div>
+        <div class="nav-list">
+          <a href="./user/homepage.html" class="nav-items"
+            ><i class="bi bi-house"></i>
+            <p>Home</p>
+            <div class="tooltip" role="tooltip" data-popper-placement="right">
+              Home
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items active"
+            ><i class="bi bi-building-fill"></i>
+            <p>Library</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 195px"
+              data-popper-placement="right"
+            >
+              Library
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user/history.html" class="nav-items"
+            ><i class="bi bi-hourglass"></i>
+            <p>History</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 255px"
+              data-popper-placement="right"
+            >
+              History
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user/favourites.html" class="nav-items"
+            ><i class="bi bi-bookmark-heart"></i>
+            <p>Favourites</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 315px"
+              data-popper-placement="right"
+            >
+              Favourites
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user/book-request.html" class="nav-items"
+            ><i class="bi bi-file-earmark-text"></i>
+            <p>Request Book</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 370px"
+              data-popper-placement="right"
+            >
+              Request Book
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="side-footer">
+        <div class="dark-toggle">
+          <a href="#" onclick="darkMode()" class="nav-items"
+            ><i class="bi bi-moon-stars-fill dark-light"></i>
+            <p class="da-li-text">Dark mode</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 115px; top: unset"
+              data-popper-placement="right"
+            >
+              Theme
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items" id="sign-out"
+            ><i class="bi bi-box-arrow-left"></i>
+            <p>Log Out</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 55px; top: unset"
+              data-popper-placement="right"
+            >
+              Log-Out
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
 
-		<section class="main-container">
-			<header class="top-header">
-				<div class="left-header">
-					<div class="side-toggle">
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-					</div>
-					<div class="user-date">
-						<h4 class="header-username">Hello</h4>
-						<p>Have a Great Day!</p>
-					</div>
-				</div>
-				<div class="right-header">
-					<div class="search-field">
-						<label for="head-search"><i class="bi bi-search"></i></label>
-						<input
-							type="search"
-							name="head-search"
-							id="head-search"
-							placeholder="Search..."
-							oninput="tagFilterBooks('All'),searchBooks()" />
-					</div>
-					<a href="./user/user_profile.html" aria-label="profile-page" class="profile-area">
-						<div class="profile-field"></div>
-						<div class="tooltip" role="tooltip" data-popper-placement="top">
-							User Profile
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</header>
+    <section class="main-container">
+      <header class="top-header">
+        <div class="left-header">
+          <div class="side-toggle">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </div>
+          <div class="user-date">
+            <h4 class="header-username">Hello</h4>
+            <p class="greetings">Have a Great Day!</p>
+          </div>
+        </div>
+        <div class="right-header">
+          <div class="search-field">
+            <label for="head-search"><i class="bi bi-search"></i></label>
+            <input
+              type="search"
+              name="head-search"
+              id="head-search"
+              placeholder="Search..."
+              oninput="tagFilterBooks('All'),searchBooks()"
+            />
+          </div>
+          <a
+            href="./user/user_profile.html"
+            aria-label="profile-page"
+            class="profile-area"
+          >
+            <div class="profile-field"></div>
+            <div class="tooltip" role="tooltip" data-popper-placement="top">
+              User Profile
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </header>
 
-			<main class="library-container" style="height: 100%">
-				<div class="library-tags">
-					<button onclick="tagFilterBooks('All')" class="active">All</button>
-				</div>
-				<div class="library-section generated-books books-section-style"></div>
-			</main>
+      <main class="library-container" style="height: 100%">
+        <div class="library-tags">
+          <button onclick="tagFilterBooks('All')" class="active">All</button>
+        </div>
+        <div class="library-section generated-books books-section-style"></div>
+      </main>
 
-			<div class="backdrop"></div>
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-title">Borrow-Book</h3>
-					<div class="modal-close">
-						<i class="bi bi-x-lg"></i>
-					</div>
-				</div>
-				<div class="modal-body">
-					<div class="input-group" style="width: 100%">
-						<label for="book-title">Book Name :</label>
-						<div class="input-field">
-							<input type="text" name="book-title" id="book-title" value="" readonly />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="borrow-date">Borrow Date :</label>
-						<div class="input-field">
-							<input type="date" name="borrow-date" id="borrow-date" required />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="due-date">Due Date :</label>
-						<div class="input-field">
-							<input type="date" name="due-date" id="due-date" required />
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="modal-submit">Borrow Now</button>
-				</div>
-			</div>
-		</section>
+      <div class="backdrop"></div>
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Borrow-Book</h3>
+          <div class="modal-close">
+            <i class="bi bi-x-lg"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="input-group" style="width: 100%">
+            <label for="book-title">Book Name :</label>
+            <div class="input-field">
+              <input
+                type="text"
+                name="book-title"
+                id="book-title"
+                value=""
+                readonly
+              />
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1">
+            <label for="borrow-date">Borrow Date :</label>
+            <div class="input-field">
+              <input type="date" name="borrow-date" id="borrow-date" required />
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1">
+            <label for="due-date">Due Date :</label>
+            <div class="input-field">
+              <input type="date" name="due-date" id="due-date" required />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-submit">Borrow Now</button>
+        </div>
+      </div>
+    </section>
 
-		<script>
-			async function showBook(){
-				const bookList = await getData("book");
-				const bookRack = document.querySelector(".generated-books");
-				bookList.forEach(book => generateBook(book, bookRack));
-			}
-			showBook();
-			// Get book data and generate book rack
-			toggleFavourites();
-			checkForFavourites();
-			// Get user data and check for favorites
+    <script>
+      async function showBook() {
+        // Get book data and generate book rack
+        const bookList = await getData("Books");
+        const bookRack = document.querySelector(".generated-books");
+        bookList.forEach((book) => generateBook(book, bookRack));
+        // Get user data and check for favorites
+        toggleFavourites();
+        checkForFavourites();
+      }
+      showBook();
 
-			function searchBooks() {
-				const searchValue = document.getElementById("head-search").value.toLowerCase();
+      function searchBooks() {
+        const searchValue = document
+          .getElementById("head-search")
+          .value.toLowerCase();
 
-				const books = document.querySelectorAll(".book");
-				books.forEach(book => {
-					const title = book.innerHTML.toLowerCase();
-					const display = title.includes(searchValue) ? "block" : "none";
-					book.style.display = display;
-				});
-			}
-			// Filter books by tag
-			function tagFilterBooks(value) {
-				const btns = document.querySelectorAll(".library-tags button");
-				btns.forEach(btn => {
-					if (value.toLowerCase() == btn.innerHTML.toLowerCase().trim()) {
-						btn.classList.add("active");
-					} else {
-						btn.classList.remove("active");
-					}
-				});
-				const books = document.querySelectorAll(".book-cover");
-				books.forEach(book => {
-					const bookTag = book.dataset.filterTag.toLowerCase();
-					book.parentElement.style.display = value.toLowerCase() == "all" || bookTag.includes(value.toLowerCase())? "block": "none";
-				});
-			}
+        const books = document.querySelectorAll(".book");
+        books.forEach((book) => {
+          const title = book.innerHTML.toLowerCase();
+          const display = title.includes(searchValue) ? "block" : "none";
+          book.style.display = display;
+        });
+      }
+      // Filter books by tag
+      function tagFilterBooks(value) {
+        const btns = document.querySelectorAll(".library-tags button");
+        btns.forEach((btn) => {
+          if (value.toLowerCase() == btn.innerHTML.toLowerCase().trim()) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        });
+        const books = document.querySelectorAll(".book-cover");
+        books.forEach((book) => {
+          const bookTag = book.dataset.filterTag.toLowerCase();
+          book.parentElement.style.display =
+            value.toLowerCase() == "all" ||
+            bookTag.includes(value.toLowerCase())
+              ? "block"
+              : "none";
+        });
+      }
 
-			const tagSettings = JSON.parse(localStorage.getItem("settings"));
-			tagSettings["tags"].forEach((tags) => {
-				const tagBtn = document.createElement("button");
-				tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
-				tagBtn.innerText = tags;
-				document.querySelector(".library-tags").append(tagBtn);
-			});
-			tagFilterBooks('All');
-		</script>
-	</body>
+      const tagSettings = JSON.parse(localStorage.getItem("settings"));
+      tagSettings["tags"].forEach((tags) => {
+        const tagBtn = document.createElement("button");
+        tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
+        tagBtn.innerText = tags;
+        document.querySelector(".library-tags").append(tagBtn);
+      });
+      tagFilterBooks("All");
+    </script>
+  </body>
 </html>
-

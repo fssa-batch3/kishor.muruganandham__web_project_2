@@ -39,7 +39,9 @@ body {
 .card-section {
   display: flex;
   gap: 20px;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
   padding: 15px 10px;
   margin: 15px 25px;
   overflow-x: auto;
@@ -74,43 +76,38 @@ body {
   opacity: 0.9;
 }
 
-.cards {
-  flex: 1;
-  min-width: 310px;
-  max-width: 380px;
-  border-radius: 30px;
-  aspect-ratio: 16/9;
-  background: linear-gradient(83.2deg, #965de9 10.8%, #6358ee 94.3%);
-  border: 1px solid var(--primary-border);
-  box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.08);
-  transition: transform 0.1s linear;
-}
-
-.card-chart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.chart-percent {
-  position: absolute;
-  font-size: var(--h3-fs);
-}
-
-.card-content {
+.user-info-container{
+  max-width: 400px;
+  min-width: 280px;
   width: 100%;
-  height: 100%;
-  padding: 20px;
-  gap: 20px;
+  height: fit-content;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 30px;
   align-items: center;
+  justify-content: center;
+  padding: 50px 30px;
+  box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--primary-border);
+  border-radius: 30px;
+  background-color: var(--card-white);
 }
-
-.card-content h4,
-.card-content p {
-  color: #fff;
+.instructions{
+  height: fit-content;
+  min-width: 300px;
+  max-width: 400px;
+  padding: 30px;
+  box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--primary-border);
+  border-radius: 30px;
+  background-color: var(--card-white);
+}
+.instructions p {
+  max-height: 190px;
+  overflow-y: auto;
+}
+.user-info-content{
+  font-weight: 600;
 }
 
 .books-content span {
