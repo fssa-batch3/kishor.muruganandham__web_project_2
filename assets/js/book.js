@@ -37,7 +37,7 @@ async function showBookEditDetails() {
     location.reload();
   });
 
-  // Add event listener to Delete button to mark the book as inactive and update the book list in local storage
+  // Add event listener to Delete button to mark the book as inactive and update the book list in Database
   deleteBtn.addEventListener("click", function () {
     thisBook.isActive = false;
     books[indexOfBook] = thisBook;
@@ -48,7 +48,7 @@ async function showBookEditDetails() {
       window.location.origin + "/pages/admin/admin_library.html";
   });
 
-  // Add event listener to Save button to update the book data and update the book list in local storage
+  // Add event listener to Save button to update the book data and update the book list in Database
   saveBtn.addEventListener("click", function (e) {
     e.preventDefault();
     if (bookIdNo.value !== thisBook.id) {
@@ -74,13 +74,17 @@ async function showBookEditDetails() {
 }
 
 async function showBookDetails() {
-  const books = await getData("Books");
+  const booksArr = await getData("Books");
+  const books = Object.values(booksArr);
+  const borrowArr = await getData(`Borrows/`)
+  const borrowList = Object.values(borrowArr);
+
   const thisBook = books.find((book) => book.id === bookId);
   document.querySelector(".book-detail-image img").src =
     thisBook["image"]["src"];
   document.querySelector(".book-detail-image img").alt =
     thisBook["image"]["alt"];
-  const bookViews = JSON.parse(localStorage.getItem("borrow-list"))?.filter(
+  const bookViews = borrowList?.filter(
     (e) => e.book_id === thisBook["id"]
   ).length;
   document.querySelector(".book-views").textContent =
@@ -104,10 +108,8 @@ async function showBookDetails() {
   const starRating = document.getElementById("stars");
 
   starRating.innerHTML = getStars(thisBook.star_rating);
-
-  const availableDate = JSON.parse(localStorage.getItem("borrow-list"))?.find(
-    (e) => e.book_id === thisBook["id"] && e.status === "Pending"
-  );
+  
+  const availableDate = borrowList?.find((e) => e.book_id === thisBook["id"] && e.status === "Pending");
   if (thisBook?.isBorrowable === false && availableDate) {
     const targetDate = moment(availableDate["due_date"]);
     const duration = moment.duration(targetDate.diff(moment()));

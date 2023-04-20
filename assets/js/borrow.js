@@ -1,5 +1,6 @@
 async function openBorrowModal() {
-  const bookList = await getData("Books");
+  const booksArr = await getData("Books");
+  const bookList = Object.values(booksArr);
   const thisBook = bookList.find((book) => book.id === bookId);
   document.querySelector(".backdrop").classList.add("active");
   document.querySelector(".modal").classList.add("active");
@@ -21,7 +22,8 @@ async function openBorrowModal() {
   borrowNowBtn.addEventListener("click", handleBorrow);
 }
 async function handleBorrow() {
-  const bookList = await getData("Books");
+  const booksArr = await getData("Books");
+  const bookList = Object.values(booksArr);
   const thisBook = bookList.find((book) => book.id === bookId);
   const borrowDate = borrowDateInput.value;
   const dueDate = dueDateInput.value;
@@ -39,7 +41,7 @@ async function handleBorrow() {
     alert("Book Already Exists");
     return;
   }
-
+  const borrowId = generateGuid();
   const borrowObj = {
     borrow_date: moment().format("YYYY-MM-DD"),
     due_date: dueDate,
@@ -49,17 +51,18 @@ async function handleBorrow() {
     user_id: thisUser.id,
     username: thisUser.name,
     remarks: null,
-    borrow_id: generateGuid()
+    borrow_id: borrowId
   };
   thisBook.isBorrowable = false;
-  borrowList.push(borrowObj);
-  putData(`Books/${thisBook.json_id}`, thisBook)
+  putData(`Borrows/${borrowId}`, borrowObj)
   .then((data) => {
     console.log(data);
     // Success notification
+    alert("Book Borrowed successfully")
     closeBorrowModal();
     showBookDetails();
   });
+  patchData(`Books/${thisBook.id}`, thisBook)
 }
 
 function closeBorrowModal() {

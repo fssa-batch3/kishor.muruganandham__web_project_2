@@ -96,7 +96,7 @@ signupForm.addEventListener("submit", async function(event) {
   
     putData(`Users/${thisId}`, newUser)
   .then(data => {
-    alert(`User with ${emailAdd.value} created successfully!`);
+    alert(`User with email ${emailAdd.value} created successfully!`);
     location.reload();
   })
   .catch(error => {

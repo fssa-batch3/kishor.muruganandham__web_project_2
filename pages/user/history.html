@@ -187,14 +187,16 @@
     </section>
 
     <script>
-      let borrow_list = JSON.parse(localStorage.getItem("borrow-list"));
-
-       async function showHistory() {
-        if (borrow_list=== null || borrow_list.length === 0 ) {
+      async function showHistory() {
+        const booksArr = await getData("Books");
+        const bookList = Object.values(booksArr);
+        const borrowArr = await getData(`Borrows/`);
+        const borrowList = Object.values(borrowArr);
+        let idCount = 1;
+        if (borrowList === null || borrowList.length === 0) {
           return;
         }
-        const bookList = await getData("book");
-        for (const i of borrow_list) {
+        for (const i of borrowList) {
           const thisBook = bookList.find((e) => e["id"] == i["book_id"]);
           const tableBody = document.querySelector(".history-table-body");
 
@@ -203,7 +205,7 @@
 
           const tableCellId = document.createElement("td");
           tableCellId.setAttribute("class", "history-id");
-          tableCellId.innerText = i["borrow_id"];
+          tableCellId.innerText = idCount++;
           tableRow.append(tableCellId);
 
           const tableCellBook = document.createElement("td");

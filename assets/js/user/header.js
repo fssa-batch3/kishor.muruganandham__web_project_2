@@ -63,8 +63,9 @@ async function addSearchResults() {
     const currentUser = await getData(`Users/${thisUser.id}`);
     const searchResult = document.querySelector(".search-result");
     if (searchResult) {
-      getData("Books").then((details) => {
-        const books = details;
+      getData("Books")
+      .then((details) => {
+        const books = Object.values(details);
         // Iterate through book list and add search result elements
         for (const book of books) {
           if (book.isActive === true) {

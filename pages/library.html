@@ -212,7 +212,8 @@
     <script>
       async function showBook() {
         // Get book data and generate book rack
-        const bookList = await getData("Books");
+        const booksArr = await getData("Books");
+        const bookList = Object.values(booksArr);
         const bookRack = document.querySelector(".generated-books");
         bookList.forEach((book) => generateBook(book, bookRack));
         // Get user data and check for favorites

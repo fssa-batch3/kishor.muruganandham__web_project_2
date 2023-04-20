@@ -170,30 +170,36 @@
       </main>
     </section>
     <script>
-
-      async function showFavoriteList(){
-        const currentUser = await getData(`Users/${thisUser.id}`);
-        if (currentUser.favourites?.length >! 1) {
-        const bookRack = document.querySelector(".generated-books");
-        currentUser.favourites.forEach(async id => {
-          const bookList = await getData("Books");
-          const book = bookList.find(b => b.id === id);
-          if (book) {
-            generateBook(book, bookRack);
-            toggleFavourites();
-            checkForFavourites();
-          }
-        });
-      } else {
-        const favouritesSection = document.querySelector(".favourites-section");
+      const favouritesSection = document.querySelector(
+          ".favourites-section"
+        );
+      function showEmptyFavourites() { 
         favouritesSection.innerHTML = `<div class="no-result" style="text-align:center; align-self:center;">
 					<img src="../../assets/images/lib_page.svg" alt="lib_page" width="280px">
 					<h4 style="margin: 50px 0;">You Haven't Decided <br> your favourites Yet!</h4>
 					<a href="../library.html" class="submit" style="padding:15px 30px;">Decide Now</a>
 					</div>`;
       }
-      }
-      showFavoriteList()
+      async function showFavoriteList() {
+        favouritesSection.innerHTML = "";
+        const currentUser = await getData(`Users/${thisUser.id}`);
+        if (currentUser.favourites?.length < 2) {
+          showEmptyFavourites()
+        } 
+          const bookRack = document.querySelector(".generated-books");
+          const booksArr = await getData("Books");
+          const bookList = Object.values(booksArr);
+          currentUser.favourites.forEach(async (id) => {
+            const book = bookList.find((b) => b.id === id);
+            if (book) {
+              generateBook(book, bookRack);
+              toggleFavourites();
+              checkForFavourites();
+            }
+          });
+      };
+      
+      showFavoriteList();
     </script>
   </body>
 </html>

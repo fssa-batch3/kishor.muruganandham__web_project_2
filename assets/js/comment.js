@@ -3,10 +3,13 @@ async function showComment() {
   commentContainer.innerHTML = "";
   const commentList = await getData("Comments");
   const comments = Object.values(commentList);
-  const filteredComments = comments.filter(comment => comment.book_id === bookId && comment.isActive ).reverse()
-  const likeList = await getData("Likes")
+  const filteredComments = comments
+    .filter((comment) => comment.book_id === bookId && comment.isActive)
+    .reverse();
+  const likeList = await getData("Likes");
   const commentLikeList = Object.values(likeList);
-  console.log(filteredComments);
+  const borrowArr = await getData(`Borrows/`);
+  const borrowList = Object.values(borrowArr);
   if (filteredComments.length < 1) {
     commentContainer.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
   }
@@ -37,9 +40,7 @@ async function showComment() {
       const usernameElement = document.createElement("p");
       usernameElement.classList.add("comment-username");
       usernameElement.textContent = user.name;
-      const honestCommenter = JSON.parse(
-        localStorage.getItem("borrow-list")
-      )?.find(
+      const honestCommenter = borrowList?.find(
         (e) =>
           e.book_id === comment.book_id &&
           e.user_id === comment.user_id &&
@@ -161,10 +162,9 @@ async function showComment() {
           );
           if (deleteConfirm) {
             comment["isActive"] = false;
-            putData(`Comments/${comment.comment_id}`,comment)
-            .then(() => {
-              showComment()
-            })
+            putData(`Comments/${comment.comment_id}`, comment).then(() => {
+              showComment();
+            });
           }
         }
 
@@ -177,7 +177,7 @@ async function showComment() {
           descriptionElement.removeAttribute("contentEditable");
           saveIconElement.style.display = "none";
           comment["description"] = descriptionElement.textContent;
-          putData(`Comments/${comment.comment_id}`,comment)
+          putData(`Comments/${comment.comment_id}`, comment);
         }
 
         trashIconElement.addEventListener("click", deleteComment);
@@ -193,7 +193,7 @@ async function showComment() {
 
       likeElement.addEventListener("click", async () => {
         const likeId = generateGuid();
-        const likeList = await getData("Likes")
+        const likeList = await getData("Likes");
         const commentLikeList = Object.values(likeList);
         if (likeData) {
           const likeData = JSON.parse(likeElement.dataset.likeData);
@@ -205,8 +205,7 @@ async function showComment() {
 
           if (index !== -1) {
             commentLikeList.splice(index, 1);
-            putData(`Likes/${likeId}`, commentLikeList)
-            .then(() => {
+            putData(`Likes/${likeId}`, commentLikeList).then(() => {
               showComment();
             });
           }
@@ -220,10 +219,9 @@ async function showComment() {
             username: thisUser.name,
             like_id: likeId,
           };
-          putData(`Likes/${likeId}`, like)
-            .then(() => {
-              showComment();
-            });
+          putData(`Likes/${likeId}`, like).then(() => {
+            showComment();
+          });
         }
       });
     });
@@ -240,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (event.keyCode === 13) {
       event.preventDefault();
       sendBtn.click();
-    };
+    }
   });
 
   sendBtn.addEventListener("click", () => {
@@ -255,8 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (commentValue.value.trim().length > 0) {
-      putData(`Comments/${commentId}`, commentObj)
-      .then(() => {
+      putData(`Comments/${commentId}`, commentObj).then(() => {
         showComment();
         commentValue.value = "";
       });

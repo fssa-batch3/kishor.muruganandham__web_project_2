@@ -135,6 +135,8 @@ function generateBook(book, bookRack) {
 
     // Append the book card div element to the book rack container.
     bookRack.append(bookDiv);
+
+    console.log(bookRack);
   } catch (error) {
     // Log any errors to the console for debugging purposes.
     console.error(error);
@@ -164,7 +166,7 @@ async function toggleFavourites() {
           checkForFavourites();
         });
       });
-    });
+      });
   } catch (error) {
     console.error(error);
   }
@@ -198,6 +200,7 @@ async function checkForFavourites() {
         );
       }
     });
+    
   } catch (error) {
     console.error("An error occurred in checkForFavourites function:", error);
   }

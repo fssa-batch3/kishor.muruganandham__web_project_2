@@ -44,6 +44,23 @@ async function putData(endpoint, data) {
     console.error(error);
   }
 }
+async function patchData(endpoint, data) {
+  try {
+    const response = await fetch(
+      `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 async function deleteData(endpoint) {
   try {
