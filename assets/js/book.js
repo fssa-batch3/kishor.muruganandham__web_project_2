@@ -3,8 +3,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id");
 
 async function showBookEditDetails() {
-  const bookList = await getData("Books");
-  const books = Object.values(bookList);
+  const books = await getData("Books");
   const thisBook = books.find((book) => book.id === bookId);
   const indexOfBook = books.indexOf(thisBook);
 
@@ -64,7 +63,7 @@ async function showBookEditDetails() {
     thisBook.image.src = bookImage.src;
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
     books[indexOfBook] = thisBook;
-    putData(`book/${thisBook.json_id}`, thisBook)
+    putData(`Books/${thisBook.id}`, thisBook)
     .then((data) => {
       console.log(data);
       // Success notification
@@ -74,10 +73,8 @@ async function showBookEditDetails() {
 }
 
 async function showBookDetails() {
-  const booksArr = await getData("Books");
-  const books = Object.values(booksArr);
-  const borrowArr = await getData(`Borrows/`)
-  const borrowList = Object.values(borrowArr);
+  const books = await getData("Books");
+  const borrowList = await getData(`Borrows/`)
 
   const thisBook = books.find((book) => book.id === bookId);
   document.querySelector(".book-detail-image img").src =

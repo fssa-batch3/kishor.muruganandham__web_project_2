@@ -16,6 +16,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
@@ -135,7 +141,7 @@
           </div>
           <div class="user-date">
             <h4 class="header-username">Hello</h4>
-            <p>Have a Great Day!</p>
+            <p class="greetings">Have a Great Day!</p>
           </div>
         </div>
         <div class="right-header">
@@ -189,22 +195,33 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-      let sortedCommentList = commentList.sort((a, b) => {
-        const timeA = new Date(a.time);
-        const timeB = new Date(b.time);
-        return timeB - timeA;
-      });
-      const filteredCommentList = sortedCommentList.filter(
-        (e) => e["isActive"] == true
-      );
-      const loopLength =
-        filteredCommentList.length < 10 ? filteredCommentList.length : 10;
-      for (let i = 0; i < loopLength; i++) {
-        const comment = filteredCommentList[i];
-        getData("user").then((users) => {
-          const user = users.find((user) => user.id === comment.user_id);
-          createScrollComment(comment, user);
-        });
+      async function recentComments() {
+        try {
+          const commentList = await getData("Comments");
+          let sortedCommentList = commentList.sort((a, b) => {
+            const timeA = new Date(a.time);
+            const timeB = new Date(b.time);
+            return timeB - timeA;
+          });
+          const filteredCommentList = sortedCommentList.filter(
+            (e) => e["isActive"] == true
+          );
+          const loopLength =
+            filteredCommentList.length < 10 ? filteredCommentList.length : 10;
+          for (let i = 0; i < loopLength; i++) {
+            const comment = filteredCommentList[i];
+            getData("Users")
+              .then((users) => {
+                const user = users.find((user) => user.id === comment.user_id);
+                createScrollComment(comment, user);
+              })
+              .catch((error) => {
+                console.error("Error getting user data:", error);
+              });
+          }
+        } catch (error) {
+          console.error("Error getting comment data:", error);
+        }
       }
 
       function createScrollComment(comment, user) {
@@ -212,7 +229,9 @@
 
         const scrollCommentWrapper = document.createElement("div");
         scrollCommentWrapper.className = "scroll-comment-wrapper";
-
+        // scrollCommentWrapper.addEventListener("click", () =>{
+        //   window.location.href = ""
+        // })
         const scrollCommentProfile = document.createElement("img");
         scrollCommentProfile.className = "scroll-comment-profile";
         scrollCommentProfile.src = user["profile"];
@@ -244,14 +263,26 @@
 
         parentElement.append(scrollCommentWrapper);
       }
+      recentComments();
 
       async function showChart() {
-        const bookList = await getData("book");
-        const userList = await getData("user");
+        const bookList = await getData("Books");
+        const userList = await getData("Users");
+        const borrowedBook = await getData("Borrows");
+        const commentList = await getData("Comments");
+        const bookRequestList = await getData("BookRequests");
+        const bookRequestLength = bookRequestList.length;
+        const commentLength = commentList.length;
         const userLength = userList.length;
-        const commentLength = JSON.parse(localStorage.getItem("comments"))?.length;
-        const bookRequestLength = JSON.parse(localStorage.getItem("book_req"))?.length;
-
+        const borrowedBookLength = borrowedBook?.filter(
+          (e) => e.status === "Pending"
+        )?.length;
+        const booksLength = bookList.filter(
+          (book) => book.isActive && book.isBorrowable
+        ).length;
+        const activeBooksLength = bookList.filter(
+          (book) => book.isActive
+        ).length;
         const bookCountsByGenre = {};
         bookList.forEach((book) => {
           if (book["isActive"]) {
@@ -264,7 +295,6 @@
             });
           }
         });
-        console.log(bookCountsByGenre);
         const tagValues = Object.values(bookCountsByGenre);
         const tagKeys = Object.keys(bookCountsByGenre);
         Chart.defaults.font.size = 16;
@@ -298,7 +328,7 @@
                     stepSize: 3,
                   },
                   beginAtZero: true,
-                  max: bookList.length,
+                  max: activeBooksLength,
                 },
                 x: {
                   ticks: {
@@ -319,10 +349,6 @@
           }
         );
 
-        const borrowedBook = JSON.parse(localStorage.getItem("borrow-list"));
-        const borrowedBookLength = borrowedBook?.filter(
-          (e) => e.status === "Pending"
-        )?.length;
         let BookChart = new Chart(
           document.getElementById("bookChart").getContext("2d"),
           {
@@ -332,7 +358,7 @@
               datasets: [
                 {
                   label: "Books",
-                  data: [bookList.length, borrowedBookLength],
+                  data: [booksLength, borrowedBookLength],
                   backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
                   hoverOffset: 10,
                 },
@@ -366,8 +392,7 @@
             },
           }
         );
-
-      };
+      }
       showChart();
     </script>
   </body>

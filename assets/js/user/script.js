@@ -136,7 +136,6 @@ function generateBook(book, bookRack) {
     // Append the book card div element to the book rack container.
     bookRack.append(bookDiv);
 
-    console.log(bookRack);
   } catch (error) {
     // Log any errors to the console for debugging purposes.
     console.error(error);
@@ -175,7 +174,7 @@ async function toggleFavourites() {
 // This function updates the active state of favourite buttons based on the user's favourites data.
 async function checkForFavourites() {
   try {
-    const currentUser = await getData(`Users/${thisUser.id}`);
+    const currentUser = await getOneData(`Users/${thisUser.id}`);
     // Get the user's favourites data.
     const favourites = currentUser.favourites;
     // Get all the favourite buttons on the page.

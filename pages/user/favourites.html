@@ -182,13 +182,12 @@
       }
       async function showFavoriteList() {
         favouritesSection.innerHTML = "";
-        const currentUser = await getData(`Users/${thisUser.id}`);
+        const currentUser = await getOneData(`Users/${thisUser.id}`);
         if (currentUser.favourites?.length < 2) {
           showEmptyFavourites()
         } 
           const bookRack = document.querySelector(".generated-books");
-          const booksArr = await getData("Books");
-          const bookList = Object.values(booksArr);
+          const bookList = await getData("Books");
           currentUser.favourites.forEach(async (id) => {
             const book = bookList.find((b) => b.id === id);
             if (book) {

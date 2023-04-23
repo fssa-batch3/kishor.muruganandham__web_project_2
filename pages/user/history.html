@@ -188,10 +188,8 @@
 
     <script>
       async function showHistory() {
-        const booksArr = await getData("Books");
-        const bookList = Object.values(booksArr);
-        const borrowArr = await getData(`Borrows/`);
-        const borrowList = Object.values(borrowArr);
+        const bookList = await getData("Books");
+        const borrowList = await getData(`Borrows/`);
         let idCount = 1;
         if (borrowList === null || borrowList.length === 0) {
           return;

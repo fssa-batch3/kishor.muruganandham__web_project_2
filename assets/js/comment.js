@@ -1,21 +1,18 @@
 async function showComment() {
   const commentContainer = document.querySelector(".comments-container");
   commentContainer.innerHTML = "";
-  const commentList = await getData("Comments");
-  const comments = Object.values(commentList);
+  const comments = await getData("Comments");
+  const commentLikeList = await getData("Likes");
+  const borrowList = await getData(`Borrows/`);
   const filteredComments = comments
     .filter((comment) => comment.book_id === bookId && comment.isActive)
     .reverse();
-  const likeList = await getData("Likes");
-  const commentLikeList = Object.values(likeList);
-  const borrowArr = await getData(`Borrows/`);
-  const borrowList = Object.values(borrowArr);
   if (filteredComments.length < 1) {
     commentContainer.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
   }
   filteredComments.forEach(async (comment) => {
     getData("Users").then((data) => {
-      const user = Object.values(data).find(
+      const user = data.find(
         (user) => user.id === comment.user_id
       );
 
@@ -193,8 +190,7 @@ async function showComment() {
 
       likeElement.addEventListener("click", async () => {
         const likeId = generateGuid();
-        const likeList = await getData("Likes");
-        const commentLikeList = Object.values(likeList);
+
         if (likeData) {
           const likeData = JSON.parse(likeElement.dataset.likeData);
           const index = commentLikeList.findIndex(

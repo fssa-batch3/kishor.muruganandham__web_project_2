@@ -18,7 +18,7 @@ sideToggle.addEventListener("click", () => {
 // Display user name and profile picture
 
 async function displayUserData() {
-  const currentUser = await getData(`Users/${thisUser.id}`);
+  const currentUser = await getOneData(`Users/${thisUser.id}`);
   try {
     const nameDisplay = document.querySelector(".header-username");
     const greetings = document.querySelector(".greetings");
@@ -65,9 +65,8 @@ async function addSearchResults() {
     if (searchResult) {
       getData("Books")
       .then((details) => {
-        const books = Object.values(details);
         // Iterate through book list and add search result elements
-        for (const book of books) {
+        for (const book of details) {
           if (book.isActive === true) {
             const searchItem = document.createElement("a");
             searchItem.setAttribute("class", "search-item");
