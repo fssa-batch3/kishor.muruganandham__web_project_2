@@ -16,7 +16,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -172,82 +177,64 @@
 
       <main class="Borrow-container">
         <h3 id="Borrow-table-heading">Borrow</h3>
-        <div class="Borrow-table-wrapper">
-          <table class="Borrow-table" aria-describedby="Borrow-table-heading">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>User Name</th>
-                <th>Book Name</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody class="Borrow-table-body"></tbody>
-          </table>
-        </div>
+        <div class="Borrow-table-wrapper"></div>
       </main>
     </section>
+    <script type="module">
+      import { Grid, html } from "https://unpkg.com/gridjs?module";
+      const borrowList = await getData("Borrows");
+      const bookList = await getData("Books");
+      const userList = await getData("Users");
 
-    <script>
-      			getData("user").then(async (data) =>{
+      const borrowData = borrowList.map((borrow, index) => {
+        const book = bookList.find((book) => book.id === borrow.book_id);
+        const user = userList.find((user) => user.id === borrow.user_id);
+        let statusClassName = "borrow-status status";
+        if (borrow.status === "Completed") {
+          statusClassName += " completed";
+        } 
+        return [
+          index + 1,
+          user ? user.name : "",
+          book ? book.title : "",
+          borrow.borrow_date,
+          borrow.due_date,
+          {
+            text: borrow.status,
+            className: statusClassName,
+          },
+          borrow.borrow_id,
+        ];
+      });
 
-      			const borrow_arr = JSON.parse(localStorage.getItem("borrow-list"))
-      			borrow_arr?.sort((a, b) => {
-      			const statusOrder = { "Pending": 0, "Completed": 1, "Rejected": 2 };
-      			return statusOrder[a.status] - statusOrder[b.status];
-      			});
-      			let count = 1
-        		const bookList = await getData("book");
-
-      			if (borrow_arr) {
-      			for (const i of borrow_arr) {
-      				const thisBook = bookList.find((e) => e["id"] == i["book_id"]);
-      				const thisUser = data.find((e) => e["id"] == i["user_id"]);
-      				const tableBody = document.querySelector(".Borrow-table-body");
-      				const tableRow = document.createElement("tr");
-      				tableBody.append(tableRow);
-
-      				const tableCellId = document.createElement("td");
-      				tableCellId.setAttribute("class", "borrow-id count");
-      				tableCellId.innerText = count++;
-      				tableRow.append(tableCellId);
-
-
-      				const tableCellUser = document.createElement("td");
-      				tableCellUser.setAttribute("class", "borrow-bookName");
-      				tableCellUser.innerText = thisUser["name"];
-      				tableRow.append(tableCellUser);
-      				const tableCellBook = document.createElement("td");
-      				tableCellBook.setAttribute("class", "borrow-bookName");
-      				tableCellBook.innerText = thisBook["title"];
-      				tableRow.append(tableCellBook);
-
-      				const tableCellStatus = document.createElement("td");
-      				const tableCellStatusSpan = document.createElement("span");
-      				tableCellStatusSpan.setAttribute("class", "borrow-status status");
-      				tableCellStatusSpan.innerText = i["status"];
-      				tableCellStatus.append(tableCellStatusSpan);
-      				tableRow.append(tableCellStatus);
-
-      				if (i["status"] == "Completed") {
-      					tableCellStatusSpan.setAttribute("class", "borrow-status status completed");
-      				} else if (i["status"] == "Rejected") {
-      					tableCellStatusSpan.setAttribute("class", "borrow-status status rejected");
-      				}
-      				const tableCellAction = document.createElement("td");
-      				tableCellAction.setAttribute("class", "borrow-action");
-      				tableRow.append(tableCellAction);
-
-      				const tableCellActionBtn = document.createElement("a");
-      				tableCellActionBtn.setAttribute("class", "borrow-action-btn submit");
-      				tableCellActionBtn.setAttribute("href",  "../admin/borrow-edit.html?id=" + i["borrow_id"]);
-      				tableCellActionBtn.innerHTML = `<i class="bi bi-eye-fill"></i>View`;
-      				tableCellAction.append(tableCellActionBtn);
-
-      			}
-      		}
-      })
+      const tableGrid = new Grid({
+        columns: [
+          "S.No",
+          "Username",
+          "Book Name",
+          "Borrow Date",
+          "Due Date",
+          {
+            name: "Status",
+            formatter: (_, row) =>
+              html(
+                `<span class='${row.cells[5].data.className}' >${row.cells[5].data.text}</span>`
+              ),
+          },
+          {
+            name: "Actions",
+            formatter: (_, row) =>
+              html(
+                `<a class='borrow-action-btn submit' href='./borrow-edit.html?id=${row.cells[6].data}'><i class='bi bi-eye-fill'></i> View</a>`
+              ),
+          },
+        ],
+        data: borrowData,
+        pagination: {
+          limit: 10,
+        },
+        fixedHeader: true,
+      }).render(document.querySelector(".Borrow-table-wrapper"));
     </script>
   </body>
 </html>

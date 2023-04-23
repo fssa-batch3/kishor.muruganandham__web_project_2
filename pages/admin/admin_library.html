@@ -255,13 +255,7 @@
         });
       }
 
-      const tagSettings = JSON.parse(localStorage.getItem("settings"));
-      tagSettings["tags"].forEach((tags) => {
-        const tagBtn = document.createElement("button");
-        tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
-        tagBtn.innerText = tags;
-        document.querySelector(".library-tags").append(tagBtn);
-      });
+      showTags()
       tagFilterBooks("All");
     </script>
   </body>

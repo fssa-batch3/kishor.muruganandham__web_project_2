@@ -1,357 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Create Book</title>
-		<link rel="stylesheet" href="../../assets/css/main_page.css" />
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css" rel="stylesheet">
-		<script src="../../assets/js/db.js"></script>
-		<script src="../../assets/js/user/script.js"></script>
-		<script src="../../assets/js/user/header.js" defer></script>
-		<script src="../../assets/js/user/sidebar.js" defer></script>
-	</head>
-	<body>
-		<nav class="sidebar" id="sidebar">
-			<div class="side-header">
-				<div class="logo">
-					<i class="bi bi-book-half"></i>
-					<p>Bookly</p>
-				</div>
-				<div class="divider-line"></div>
-				<div class="nav-list">
-					<a href="./admin-dashboard.html" class="nav-items"
-						><i class="bi bi-grid"></i>
-						<p>Dashboard</p>
-						<div class="tooltip" role="tooltip" data-popper-placement="right">
-							Dashboard
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./admin_library.html" class="nav-items"
-						><i class="bi bi-building"></i>
-						<p>Library</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 195px"
-							data-popper-placement="right">
-							Library
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./borrow-list.html" class="nav-items "
-						><i class="bi bi-inboxes"></i>
-						<p>Borrow List</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 255px"
-							data-popper-placement="right">
-							Borrow List
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items active"
-						><i class="bi bi-file-plus-fill"></i>
-						<p>Create Book</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 315px"
-							data-popper-placement="right">
-							Create Book
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="./user_list.html" class="nav-items"
-						><i class="bi bi-person"></i>
-						<p>User List</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="top: 370px"
-							data-popper-placement="right">
-							User List
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="side-footer">
-				<div class="dark-toggle">
-					<a href="#" onclick="darkMode()" class="nav-items"
-						><i class="bi bi-moon-stars-fill dark-light"></i>
-						<p class="da-li-text">Dark mode</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 115px; top: unset"
-							data-popper-placement="right">
-							Theme
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-					<a href="#" class="nav-items" id="sign-out"
-						><i class="bi bi-box-arrow-left"></i>
-						<p>Log Out</p>
-						<div
-							class="tooltip"
-							role="tooltip"
-							style="bottom: 55px; top: unset"
-							data-popper-placement="right">
-							Log-Out
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</div>
-		</nav>
-	
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Book</title>
+    <link rel="stylesheet" href="../../assets/css/main_page.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+      rel="stylesheet"
+    />
+    <script src="../../assets/js/db.js"></script>
+    <script src="../../assets/js/user/script.js"></script>
+    <script src="../../assets/js/user/header.js" defer></script>
+    <script src="../../assets/js/user/sidebar.js" defer></script>
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <div class="side-header">
+        <div class="logo">
+          <i class="bi bi-book-half"></i>
+          <p>Bookly</p>
+        </div>
+        <div class="divider-line"></div>
+        <div class="nav-list">
+          <a href="./admin-dashboard.html" class="nav-items"
+            ><i class="bi bi-grid"></i>
+            <p>Dashboard</p>
+            <div class="tooltip" role="tooltip" data-popper-placement="right">
+              Dashboard
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./admin_library.html" class="nav-items"
+            ><i class="bi bi-building"></i>
+            <p>Library</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 195px"
+              data-popper-placement="right"
+            >
+              Library
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./borrow-list.html" class="nav-items"
+            ><i class="bi bi-inboxes"></i>
+            <p>Borrow List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 255px"
+              data-popper-placement="right"
+            >
+              Borrow List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items active"
+            ><i class="bi bi-file-plus-fill"></i>
+            <p>Create Book</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 315px"
+              data-popper-placement="right"
+            >
+              Create Book
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="./user_list.html" class="nav-items"
+            ><i class="bi bi-person"></i>
+            <p>User List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 370px"
+              data-popper-placement="right"
+            >
+              User List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="side-footer">
+        <div class="dark-toggle">
+          <a href="#" onclick="darkMode()" class="nav-items"
+            ><i class="bi bi-moon-stars-fill dark-light"></i>
+            <p class="da-li-text">Dark mode</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 115px; top: unset"
+              data-popper-placement="right"
+            >
+              Theme
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+          <a href="#" class="nav-items" id="sign-out"
+            ><i class="bi bi-box-arrow-left"></i>
+            <p>Log Out</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="bottom: 55px; top: unset"
+              data-popper-placement="right"
+            >
+              Log-Out
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
 
-		<section class="main-container">
-			<header class="top-header">
-				<div class="left-header">
-					<div class="side-toggle">
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-						<span class="menu-line"></span>
-					</div>
-					<div class="user-date">
-						<h4 class="header-username">Hello</h4>
-						<p class="greetings">Have a Great Day!</p>
-					</div>
-				</div>
-				<div class="right-header">
-					<div class="search-field">
-						<label for="head-search"><i class="bi bi-search"></i></label>
-						<input
-							type="search"
-							name="head-search"
-							id="head-search"
-							placeholder="Search..."
-							class="search-list-show" />
-						<div class="focus-out"></div>
-						<div class="search-list">
-							<div class="search-result"></div>
-							<a href="../user/library.html" class="show-all"> Show All Books </a>
-						</div>
-					</div>
-					<a href="../user/user_profile.html" aria-label="profile-page" class="profile-area">
-						<div class="profile-field"></div>
-						<div
-							class="tooltip"
-							role="tooltip"
-							data-popper-placement="top">
-							User Profile
-							<div class="arrow" data-popper-arrow></div>
-						</div>
-					</a>
-				</div>
-			</header>
+    <section class="main-container">
+      <header class="top-header">
+        <div class="left-header">
+          <div class="side-toggle">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </div>
+          <div class="user-date">
+            <h4 class="header-username">Hello</h4>
+            <p class="greetings">Have a Great Day!</p>
+          </div>
+        </div>
+        <div class="right-header">
+          <div class="search-field">
+            <label for="head-search"><i class="bi bi-search"></i></label>
+            <input
+              type="search"
+              name="head-search"
+              id="head-search"
+              placeholder="Search..."
+              class="search-list-show"
+            />
+            <div class="focus-out"></div>
+            <div class="search-list">
+              <div class="search-result"></div>
+              <a href="../user/library.html" class="show-all">
+                Show All Books
+              </a>
+            </div>
+          </div>
+          <a
+            href="../user/user_profile.html"
+            aria-label="profile-page"
+            class="profile-area"
+          >
+            <div class="profile-field"></div>
+            <div class="tooltip" role="tooltip" data-popper-placement="top">
+              User Profile
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
+        </div>
+      </header>
 
-			<main class="create-book-container">
-				<form action="" id="create-book" onsubmit="createBook()">
-					<div class="title" style="text-align: center">
-						<h1>Create Book</h1>
-					</div>
+      <main class="create-book-container">
+        <form action="" id="create-book" onsubmit="createBook()">
+          <div class="title" style="text-align: center">
+            <h1>Create Book</h1>
+          </div>
 
-					<div class="input-group">
-						<label for="create-id">Id :<sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="number"
-								name="create-id"
-								id="create-id"
-								class="input"
-								disabled
-								 />
-						</div>
-					</div>
+          <div class="input-group">
+            <label for="create-id">Id :<sup>*</sup></label>
+            <div class="input-field">
+              <input
+                type="number"
+                name="create-id"
+                id="create-id"
+                class="input"
+                disabled
+              />
+            </div>
+          </div>
 
-					<div class="input-group">
-						<label for="title">Title :<sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="text"
-								name="title"
-								id="Title"
-								placeholder="Enter the title name"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="Sub-title">Sub-Title :<sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="text"
-								name="Sub-title"
-								id="Sub-title"
-								placeholder="Enter the Sub-title name"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="tags">Genre :<sup>*</sup></label>
-						<div class="input-field">
-							<select data-placeholder="Choose tags ..." name="tags[]" multiple id="choice-js" class="chosen-select" ></select>
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="authorname">Author Name :<sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="text"
-								name="authorname"
-								id="Authorname"
-								placeholder="Enter the Authorname"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="Page">Page :<sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="number"
-								name="Page"
-								id="Page"
-								placeholder="Enter Number of Pages"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="image">Image URL :<sup>*</sup></label>
-						<div class="input-field">
-							<input
-								type="url"
-								name="image"
-								id="Image"
-								placeholder="Enter image URL"
-								class="input"
-								required />
-						</div>
-					</div>
-					<div class="input-group">
-						<label for="description">Description :<sup>*</sup></label>
-						<div class="input-field">
-							<textarea name="description" id="Description"></textarea>
-						</div>
-					</div>
-					<div class="input-group">
-						<button type="submit" class="submit">Submit</button>
-					</div>
-				</form>
-			</main>
+          <div class="input-group">
+            <label for="title">Title :<sup>*</sup></label>
+            <div class="input-field">
+              <input
+                type="text"
+                name="title"
+                id="Title"
+                placeholder="Enter the title name"
+                class="input"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="Sub-title">Sub-Title :<sup>*</sup></label>
+            <div class="input-field">
+              <input
+                type="text"
+                name="Sub-title"
+                id="Sub-title"
+                placeholder="Enter the Sub-title name"
+                class="input"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="tags">Genre :<sup>*</sup></label>
+            <div class="input-field">
+              <select
+                data-placeholder="Choose tags ..."
+                name="tags[]"
+                multiple
+                id="choice-js"
+                class="chosen-select"
+              ></select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="authorname">Author Name :<sup>*</sup></label>
+            <div class="input-field">
+              <input
+                type="text"
+                name="authorname"
+                id="Authorname"
+                placeholder="Enter the Authorname"
+                class="input"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="Page">Page :<sup>*</sup></label>
+            <div class="input-field">
+              <input
+                type="number"
+                name="Page"
+                id="Page"
+                placeholder="Enter Number of Pages"
+                class="input"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="image">Image URL :<sup>*</sup></label>
+            <div class="input-field">
+              <input
+                type="url"
+                name="image"
+                id="Image"
+                placeholder="Enter image URL"
+                class="input"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="description">Description :<sup>*</sup></label>
+            <div class="input-field">
+              <textarea name="description" id="Description"></textarea>
+            </div>
+          </div>
+          <div class="input-group">
+            <button type="submit" class="submit">Submit</button>
+          </div>
+        </form>
+      </main>
 
-			<div class="backdrop"></div>
-			<div class="modal">
-				<div class="modal-header">
-					<h3 class="modal-title">Borrow-Book</h3>
-					<div class="modal-close">
-						<i class="bi bi-x-lg"></i>
-					</div>
-				</div>
-				<div class="modal-body">
-					<div class="input-group" style="width: 100%">
-						<label for="book-title">Book Name :</label>
-						<div class="input-field">
-							<input
-								type="text"
-								name="book-title"
-								id="book-title"
-								value=""
-								readonly />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="role-sign-in">Start Date :</label>
-						<div class="input-field">
-							<input type="date" name="" id="" required />
-						</div>
-					</div>
-					<div class="input-group" style="flex: 1">
-						<label for="role-sign-in">End Date :</label>
-						<div class="input-field">
-							<input type="date" name="" id="" required />
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="modal-submit">Borrow Now</button>
-				</div>
-			</div>
-		</section>
-	</body>
-	<script>
-		const adminTags = JSON.parse(localStorage.getItem("settings"))
-			adminTags.tags.forEach(element => {
-				const opt = document.createElement("option")
-				opt.innerText = element
-				$("#choice-js").append(opt);
-			});
-				 const choices = new Choices("#choice-js", {
-					removeItems: true,
-					removeItemButton: true
-				});
+      <div class="backdrop"></div>
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Borrow-Book</h3>
+          <div class="modal-close">
+            <i class="bi bi-x-lg"></i>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="input-group" style="width: 100%">
+            <label for="book-title">Book Name :</label>
+            <div class="input-field">
+              <input
+                type="text"
+                name="book-title"
+                id="book-title"
+                value=""
+                readonly
+              />
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1">
+            <label for="role-sign-in">Start Date :</label>
+            <div class="input-field">
+              <input type="date" name="" id="" required />
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1">
+            <label for="role-sign-in">End Date :</label>
+            <div class="input-field">
+              <input type="date" name="" id="" required />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-submit">Borrow Now</button>
+        </div>
+      </div>
+    </section>
+  </body>
+  <script type="module">
+    const tagsArray = await getBookGenres();
+    const adminTags = Object.keys(tagsArray);
+    adminTags.forEach((element) => {
+      const opt = document.createElement("option");
+      opt.innerText = element;
+      $("#choice-js").append(opt);
+    });
+
+    const choices = new Choices("#choice-js", {
+      addItems: true,
+      removeItems: true,
+      removeItemButton: true,
+      maxItemCount: 3,
+      allowHTML: true,
+      addItemText: (value) => {
+        return `Press Enter to add <b>"${value}"</b>`;
+      },
+    });
 
 
-				
+    function tagsToArray() {
+      const tags = document.getElementById("choice-js").selectedOptions;
+      let str = "";
+      for (const i of tags) {
+        str += " " + i.value.toLowerCase();
+      }
+      let stringArray = str.split(" ");
+      let row = stringArray.filter((n) => n);
+      return row;
+    }
+    let uid = document.getElementById("create-id");
+    const UUID = generateGuid();
+    uid.placeholder = UUID;
 
-				function tagsToArray() {
-					const tags = document.getElementById("choice-js").selectedOptions;
-					let str = "";
-					for (const i of tags) {
-						str += " " + i.value;
-					}
-					let stringArray = str.split(" ");
-					let row = stringArray.filter((n) => n)
-					return row;
-				}
+    function createBook() {
+      event.preventDefault();
+      const title = document.getElementById("Title").value;
+      const subtitle = document.getElementById("Sub-title").value;
+      const authorName = document.getElementById("Authorname").value;
+      const pages = document.getElementById("Page").value;
+      const imageUrl = document.getElementById("Image").value;
+      const description = document.getElementById("Description").value;
+      let book_list = JSON.parse(localStorage.getItem("book_list")) || [];
+      let newBook = {
+        id: UUID,
+        subtitle: subtitle,
+        author: authorName,
+        title: title,
+        image: { src: imageUrl, alt: title },
+        tags: tagsToArray(),
+        star_rating: [],
+        isBorrowable: true,
+        language: "English",
+        isActive: true,
+        pages: parseInt(pages),
+        description: description,
+      };
 
-
-				let uid = document.getElementById("create-id");
-				const UUID = generateGuid()
-				uid.placeholder = UUID
-				
-				function createBook() {
-					event.preventDefault();
-					const title = document.getElementById("Title").value;
-					const subtitle = document.getElementById("Sub-title").value;
-					const authorName = document.getElementById("Authorname").value;
-					const pages = document.getElementById("Page").value;
-					const imageUrl = document.getElementById("Image").value;
-					const description = document.getElementById("Description").value;
-					let book_list = JSON.parse(localStorage.getItem("book_list"))||[];
-					let newBook = {
-						id: uid.placeholder,
-						subtitle: subtitle,
-						author: authorName,
-						title: title,
-						image :{src : imageUrl, alt : title},
-						tags: tagsToArray(),
-						star_rating: [],
-						isBorrowable: true,
-						language: "English",
-						isActive: true,
-						pages: parseInt(pages),
-						description: description,
-					};
-					book_list.push(newBook);
-					localStorage.setItem('book_list', JSON.stringify(book_list));
-					location.reload()
-					
-				}
-
-	</script>
+      putData(`Books/${UUID}`, newBook)
+        .then((result) => {
+          alert("Book created successfully with id " + result.id);
+          location.reload();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  </script>
 </html>

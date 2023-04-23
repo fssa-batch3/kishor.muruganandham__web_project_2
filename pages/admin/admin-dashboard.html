@@ -283,20 +283,12 @@
         const activeBooksLength = bookList.filter(
           (book) => book.isActive
         ).length;
-        const bookCountsByGenre = {};
-        bookList.forEach((book) => {
-          if (book["isActive"]) {
-            book.tags.forEach((tag) => {
-              if (bookCountsByGenre[tag]) {
-                bookCountsByGenre[tag]++;
-              } else {
-                bookCountsByGenre[tag] = 1;
-              }
-            });
-          }
-        });
-        const tagValues = Object.values(bookCountsByGenre);
-        const tagKeys = Object.keys(bookCountsByGenre);
+        
+        const tagsArray = await getBookGenres();
+        
+        const tagValues = Object.values(tagsArray);
+        const tagKeys = Object.keys(tagsArray);
+
         Chart.defaults.font.size = 16;
         let genreChart = new Chart(
           document.getElementById("genreChart").getContext("2d"),

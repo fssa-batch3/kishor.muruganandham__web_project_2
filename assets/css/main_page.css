@@ -218,9 +218,6 @@ body {
   overflow-x: auto;
 }
 
-.library-tags::-webkit-scrollbar {
-  display: none;
-}
 
 .library-tags > button {
   width: fit-content;

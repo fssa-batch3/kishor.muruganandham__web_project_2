@@ -1,5 +1,3 @@
-
-
 const thisUser = JSON.parse(localStorage.getItem("user"));
 
 // Dark Mode
@@ -83,6 +81,49 @@ function getStars(rating) {
   return output.join("");
 }
 
+async function getBookGenres() {
+  try {
+    const bookList = await getData("Books");
+    const bookCountsByGenre = {};
+    bookList.forEach((book) => {
+      if (book["isActive"]) {
+        book.tags.forEach((tag) => {
+          if (bookCountsByGenre[tag]) {
+            bookCountsByGenre[tag]++;
+          } else {
+            bookCountsByGenre[tag] = 1;
+          }
+        });
+      }
+    });
+    const uniqueCategories = [
+      ...new Set(
+        Object.keys(bookCountsByGenre).map((cat) => cat.toLowerCase())
+      ),
+    ];
+    const result = {};
+    uniqueCategories.forEach((cat) => {
+      const catCounts = Object.entries(bookCountsByGenre)
+        .filter(([key, val]) => key.toLowerCase() === cat)
+        .map(([key, val]) => val);
+      result[cat] = catCounts.reduce((acc, val) => acc + val, 0);
+    });
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function showTags(){
+  const tagsArray = await getBookGenres();
+  const tagSettings = Object.keys(tagsArray);
+  tagSettings.forEach((tags) => {
+    const tagBtn = document.createElement("button");
+    tagBtn.setAttribute("onclick", `tagFilterBooks('${tags}')`);
+    tagBtn.innerText = tags;
+    document.querySelector(".library-tags").append(tagBtn);
+  });
+}
 
 // This function generates a book card element and appends it to a book rack container.
 function generateBook(book, bookRack) {
@@ -128,14 +169,16 @@ function generateBook(book, bookRack) {
     bookAuthor.innerText = book.author;
 
     // Append the book cover, favorite button, title and author to the book card div element.
-    bookDiv.append(bookCover, favBtn, bookTitle);
+    bookDiv.append(bookCover, bookTitle);
+    if (thisUser.role === "user") {
+      bookDiv.append(favBtn);
+    }
     bookCover.append(bookImage);
     favBtn.append(favIcon);
     bookTitle.append(bookName, bookAuthor);
 
     // Append the book card div element to the book rack container.
     bookRack.append(bookDiv);
-
   } catch (error) {
     // Log any errors to the console for debugging purposes.
     console.error(error);
@@ -150,7 +193,7 @@ async function toggleFavourites() {
     const favButtons = document.querySelectorAll(".fav-btn");
 
     // Add an event listener to each favorite button to toggle the book's favorite status.
-    favButtons.forEach(button => {
+    favButtons.forEach((button) => {
       const bookId = button.parentElement.dataset.id;
       button.addEventListener("click", () => {
         const userFavourites = currentUser["favourites"];
@@ -160,12 +203,11 @@ async function toggleFavourites() {
         } else {
           userFavourites?.push(bookId);
         }
-        putData(`Users/${currentUser.id}`, currentUser)
-        .then(() => {
+        putData(`Users/${currentUser.id}`, currentUser).then(() => {
           checkForFavourites();
         });
       });
-      });
+    });
   } catch (error) {
     console.error(error);
   }
@@ -182,7 +224,6 @@ async function checkForFavourites() {
 
     // Loop through each button and update its active state based on the favourites data.
     favButtons.forEach((button) => {
-
       const isFavourite = favourites?.includes(button.parentElement.dataset.id);
 
       if (isFavourite) {
@@ -199,10 +240,7 @@ async function checkForFavourites() {
         );
       }
     });
-    
   } catch (error) {
     console.error("An error occurred in checkForFavourites function:", error);
   }
 }
-
-
