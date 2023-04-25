@@ -15,7 +15,7 @@ async function showData(){
   document.querySelector(".favourites-count-info").textContent = favoriteListLength;
   document.querySelector(".borrow-count-info").textContent = borrowListLength;
 }
-issue
+
 
 
 showData();
