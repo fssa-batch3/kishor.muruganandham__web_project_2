@@ -15,7 +15,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -173,26 +178,75 @@
         </div>
       </main>
     </section>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="https://unpkg.com/gridjs-jquery/dist/gridjs.production.min.js"></script>
 
     <script type="module">
+      import { Grid, html } from "https://unpkg.com/gridjs?module";
       const allUsers = await getData("Users");
 
-      const userData = allUsers.map((user, index) => [
-        index + 1,
-        user["name"],
-        user["username"],
-      ]);
+      const userData = allUsers.map((user, index) => {
+        const activeStatus = user.isActive === true ? "active" : "inactive";
+        const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";
+        const statusClassName =
+          user.isActive === true
+            ? "borrow-status status completed"
+            : "borrow-status status rejected";
+        console.log(user);
+        return [
+          index + 1,
+          user["profile"],
+          user["name"],
+          {
+            text: user["role"],
+            className: roleName,
+          },
+          user["username"],
+          {
+            text: activeStatus,
+            className: statusClassName,
+          },
+          user["phone_number"] || "-",
+          user["dob"],
+          user["age"] || "-",
+        ];
+      });
 
-      const tableGrid = $(".user-list-table-body").Grid({
-        columns: ["S.No", "Name", "Email"],
+      const tableGrid = new Grid({
+        columns: [
+          "S.No",
+          {
+            name: "Profile",
+            formatter: (_, row) =>
+              html(`<img class='profile-img' src='${row.cells[1].data}' />`),
+          },
+          "Name",
+          {
+            name: "Role",
+            formatter: (_, row) =>
+              html(
+                `<span class='${row.cells[3].data.className}' >${row.cells[3].data.text}</span>`
+              ),
+          },
+          "Email",
+          {
+            name: "Active",
+            formatter: (_, row) =>
+              html(
+                `<span class='${row.cells[5].data.className}' >${row.cells[5].data.text}</span>`
+              ),
+          },
+          "Phone Number",
+          "Date of Birth",
+          "Age",
+
+        ],
         data: userData,
         pagination: {
           limit: 10,
         },
         fixedHeader: true,
-      });
+        search: true,
+        autoWidth: true,
+      }).render(document.querySelector(".user-list-table-body"));
     </script>
   </body>
 </html>

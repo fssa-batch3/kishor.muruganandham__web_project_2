@@ -187,8 +187,13 @@
             </div>
             <div class="book-detail-info">
               <div class="book-detail-info-one info-row">
-                <span class="book-detail-pages-info">Pages : <br /></span>
-                <span class="book-detail-language-info">Language : <br /></span>
+                <span
+                  >Pages : <br /><span class="book-detail-pages-info"></span
+                ></span>
+                <span
+                  >Language : <br />
+                  <span class="book-detail-language-info"></span
+                ></span>
               </div>
             </div>
             <div class="book-detail-star-ratings">
@@ -267,22 +272,43 @@
               />
             </div>
           </div>
-          <div class="input-group" style="flex: 1">
-            <label for="borrow-date">Borrow Date :</label>
+          <div class="input-group" style="width: 100%">
+            <label for="due-duration">Borrow Days :</label>
             <div class="input-field">
-              <input type="date" name="borrow-date" id="borrow-date" required />
+              <select name="due-duration" id="due-duration">
+                <option value="5">5 Days</option>
+                <option value="15" selected>15 Days</option>
+                <option value="20">20 Days</option>
+                <option value="30">30 Days</option>
+              </select>
             </div>
           </div>
-          <div class="input-group" style="flex: 1">
-            <label for="due-date">Due Date :</label>
+          <div class="input-group" style="flex: 1; margin-right: 20px">
+            <label for="borrow-date">Borrow Date :</label>
             <div class="input-field">
               <input
-                type="date"
+                type="datetime"
+                name="borrow-date"
+                id="borrow-date"
+                required
+                disabled
+              />
+              <br/>
+              <span class="status">Borrow At : <span class="full-borrow-date full-date"></span></span>
+            </div>
+          </div>
+          <div class="input-group" style="flex: 1; min-width: 300px;">
+            <label for="due-date">Due Date : </label>
+            <div class="input-field">
+              <input
+                type="datetime"
                 name="due-date"
                 id="due-date"
                 required
                 disabled
               />
+              <br/>
+              <span class="status">Due till : <span class="full-due-date full-date"></span></span>
             </div>
           </div>
         </div>
@@ -298,22 +324,22 @@
         ".book-detail-borrow-now"
       );
 
-      showBookDetails();
-
       // Borrow Modal
 
       const modalCloseBtn = document.querySelector(".modal-close");
-      const borrowList = JSON.parse(localStorage.getItem("borrow-list")) || [];
-
       const borrowNowBtn = document.querySelector(".modal-submit");
       const borrowDateInput = document.getElementById("borrow-date");
       const dueDateInput = document.getElementById("due-date");
+      const dueDurationInput = document.getElementById("due-duration");
+      const fullBorrowDate = document.querySelector(".full-borrow-date");
+      const fullDueDate = document.querySelector(".full-due-date");
 
       modalCloseBtn.addEventListener("click", closeBorrowModal);
       borrowBtn.addEventListener("click", openBorrowModal);
 
       // Comments
 
+      showBookDetails();
       showComment();
     </script>
   </body>

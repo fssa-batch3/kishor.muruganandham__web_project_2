@@ -4,12 +4,18 @@ if (localStorage.getItem("id")) {
   window.location.href = "./pages/user/homepage.html";
 }
 
-const settingsObject = {
-  tags: ["Fantasy", "Education", "Drama", "Sci-fi"],
-  books: { avail_books: 200, max_borrow: 50, max_fav: 30 },
-};
+const datePicker = document.querySelector('.datePicker');
+const minDate = moment().subtract(100, 'year').format('YYYY-MM-DD');
+const maxDate = moment().subtract(10, 'year').format('YYYY-MM-DD');
 
-localStorage.setItem("settings", JSON.stringify(settingsObject));
+datePicker.setAttribute('min', minDate);
+datePicker.setAttribute('max', maxDate);
+// const settingsObject = {
+//   tags: ["Fantasy", "Education", "Drama", "Sci-fi"],
+//   books: { avail_books: 200, max_borrow: 50, max_fav: 30 },
+// };
+
+// localStorage.setItem("settings", JSON.stringify(settingsObject));
 
 // Get form inputs and form element
 const signinForm = document.getElementById("sign-in");
@@ -85,7 +91,7 @@ signupForm.addEventListener("submit", async function(event) {
       role: role.value,
       dob: dob.value,
       phone_number: null,
-      age: null,
+      age: moment().diff(dob.value, "years"),
       isActive: true,
       username: emailAdd.value,
       password: pass.value,

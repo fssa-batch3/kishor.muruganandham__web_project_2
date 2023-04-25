@@ -463,7 +463,15 @@ table th:last-child {
 table tbody tr:nth-child(even) {
   background-color: var(--body-white);
 }
+table .profile-img{
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-border);
 
+}
+.gridjs-search input{
+  min-height: 50px;
+}
 .status {
   font-size: var(--sm-fs);
   padding: 2px 8px;
@@ -483,6 +491,12 @@ table tbody tr:nth-child(even) {
   color: var(--success-green);
   border: 1px solid var(--success-green);
   background-color: var(--success-green-shade);
+}
+
+.status.primary {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-shade);
 }
 
 .history-delete .bi-trash {

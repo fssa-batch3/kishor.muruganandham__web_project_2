@@ -9,6 +9,11 @@ const phoneNumber = document.getElementById("ud-phone-number");
 const emailAddress = document.getElementById("ud-email");
 const age = document.getElementById("ud-age");
 const profileEditBtn = document.querySelector(".user-image .bi-pencil-fill");
+const datePicker = document.querySelector('.datePicker');
+const minDate = moment().subtract(100, 'year').format('YYYY-MM-DD');
+const maxDate = moment().subtract(10, 'year').format('YYYY-MM-DD');
+datePicker.setAttribute('min', minDate);
+datePicker.setAttribute('max', maxDate);
 
 profDisp.style.background = `url(${thisUser.profile}) no-repeat center center/cover`;
 firstName.value = thisUser.first_name;
@@ -24,6 +29,7 @@ const editBtn = document.querySelector(".user-detail-edit");
 const deleteBtn = document.querySelector(".user-detail-delete");
 const cancelBtn = document.querySelector(".user-detail-cancel");
 const saveBtn = document.querySelector(".user-detail-save");
+const saveForm = document.querySelector(".user-detail-form");
 
 editBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -48,32 +54,32 @@ cancelBtn.addEventListener("click", (e) => {
   location.reload();
 });
 
-saveBtn.addEventListener("click", async (e) => {
+saveForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const userData = await getData("Users");
-  const indexOfUser = Object.values(userData).indexOf(thisUser);
-
   thisUser.first_name = firstName.value;
   thisUser.last_name = lastName.value;
   thisUser.name = displayName.value;
   thisUser.dob = dateOfBirth.value;
   thisUser.age = moment().diff(dateOfBirth.value, "years");
   thisUser.phone_number = phoneNumber.value;
+  const phoneNumberPattern = /^[6789]\d{9}$/;
 
+  if (phoneNumber.value !== "" && phoneNumberPattern.test(phoneNumber.value) === false) {
+    alert("Invalid phone number");
+    return;
+  } 
   if (thisUser.username !== emailAddress.value) {
     alert("You can't change the Email Address");
     return;
   }
-
-  userData[indexOfUser] = thisUser;
-  console.log(thisUser);
-  putData(`Users/${thisUser.id}`, thisUser)
-  .then(
-    () => {
-      localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify(thisUser));
-    }
-  );
+  
+  putData(`Users/${thisUser.id}`, thisUser).then(() => {
+    localStorage.removeItem("user");
+    localStorage.setItem("user", JSON.stringify(thisUser));
+    alert("User Details updated successfully");
+    location.reload();
+  });
 });
 
 deleteBtn.addEventListener("click", (e) => {
@@ -85,16 +91,18 @@ deleteBtn.addEventListener("click", (e) => {
     );
     if (promptValue === thisUser.password) {
       thisUser.isActive = false;
-      createAndUpdateDetails(`"user/${thisUser.json_id}`, "PUT", thisUser).then(
-        () => {
-          localStorage.removeItem("user");
-          localStorage.setItem("user", JSON.stringify(thisUser));
-          alert(
-            "The journey has come to an end, your account has been deleted."
-          );
-          window.location.href = "../../index.html";
-        }
-      );
+      putData(`Users/${thisUser.id}`, thisUser).then(() => {
+        localStorage.removeItem("user");
+        localStorage.setItem("user", JSON.stringify(thisUser));
+        alert("The journey has come to an end, your account has been deleted.");
+        window.location.href = "../../index.html";
+      });
     }
   }
 });
+
+
+
+
+
+

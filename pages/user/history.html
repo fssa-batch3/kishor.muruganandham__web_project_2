@@ -189,7 +189,12 @@
     <script>
       async function showHistory() {
         const bookList = await getData("Books");
-        const borrowList = await getData(`Borrows/`);
+        const borrowArr = await getData(`Borrows/`);
+
+        console.log(borrowArr);
+        const borrowList = borrowArr.filter(borrow => borrow.user_id === thisUser.id)
+        console.log(borrowList);
+
         let idCount = 1;
         if (borrowList === null || borrowList.length === 0) {
           return;

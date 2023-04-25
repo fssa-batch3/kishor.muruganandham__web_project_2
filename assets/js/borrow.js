@@ -1,3 +1,4 @@
+
 async function openBorrowModal() {
   const booksArr = await getData("Books");
   const bookList = Object.values(booksArr);
@@ -6,24 +7,29 @@ async function openBorrowModal() {
   document.querySelector(".modal").classList.add("active");
   document.getElementById("book-title").value = thisBook?.title;
 
-  const todayDate = moment().format("YYYY-MM-DD");
-  borrowDateInput.value = todayDate;
-  let dueDateCalculated = moment(borrowDateInput.value)
-    .add(15, "days")
-    .format("YYYY-MM-DD");
+  const durationDate = moment().format("YYYY-MM-DD h:mm A");
+  let dueDateCalculated = moment(durationDate)
+  .add(15, "days")
+  .format("YYYY-MM-DD h:mm A");
+  borrowDateInput.value = durationDate;
   dueDateInput.value = dueDateCalculated;
-  borrowDateInput.addEventListener("input", () => {
-    dueDateCalculated = moment(borrowDateInput.value)
-      .add(15, "days")
-      .format("YYYY-MM-DD");
+  fullBorrowDate.innerText = moment().format("MMMM Do YYYY, h:mm a")
+  fullDueDate.innerText = moment(dueDateCalculated).format("MMMM Do YYYY, h:mm a")
+  
+  dueDurationInput.addEventListener("change", () => {
+    dueDateCalculated = moment(durationDate)
+    .add(dueDurationInput.value, "days")
+    .format("YYYY-MM-DD h:mm A");
     dueDateInput.value = dueDateCalculated;
+  fullDueDate.innerText = moment(dueDateCalculated).format("MMMM Do YYYY, h:mm a")
+
   });
 
   borrowNowBtn.addEventListener("click", handleBorrow);
 }
 async function handleBorrow() {
-  const booksArr = await getData("Books");
-  const bookList = Object.values(booksArr);
+  const bookList = await getData("Books");
+  const borrowList = await getData("Borrows");
   const thisBook = bookList.find((book) => book.id === bookId);
   const borrowDate = borrowDateInput.value;
   const dueDate = dueDateInput.value;
@@ -34,7 +40,7 @@ async function handleBorrow() {
   }
 
   const borrowedBook = borrowList.find(
-    borrowed => borrowed.book_id === bookId
+    (borrowed) => borrowed.book_id === bookId
   );
 
   if (borrowedBook && borrowedBook.status == "Pending") {
@@ -43,7 +49,7 @@ async function handleBorrow() {
   }
   const borrowId = generateGuid();
   const borrowObj = {
-    borrow_date: moment().format("YYYY-MM-DD"),
+    borrow_date: moment().format("YYYY-MM-DD h:mm A"),
     due_date: dueDate,
     status: "Pending",
     return_date: "-",
@@ -51,18 +57,17 @@ async function handleBorrow() {
     user_id: thisUser.id,
     username: thisUser.name,
     remarks: null,
-    borrow_id: borrowId
+    borrow_id: borrowId,
   };
   thisBook.isBorrowable = false;
-  putData(`Borrows/${borrowId}`, borrowObj)
-  .then((data) => {
+  putData(`Borrows/${borrowId}`, borrowObj).then((data) => {
     console.log(data);
     // Success notification
-    alert("Book Borrowed successfully")
+    alert("Book Borrowed successfully");
     closeBorrowModal();
     showBookDetails();
   });
-  patchData(`Books/${thisBook.id}`, thisBook)
+  patchData(`Books/${thisBook.id}`, thisBook);
 }
 
 function closeBorrowModal() {

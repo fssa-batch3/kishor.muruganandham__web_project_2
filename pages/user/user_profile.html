@@ -216,13 +216,15 @@
               <label for="ud-dob">Date of Birth :</label>
               <div class="input-field">
                 <input
-                  type="text"
+                  type="date"
                   name="ud-dob"
                   id="ud-dob"
-                  class="input ud-input"
+                  class="input ud-input datePicker"
                   value="Date of Birth"
                   placeholder="YYYY-MM-DD"
+                  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                   disabled
+                  required
                 />
               </div>
             </div>
@@ -248,6 +250,7 @@
                   id="ud-phone-number"
                   class="input ud-input"
                   value="1234567898"
+                  
                   disabled
                 />
               </div>

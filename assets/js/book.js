@@ -63,8 +63,7 @@ async function showBookEditDetails() {
     thisBook.image.src = bookImage.src;
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
     books[indexOfBook] = thisBook;
-    putData(`Books/${thisBook.id}`, thisBook)
-    .then((data) => {
+    putData(`Books/${thisBook.id}`, thisBook).then((data) => {
       console.log(data);
       // Success notification
       location.reload();
@@ -73,53 +72,75 @@ async function showBookEditDetails() {
 }
 
 async function showBookDetails() {
-  const books = await getData("Books");
-  const borrowList = await getData(`Borrows/`)
+  try {
+    const books = await getData("Books");
+    const borrowList = await getData(`Borrows/`);
 
-  const thisBook = books.find((book) => book.id === bookId);
-  document.querySelector(".book-detail-image img").src =
-    thisBook["image"]["src"];
-  document.querySelector(".book-detail-image img").alt =
-    thisBook["image"]["alt"];
-  const bookViews = borrowList?.filter(
-    (e) => e.book_id === thisBook["id"]
-  ).length;
-  document.querySelector(".book-views").textContent =
-    bookViews > 0 ? `${bookViews}` : `0`;
-  document.querySelector(".book-detail-header h2").textContent =
-    thisBook["title"];
-  document.querySelector(".book-detail-header p").textContent =
-    thisBook["author"];
-  document.querySelector(".book-detail-description p").textContent =
-    thisBook["description"];
-  document.querySelector(".book-detail-pages-info").innerHTML +=
-    thisBook["pages"];
-  document.querySelector(".book-detail-language-info").innerHTML +=
-    thisBook["language"];
-  thisBook["tags"].forEach((tag) => {
-    const tagSpan = document.createElement("span");
-    tagSpan.className = "book-detail-tags";
-    tagSpan.innerText = tag;
-    document.querySelector(".book-detail-tags-list").append(tagSpan);
-  });
-  const starRating = document.getElementById("stars");
+    const thisBook = books.find((book) => book.id === bookId);
 
-  starRating.innerHTML = getStars(thisBook.star_rating);
-  
-  const availableDate = borrowList?.find((e) => e.book_id === thisBook["id"] && e.status === "Pending");
-  if (thisBook?.isBorrowable === false && availableDate) {
-    const targetDate = moment(availableDate["due_date"]);
-    const duration = moment.duration(targetDate.diff(moment()));
-    const daysDiff = duration.asDays();
-    borrowBtn.style.display = "none";
-    borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
-      availableDate["username"]
-    },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
-  } else if (thisBook?.isBorrowable === true) {
-    borrowBtn.innerText = "Borrow Now";
-    borrowBtn.disabled = false;
-  } else {
-    borrowBtn.style.display = "none";
-    borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
+    const bookImage = document.querySelector(".book-detail-image img");
+    bookImage.src = thisBook["image"]["src"];
+    bookImage.alt = thisBook["image"]["alt"];
+
+    const bookViews = borrowList?.filter(
+      (e) => e.book_id === thisBook["id"]
+    ).length;
+    const bookViewsElement = document.querySelector(".book-views");
+    bookViewsElement.textContent = bookViews > 0 ? `${bookViews}` : `0`;
+
+    const bookTitleElement = document.querySelector(".book-detail-header h2");
+    bookTitleElement.textContent = thisBook["title"];
+
+    const bookAuthorElement = document.querySelector(".book-detail-header p");
+    bookAuthorElement.textContent = thisBook["author"];
+
+    const bookDescriptionElement = document.querySelector(
+      ".book-detail-description p"
+    );
+    bookDescriptionElement.textContent = thisBook["description"];
+
+    const bookPagesElement = document.querySelector(".book-detail-pages-info");
+    bookPagesElement.innerHTML = thisBook["pages"];
+
+    const bookLanguageElement = document.querySelector(
+      ".book-detail-language-info"
+    );
+    bookLanguageElement.innerHTML = thisBook["language"];
+
+    const bookDetailTagsListElement = document.querySelector(
+      ".book-detail-tags-list"
+    );
+    bookDetailTagsListElement.innerHTML = "";
+    thisBook["tags"].forEach((tag) => {
+      const tagSpan = document.createElement("span");
+      tagSpan.className = "book-detail-tags";
+      tagSpan.innerText = tag;
+      bookDetailTagsListElement.append(tagSpan);
+    });
+
+    const starRatingElement = document.getElementById("stars");
+    starRatingElement.innerHTML = getStars(thisBook.star_rating);
+
+    const availableDate = borrowList?.find(
+      (e) => e.book_id === thisBook["id"] && e.status === "Pending"
+    );
+    if (thisBook?.isBorrowable === false && availableDate) {
+      const targetDate = moment(availableDate["due_date"]);
+      const duration = moment.duration(targetDate.diff(moment()));
+      const daysDiff = duration.asDays();
+      borrowBtn.style.display = "none";
+      borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
+        availableDate["username"]
+      },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
+    } else if (thisBook?.isBorrowable === true) {
+      console.log(borrowBtnElement);
+      borrowBtn.innerText = "Borrow Now";
+      borrowBtn.disabled = false;
+    } else {
+      borrowBtn.style.display = "none";
+      borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
 }

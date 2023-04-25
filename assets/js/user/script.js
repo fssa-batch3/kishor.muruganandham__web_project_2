@@ -40,6 +40,9 @@ function generateGuid() {
   return result;
 }
 
+
+
+
 function activeTab(evt, tabName) {
   // Hide all tab contents
   const tabContents = document.querySelectorAll(".tab-content");
@@ -188,7 +191,7 @@ function generateBook(book, bookRack) {
 // This function adds event listeners to the favorite buttons on the book cards.
 async function toggleFavourites() {
   try {
-    const currentUser = await getData(`Users/${thisUser.id}`);
+    const currentUser = await getOneData(`Users/${thisUser.id}`);
     // Get all the favorite buttons on the page.
     const favButtons = document.querySelectorAll(".fav-btn");
 
@@ -203,7 +206,8 @@ async function toggleFavourites() {
         } else {
           userFavourites?.push(bookId);
         }
-        putData(`Users/${currentUser.id}`, currentUser).then(() => {
+        putData(`Users/${currentUser.id}`, currentUser)
+        .then(() => {
           checkForFavourites();
         });
       });
