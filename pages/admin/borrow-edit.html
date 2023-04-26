@@ -11,7 +11,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
 
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -212,7 +217,9 @@
                 </div>
               </div>
               <div class="input-group">
-                <label for="borrow-edit-availability">Book Availability :</label>
+                <label for="borrow-edit-availability"
+                  >Book Availability :</label
+                >
                 <div class="input-field">
                   <input
                     type="text"
@@ -288,7 +295,9 @@
       const bookDetail = bookList.find(
         (b) => b["id"] === borrowDetail["book_id"]
       );
-      const userDetail = userList.find((b) => b["id"] == borrowDetail["user_id"]);
+      const userDetail = userList.find(
+        (b) => b["id"] == borrowDetail["user_id"]
+      );
       const userName = document.querySelector(".user-name h4");
       const saveBtn = document.querySelector(".save-borrow-edit ");
       const cancelBtn = document.querySelector(".cancel-borrow-edit ");
@@ -334,15 +343,17 @@
           (e) => e.id === borrowDetail["id"]
         );
         userBorrowHistory["status"] = borrowStatus.value;
-        patchData(`Borrows/${borrowDetail["borrow_id"]}`, borrowDetail)
-        .then(() => {
-          window.location.href = "./borrow-list.html";
-        })
+        patchData(`Borrows/${borrowDetail["borrow_id"]}`, borrowDetail).then(
+          () => {
+            window.location.href = "./borrow-list.html";
+          }
+        );
       });
       cancelBtn.addEventListener("click", function (e) {
         window.location.href = "./borrow-list.html";
       });
-    };
-    showBorrowEdit()
+      setLoader(false);
+    }
+    showBorrowEdit();
   </script>
 </html>

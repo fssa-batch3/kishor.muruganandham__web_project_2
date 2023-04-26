@@ -73,10 +73,11 @@ saveForm.addEventListener("submit", async (e) => {
     alert("You can't change the Email Address");
     return;
   }
-  
+  setLoader(true)
   putData(`Users/${thisUser.id}`, thisUser).then(() => {
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(thisUser));
+    setLoader(false)
     alert("User Details updated successfully");
     location.reload();
   });
@@ -100,6 +101,9 @@ deleteBtn.addEventListener("click", (e) => {
     }
   }
 });
+
+setLoader(false)
+
 
 
 

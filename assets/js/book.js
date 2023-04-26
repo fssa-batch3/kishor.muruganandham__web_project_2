@@ -3,6 +3,19 @@ const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id");
 
 async function showBookEditDetails() {
+  // Store references to all relevant DOM elements
+  const bookIdNo = document.getElementById("ed-book-id");
+  const bookTitle = document.getElementById("ed-book-title");
+  const bookAuthor = document.getElementById("ed-book-author");
+  const bookLang = document.getElementById("ed-language");
+  const bookPages = document.getElementById("ed-pages");
+  const bookDesc = document.getElementById("ed-book-description");
+  const bookImage = document.querySelector(".book-edit-image img");
+  const bookAvailablity = document.getElementById("ed-book-available");
+  const editBtn = document.querySelector(".book-edit.submit");
+  const deleteBtn = document.querySelector(".book-delete.submit");
+  const cancelBtn = document.querySelector(".book-cancel.submit");
+  const saveBtn = document.querySelector(".book-save.submit");
   const books = await getData("Books");
   const thisBook = books.find((book) => book.id === bookId);
   const indexOfBook = books.indexOf(thisBook);
@@ -50,6 +63,7 @@ async function showBookEditDetails() {
   // Add event listener to Save button to update the book data and update the book list in Database
   saveBtn.addEventListener("click", function (e) {
     e.preventDefault();
+    setLoader(true);
     if (bookIdNo.value !== thisBook.id) {
       alert("Book Id cannot be changed");
       location.reload();
@@ -64,8 +78,9 @@ async function showBookEditDetails() {
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
     books[indexOfBook] = thisBook;
     putData(`Books/${thisBook.id}`, thisBook).then((data) => {
-      console.log(data);
+      setLoader(false);
       // Success notification
+      alert("Book Details updated successfully");
       location.reload();
     });
   });
@@ -73,7 +88,9 @@ async function showBookEditDetails() {
 
 async function showBookDetails() {
   try {
+    setLoader(true);
     const books = await getData("Books");
+
     const borrowList = await getData(`Borrows/`);
 
     const thisBook = books.find((book) => book.id === bookId);
@@ -139,6 +156,9 @@ async function showBookDetails() {
     } else {
       borrowBtn.style.display = "none";
       borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
+    }
+    if (books) {
+      setLoader(false);
     }
   } catch (error) {
     console.error("Error:", error);

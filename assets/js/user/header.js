@@ -57,6 +57,7 @@ async function displayUserData() {
 }
 
 displayUserData();
+setLoader(true)
 
 async function addSearchResults() {
   try {

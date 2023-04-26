@@ -9,6 +9,11 @@
   overflow-y: auto;
 }
 
+@keyframes animloader {
+  to {
+    background-position: 185px 0, center 10px, center 125px, center 155px;
+  }
+}
 .book-detail-sticky-div {
   max-width: 280px;
   gap: 30px;

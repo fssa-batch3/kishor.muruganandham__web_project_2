@@ -192,7 +192,7 @@
         let statusClassName = "borrow-status status";
         if (borrow.status === "Completed") {
           statusClassName += " completed";
-        } 
+        }
         return [
           index + 1,
           user ? user.name : "",
@@ -235,6 +235,7 @@
         },
         fixedHeader: true,
       }).render(document.querySelector(".Borrow-table-wrapper"));
+      setLoader(false);
     </script>
   </body>
 </html>

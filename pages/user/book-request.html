@@ -16,7 +16,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -228,7 +233,7 @@
       </main>
     </section>
 
-    <script>
+    <script type="module">
       // Select the form and input fields
       const bookReqForm = document.querySelector(".book-request");
       const bookName = document.getElementById("book-name");
@@ -236,40 +241,40 @@
       const bookPrice = document.getElementById("price");
       const bookDesc = document.getElementById("description");
 
-      // Initialize the book_req array from local storage
-      let book_req = JSON.parse(localStorage.getItem("book_req")) || [];
-      localStorage.setItem("book_req", JSON.stringify(book_req));
-
       // Add event listener to the form
-      bookReqForm.addEventListener("submit", function (e) {
+      bookReqForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-
-        // Check if the book is already requested
-        const bookExists = book_req.some(
-          (book) => book.book_name === bookName.value
-        );
-        if (bookExists) {
-          alert("The book is already requested");
-          return;
+        try {
+          // Check if the book is already requested
+          const bookReqArr = await getData("BookRequests");
+          const bookExists = bookReqArr.some(
+            (book) => book.book_name === bookName.value.toLowerCase()
+          );
+          if (bookExists) {
+            throw new Error("The book is already requested");
+          }
+          const reqId = generateGuid();
+          // Create a new book request object
+          const bookReqObj = {
+            book_name: bookName.value.toLowerCase(),
+            author_name: authorName.value,
+            price: bookPrice.value,
+            description: bookDesc.value,
+            log: moment().format("YYYY MM DD HH:mm A"),
+            id: reqId,
+          };
+          setLoader(true);
+          // Add the new book request to the array in local storage
+          putData(`BookRequests/${reqId}`, bookReqObj).then(() => {
+            alert("Book requested successfully");
+            bookReqForm.reset();
+            setLoader(false);
+          });
+        } catch (error) {
+          alert(`Error requesting book: ${error.message}`);
         }
-        const reqId = generateGuid()
-        // Create a new book request object
-        const bookReqObj = {
-          book_name: bookName.value,
-          author_name: authorName.value,
-          price: bookPrice.value,
-          description: bookDesc.value,
-          log: new Date(),
-          id: reqId,
-        };
-
-        // Add the new book request to the array in local storage
-        putData(`BookRequests/${reqId}`,bookReqObj)
-        .then(() => {
-          alert("Book requested successfully")
-          bookReqForm.reset();
-        })
       });
+      setLoader(false);
     </script>
   </body>
 </html>

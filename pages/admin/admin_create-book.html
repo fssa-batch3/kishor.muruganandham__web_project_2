@@ -340,9 +340,8 @@
       allowHTML: true,
       addItemText: (value) => {
         return `Press Enter to add <b>"${value}"</b>`;
-      }
+      },
     });
-
 
     function tagsToArray() {
       const tags = document.getElementById("choice-js").selectedOptions;
@@ -381,15 +380,19 @@
         pages: parseInt(pages),
         description: description,
       };
+      setLoader(true)
 
       putData(`Books/${UUID}`, newBook)
         .then((result) => {
           alert("Book created successfully with id " + result.id);
+          setLoader(false);
+
           location.reload();
         })
         .catch((err) => {
           console.error(err);
         });
     }
+    setLoader(false);
   </script>
 </html>

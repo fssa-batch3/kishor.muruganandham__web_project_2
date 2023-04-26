@@ -17,7 +17,12 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
     <script src="../assets/js/db.js"></script>
     <script src="../assets/js/user/script.js"></script>
     <script src="../assets/js/comment.js"></script>
@@ -293,11 +298,13 @@
                 required
                 disabled
               />
-              <br/>
-              <span class="status">Borrow At : <span class="full-borrow-date full-date"></span></span>
+              <br />
+              <span class="status"
+                >Borrow At : <span class="full-borrow-date full-date"></span
+              ></span>
             </div>
           </div>
-          <div class="input-group" style="flex: 1; min-width: 300px;">
+          <div class="input-group" style="flex: 1; min-width: 300px">
             <label for="due-date">Due Date : </label>
             <div class="input-field">
               <input
@@ -307,8 +314,10 @@
                 required
                 disabled
               />
-              <br/>
-              <span class="status">Due till : <span class="full-due-date full-date"></span></span>
+              <br />
+              <span class="status"
+                >Due till : <span class="full-due-date full-date"></span
+              ></span>
             </div>
           </div>
         </div>
@@ -341,6 +350,7 @@
 
       showBookDetails();
       showComment();
+      setLoader(false);
     </script>
   </body>
 </html>

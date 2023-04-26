@@ -182,15 +182,14 @@
     <script type="module">
       import { Grid, html } from "https://unpkg.com/gridjs?module";
       const allUsers = await getData("Users");
-
-      const userData = allUsers.map((user, index) => {
-        const activeStatus = user.isActive === true ? "active" : "inactive";
+      const userList = allUsers.filter((user)=>user.isActive)
+      const userData = userList.map((user, index) => {
+        const activeStatus = user.isOnline === true ? "Online" : "Offline";
         const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";
         const statusClassName =
-          user.isActive === true
+          user.isOnline === true
             ? "borrow-status status completed"
-            : "borrow-status status rejected";
-        console.log(user);
+            : "borrow-status status";
         return [
           index + 1,
           user["profile"],
@@ -228,7 +227,7 @@
           },
           "Email",
           {
-            name: "Active",
+            name: "Status",
             formatter: (_, row) =>
               html(
                 `<span class='${row.cells[5].data.className}' >${row.cells[5].data.text}</span>`
@@ -247,6 +246,8 @@
         search: true,
         autoWidth: true,
       }).render(document.querySelector(".user-list-table-body"));
+      setLoader(false)
+
     </script>
   </body>
 </html>

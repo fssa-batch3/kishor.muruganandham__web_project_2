@@ -17,11 +17,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
     <script src="../../assets/js/user/sidebar.js" defer></script>
+    <script src="../../assets/js/book.js"></script>
   </head>
   <body>
     <nav class="sidebar" id="sidebar">
@@ -292,23 +298,12 @@
       </main>
     </section>
 
-    <script src="../../assets/js/book.js"></script>
+    
     <script>
-      // Store references to all relevant DOM elements
-      const bookIdNo = document.getElementById("ed-book-id");
-      const bookTitle = document.getElementById("ed-book-title");
-      const bookAuthor = document.getElementById("ed-book-author");
-      const bookLang = document.getElementById("ed-language");
-      const bookPages = document.getElementById("ed-pages");
-      const bookDesc = document.getElementById("ed-book-description");
-      const bookImage = document.querySelector(".book-edit-image img");
-      const bookAvailablity = document.getElementById("ed-book-available");
-      const editBtn = document.querySelector(".book-edit.submit");
-      const deleteBtn = document.querySelector(".book-delete.submit");
-      const cancelBtn = document.querySelector(".book-cancel.submit");
-      const saveBtn = document.querySelector(".book-save.submit");
 
-	  showBookEditDetails();
+
+      showBookEditDetails();
+      
     </script>
   </body>
 </html>

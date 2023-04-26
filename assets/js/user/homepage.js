@@ -14,6 +14,7 @@ async function showData(){
   document.querySelector(".comments-count-info").textContent = commentListLength ;
   document.querySelector(".favourites-count-info").textContent = favoriteListLength;
   document.querySelector(".borrow-count-info").textContent = borrowListLength;
+  setLoader(false)
 }
 
 
@@ -35,5 +36,6 @@ displayBooks(intrestingBookData, interestingBookRack);
 
 toggleFavourites();
 checkForFavourites();
+
 
 
