@@ -84,6 +84,7 @@ async function showBookEditDetails() {
       location.reload();
     });
   });
+  setLoader(false);
 }
 
 async function showBookDetails() {
