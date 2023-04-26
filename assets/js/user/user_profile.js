@@ -56,7 +56,6 @@ cancelBtn.addEventListener("click", (e) => {
 
 saveForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const userData = await getData("Users");
   thisUser.first_name = firstName.value;
   thisUser.last_name = lastName.value;
   thisUser.name = displayName.value;

@@ -290,7 +290,7 @@
         const tagKeys = Object.keys(tagsArray);
 
         Chart.defaults.font.size = 16;
-        let genreChart = new Chart(
+        new Chart(
           document.getElementById("genreChart").getContext("2d"),
           {
             type: "bar",
@@ -341,7 +341,7 @@
           }
         );
 
-        let BookChart = new Chart(
+        new Chart(
           document.getElementById("bookChart").getContext("2d"),
           {
             type: "pie",
@@ -363,7 +363,7 @@
           }
         );
 
-        let detailChart = new Chart(
+        new Chart(
           document.getElementById("detailChart").getContext("2d"),
           {
             type: "doughnut",
