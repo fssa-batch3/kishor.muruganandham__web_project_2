@@ -4,12 +4,13 @@ async function getData(endpoint) {
       `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`
     );
     const result = await response.json();
-    const data =  Object.values(result)
+    const data = Object.values(result);
     return data;
   } catch (error) {
     console.error(error);
   }
 }
+
 async function getOneData(endpoint) {
   try {
     const response = await fetch(
@@ -28,9 +29,9 @@ async function postData(endpoint, data) {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       }
     );
     return await response.json();
