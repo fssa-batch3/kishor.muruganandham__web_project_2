@@ -1,10 +1,4 @@
-
-
 const thisUser = JSON.parse(localStorage.getItem("user"));
-
-
-
-
 
 // Dark Mode
 // Get the current value of the "dark-mode" key from local storage
@@ -46,8 +40,38 @@ function generateGuid() {
   return result;
 }
 
+function encryptPassword(password) {
+  try {
+    // Generate a random salt value
+    const salt = CryptoJS.lib.WordArray.random(16);
 
+    // Hash the password using SHA-256 with salt
+    const hashedPassword = CryptoJS.SHA256(password + salt);
 
+    // Return the salt and hashed password as a string
+    return salt.toString() + " " + hashedPassword.toString();
+  } catch (error) {
+    console.error("Error encrypting password:", error);
+    throw error;
+  }
+}
+function comparePassword(userInputPassword, saltAndHashedPassword) {
+  try {
+    // Split the stored salt and hashed password
+    const [salt, storedHash] = saltAndHashedPassword.split(" ");
+
+    // Hash the user input password with the stored salt
+    const hashedPassword = CryptoJS.SHA256(
+      userInputPassword + CryptoJS.enc.Hex.parse(salt)
+    );
+
+    // Compare the hashed user input password with the stored hash
+    return hashedPassword.toString() === storedHash;
+  } catch (error) {
+    console.error("Error comparing password:", error);
+    throw error;
+  }
+}
 
 function activeTab(evt, tabName) {
   // Hide all tab contents
@@ -123,7 +147,7 @@ async function getBookGenres() {
   }
 }
 
-async function showTags(){
+async function showTags() {
   const tagsArray = await getBookGenres();
   const tagSettings = Object.keys(tagsArray);
   tagSettings.forEach((tags) => {
@@ -212,8 +236,7 @@ async function toggleFavourites() {
         } else {
           userFavourites?.push(bookId);
         }
-        putData(`Users/${currentUser.id}`, currentUser)
-        .then(() => {
+        putData(`Users/${currentUser.id}`, currentUser).then(() => {
           checkForFavourites();
         });
       });
@@ -255,8 +278,7 @@ async function checkForFavourites() {
   }
 }
 
-
-function setLoader(status){
+function setLoader(status) {
   const bodyContainer = document.body;
   const loaderContainer = document.createElement("div");
   loaderContainer.className = "loader";
@@ -294,18 +316,21 @@ function setLoader(status){
         </svg>
       </li>
     </ul>
-  </div><span>Loading...</span>`
+  </div><span>Loading...</span>`;
   loaderContainer.innerHTML = loaderBody;
-  
+
   if (status === true) {
-    bodyContainer.append(loaderContainer)
+    bodyContainer.append(loaderContainer);
     bodyContainer.innerHTML += `<div class="background-blur"></div>`;
   }
+  setTimeout(() => {
+    if (status === true) {
+      setLoader(false);
+    }
+  }, 8000);
   if (status === false) {
-    document.querySelector(".loader").remove();
-    document.querySelector(".background-blur").remove();
+    document.querySelector(".loader")?.remove();
+    document.querySelector(".background-blur")?.remove();
+    return;
   }
-
 }
-
-

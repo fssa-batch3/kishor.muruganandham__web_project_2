@@ -1,4 +1,3 @@
-
 if (localStorage.getItem("id")) {
   window.location.href = "./pages/user/homepage.html";
 }
@@ -24,38 +23,48 @@ signinForm.addEventListener("submit", async function (e) {
   // Get user data from local storage
 
   getData(`Users`).then((data) => {
-    const userData = data.find(
-      (f) => f.username === usernameLogin.value
-    );
+    const userData = data.find((f) => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
       return;
     }
     const matchedUser =
       userData.username === usernameLogin.value &&
-      userData.password === passwordLogin.value &&
       userData.role === loginRole.value &&
       userData.isActive === true;
+    const isPasswordValid = comparePassword(
+      passwordLogin.value,
+      userData.password
+    );
 
+    if (userData.isVerified === false) {
+      // Show an alert with error message
+      alert("Your Email has not been verified yet, check your email for verification mail");
+      return;
+    }
+    if (isPasswordValid === false) {
+      // Show an alert with error message
+      alert("Password You have entered is wrong. Please try again.");
+      return;
+    }
     //   If there's a match, set user id in local storage and redirect
     if (matchedUser === false) {
       // Show an alert with error message
       alert("Oops! Log In failed. Please try again.");
       return;
-    } 
-    setLoader(true)
+    }
+    setLoader(true);
     userData.isOnline = true;
-    userData.last_login = moment().format('YYYY-MM-DD HH:mm:ss A');
+    userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
     localStorage.setItem("user", JSON.stringify(userData));
-    patchData(`Users/${userData.id}`, userData)
-    .then(()=>{
-      setLoader(false)
+    patchData(`Users/${userData.id}`, userData).then(() => {
+      setLoader(false);
       const redirectUrl =
         loginRole.value === "admin"
           ? "./pages/admin/admin-dashboard.html"
           : "./pages/user/homepage.html";
       window.location.href = redirectUrl;
-    })
+    });
   });
 });
 
@@ -74,15 +83,23 @@ signupForm.addEventListener("submit", async function (event) {
   }
 
   getData("Users").then((data) => {
-    setLoader(true)
-    const userExists = data.find(
-      (user) => user.username === emailAdd.value
-    );
+    setLoader(true);
+    const userExists = data.find((user) => user.username === emailAdd.value);
     if (userExists) {
       alert("Email id exist.");
+      setLoader(false);
       return;
     }
+
     const thisId = generateGuid();
+    const vid = generateGuid();
+    emailjs.init("KyF7Lia_QmwUPjOe5");
+    emailjs.send("service_ifbzv8d","template_1zlwcip",{
+      to_name: `${firstName.value} ${lastName.value}`,
+      message: "Email Verification",
+      link: `${window.location.origin}/pages/verify_email.html?id=${thisId}&&vid=${vid}` ,
+      to_email: `${emailAdd.value}`,
+      });
     const newUser = {
       id: thisId,
       first_name: firstName.value,
@@ -94,8 +111,10 @@ signupForm.addEventListener("submit", async function (event) {
       age: moment().diff(dob.value, "years"),
       isActive: true,
       username: emailAdd.value,
-      password: pass.value,
-      isOnline: true,
+      password: encryptPassword(pass.value),
+      isOnline: false,
+      isVerified: false,
+      verify_id: encryptPassword(vid),
       created_at: moment().format("YYYY-MM-DD HH:mm:ss A"),
       profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
       favourites: [0],
@@ -103,9 +122,9 @@ signupForm.addEventListener("submit", async function (event) {
 
     putData(`Users/${thisId}`, newUser)
       .then(() => {
+        setLoader(false);
         alert(`User with email ${emailAdd.value} created successfully!`);
         location.reload();
-        setLoader(false)
       })
       .catch((error) => {
         alert(error);
