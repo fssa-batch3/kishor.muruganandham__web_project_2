@@ -23,7 +23,7 @@ signinForm.addEventListener("submit", async function (e) {
   // Get user data from local storage
 
   getData(`Users`).then((data) => {
-    const userData = data.find((f) => f.username === usernameLogin.value);
+    const userData = data?.find((f) => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
       return;
