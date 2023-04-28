@@ -23,6 +23,7 @@ signinForm.addEventListener("submit", async function (e) {
   // Get user data from local storage
 
   getData(`Users`).then((data) => {
+    
     const userData = data?.find((f) => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
@@ -84,7 +85,7 @@ signupForm.addEventListener("submit", async function (event) {
 
   getData("Users").then((data) => {
     setLoader(true);
-    const userExists = data.find((user) => user.username === emailAdd.value);
+    const userExists = data?.find((user) => user.username === emailAdd.value);
     if (userExists) {
       alert("Email id exist.");
       setLoader(false);
@@ -123,7 +124,7 @@ signupForm.addEventListener("submit", async function (event) {
     putData(`Users/${thisId}`, newUser)
       .then(() => {
         setLoader(false);
-        alert(`User with email ${emailAdd.value} created successfully!`);
+        alert(`User with email ${emailAdd.value} created successfully! Check your email for verification and continue login.`);
         location.reload();
       })
       .catch((error) => {
