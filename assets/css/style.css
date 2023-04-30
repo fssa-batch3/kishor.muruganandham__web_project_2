@@ -53,6 +53,9 @@ body {
     min-width: 320px;
     max-width: 350px;
 }
+.input-group.sm{
+    max-width: none;
+}
 .forget-password {
     text-decoration: underline;
     color: var(--primary-color)
@@ -100,5 +103,13 @@ body {
     border-radius: 20px
 }
 
-
+@media only screen and (max-width:764px) {
+    .input-group.sm{
+        max-width: 350px;
+        margin: auto;
+    }
+    .tab-content {
+        max-width: 500px;
+    }
+}
 

@@ -55,15 +55,14 @@ function encryptPassword(password) {
     throw error;
   }
 }
+
 function comparePassword(userInputPassword, saltAndHashedPassword) {
   try {
     // Split the stored salt and hashed password
     const [salt, storedHash] = saltAndHashedPassword.split(" ");
 
     // Hash the user input password with the stored salt
-    const hashedPassword = CryptoJS.SHA256(
-      userInputPassword + CryptoJS.enc.Hex.parse(salt)
-    );
+    const hashedPassword = CryptoJS.SHA256(userInputPassword + CryptoJS.enc.Hex.parse(salt));
 
     // Compare the hashed user input password with the stored hash
     return hashedPassword.toString() === storedHash;

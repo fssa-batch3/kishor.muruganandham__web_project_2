@@ -5,15 +5,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Toggle sidebar
-const sideToggle = document.querySelector(".side-toggle");
-const sidebar = document.querySelector(".sidebar");
-const menuLines = document.querySelectorAll(".menu-line");
 
-sideToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-  menuLines.forEach((line) => line.classList.toggle("active"));
-});
 
 // Display user name and profile picture
 
@@ -142,3 +134,15 @@ async function addSearchResults() {
 }
 
 addSearchResults();
+
+// Toggle sidebar
+const sideToggle = document.querySelector(".side-toggle");
+const sidebar = document.getElementById("sidebar");
+const menuLines = document.querySelectorAll(".menu-line");
+
+
+sideToggle.addEventListener("click", () => {
+  sidebar.classList.toggle("active");
+  menuLines.forEach((line) => line.classList.toggle("active"));
+});
+

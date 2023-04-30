@@ -3,7 +3,7 @@ async function getData(endpoint) {
     const response = await fetch(
       `https://library-management-53e19-default-rtdb.firebaseio.com/${endpoint}.json`
     );
-    const result = await response.json();
+    const result = await response.json() || [];
     const data = Object.values(result);
     return data;
   } catch (error) {

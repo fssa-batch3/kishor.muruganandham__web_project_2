@@ -16,11 +16,11 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
     <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
-    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -171,40 +171,54 @@
       <main class="favorites-container">
         <div
           class="favourites-section generated-books books-section-style"
+          id="favourites-section"
         ></div>
       </main>
     </section>
     <script>
-      const favouritesSection = document.querySelector(
-          ".favourites-section"
-        );
-      function showEmptyFavourites() { 
-        favouritesSection.innerHTML = `<div class="no-result" style="text-align:center; align-self:center;">
-					<img src="../../assets/images/lib_page.svg" alt="lib_page" width="280px">
-					<h4 style="margin: 50px 0;">You Haven't Decided <br> your favourites Yet!</h4>
-					<a href="../library.html" class="submit" style="padding:15px 30px;">Decide Now</a>
-					</div>`;
+      const favouritesSection = document.getElementById("favourites-section");
+
+      function showEmptyFavourites() {
+        console.log(favouritesSection);
+        document.querySelector(".favorites-container").innerHTML += `
+        <div class="no-result" style="text-align:center; align-self:center;position: absolute;top: 50%;
+        left: 50%;transform: translate(-50%, -50%);">
+        <img src="../../assets/images/lib_page.svg" alt="lib_page" width="280px">
+        <h4 style="margin: 50px 0;">You Haven't Decided <br> your favourites Yet!</h4>
+        <a href="../library.html" class="submit" style="padding:15px 30px;">Decide Now</a>
+        </div>`;
       }
+
       async function showFavoriteList() {
-        favouritesSection.innerHTML = "";
-        const currentUser = await getOneData(`Users/${thisUser.id}`);
-        if (currentUser.favourites?.length < 2) {
-          showEmptyFavourites()
-        } 
+        try {
+          favouritesSection.innerHTML = "";
+          const currentUser = await getOneData(`Users/${thisUser.id}`);
+
+          if (currentUser.favourites?.length < 2) {
+            showEmptyFavourites();
+          }
+
           const bookRack = document.querySelector(".generated-books");
           const bookList = await getData("Books");
-          currentUser.favourites.forEach(async (id) => {
+
+          for (const id of currentUser.favourites) {
             const book = bookList.find((b) => b.id === id);
+
             if (book) {
               generateBook(book, bookRack);
             }
-          });
+          }
+
           toggleFavourites();
           checkForFavourites();
+        } catch (error) {
+          console.error("Error showing favorite list:", error);
+        } finally {
           setLoader(false);
-      };
-      
-      showFavoriteList();
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", showFavoriteList);
     </script>
   </body>
 </html>

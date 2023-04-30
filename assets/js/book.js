@@ -89,6 +89,10 @@ async function showBookEditDetails() {
 
 async function showBookDetails() {
   try {
+    const borrowBtn = document.getElementById("borrow-now");
+    const borrowBtnElement = document.querySelector(
+      ".book-detail-borrow-now"
+    );
     setLoader(true);
     const books = await getData("Books");
 
@@ -158,10 +162,13 @@ async function showBookDetails() {
       borrowBtn.style.display = "none";
       borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
     }
-    if (books) {
-      setLoader(false);
-    }
+    
   } catch (error) {
     console.error("Error:", error);
   }
 }
+
+document.addEventListener("DOMContentLoaded",()=>{
+  showBookDetails()
+})
+

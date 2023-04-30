@@ -18,18 +18,18 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
     <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
-    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../assets/js/db.js"></script>
     <script src="../assets/js/user/script.js"></script>
-    <script src="../assets/js/comment.js"></script>
-    <script src="../assets/js/book.js"></script>
-    <script src="../assets/js/borrow.js"></script>
     <script src="../assets/js/user/header.js" defer></script>
     <script src="../assets/js/user/sidebar.js" defer></script>
+    <script src="../assets/js/comment.js" defer></script>
+    <script src="../assets/js/book.js" defer></script>
+    <script src="../assets/js/borrow.js" defer></script>
   </head>
   <body>
     <nav class="sidebar" id="sidebar">
@@ -328,29 +328,7 @@
     </section>
 
     <script>
-      const borrowBtn = document.getElementById("borrow-now");
-      const borrowBtnElement = document.querySelector(
-        ".book-detail-borrow-now"
-      );
 
-      // Borrow Modal
-
-      const modalCloseBtn = document.querySelector(".modal-close");
-      const borrowNowBtn = document.querySelector(".modal-submit");
-      const borrowDateInput = document.getElementById("borrow-date");
-      const dueDateInput = document.getElementById("due-date");
-      const dueDurationInput = document.getElementById("due-duration");
-      const fullBorrowDate = document.querySelector(".full-borrow-date");
-      const fullDueDate = document.querySelector(".full-due-date");
-
-      modalCloseBtn.addEventListener("click", closeBorrowModal);
-      borrowBtn.addEventListener("click", openBorrowModal);
-
-      // Comments
-
-      showBookDetails();
-      showComment();
-      setLoader(false);
     </script>
   </body>
 </html>
