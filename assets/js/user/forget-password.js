@@ -1,9 +1,10 @@
-
 const form = document.getElementById("forget-password-form");
 const emailInput = document.getElementById("username-forget");
 const oldPasswordInput = document.getElementById("old-password-forget");
 const newPasswordInput = document.getElementById("new-password-forget");
-const confirmPasswordInput = document.getElementById("new-confirm-password-forget");
+const confirmPasswordInput = document.getElementById(
+  "new-confirm-password-forget"
+);
 
 // Add form submit listener
 form.addEventListener("submit", async (event) => {
@@ -16,7 +17,7 @@ form.addEventListener("submit", async (event) => {
   const confirmPassword = confirmPasswordInput.value.trim();
 
   // Retrieve user data from localStorage
-  const users = await getData("user");
+  const users = await getData("Users");
   const currentUser = users.find((user) => user.username === email);
 
   // Check if user exists and old password is correct
@@ -24,8 +25,8 @@ form.addEventListener("submit", async (event) => {
     alert("Email not found");
     return;
   }
-
-  if (currentUser.password !== oldPassword) {
+  const isCorrectPass = comparePassword(oldPassword, currentUser.password);
+  if (isCorrectPass === false) {
     alert("Incorrect password");
     return;
   }
@@ -41,18 +42,16 @@ form.addEventListener("submit", async (event) => {
     alert("New password and confirm password do not match");
     return;
   }
-
   // Update user data in localStorage
-  currentUser.password = newPassword;
-  putData(`user/${currentUser.json_id}`, currentUser)
-  .then((result) => {
-    
-    // Redirect to home page
-    window.location.href = "/index.html";
-  
-    // Show success message
-    alert("Password updated successfully");
-  }).catch((err) => {
-    console.log(err);
-  });
+  currentUser.password = encryptPassword(newPassword);
+  putData(`Users/${currentUser.id}`, currentUser)
+    .then((result) => {
+      // Show success message
+      alert("Password updated successfully");
+      // Redirect to home page
+      window.location.href = "/index.html";
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });

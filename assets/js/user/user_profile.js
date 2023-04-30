@@ -65,18 +65,16 @@ saveForm.addEventListener("submit", async (e) => {
   const phoneNumberPattern = /^[6789]\d{9}$/;
 
   if (phoneNumber.value !== "" && phoneNumberPattern.test(phoneNumber.value) === false) {
-    alert("Invalid phone number");
+    alert("Invalid phone number. Phone number must be 10 digits long and should start with 6,7,8,9 only.");
     return;
   } 
   if (thisUser.username !== emailAddress.value) {
     alert("You can't change the Email Address");
     return;
   }
-  setLoader(true)
   putData(`Users/${thisUser.id}`, thisUser).then(() => {
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(thisUser));
-    setLoader(false)
     alert("User Details updated successfully");
     location.reload();
   });

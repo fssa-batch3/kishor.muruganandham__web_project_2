@@ -41,6 +41,8 @@ async function openBorrowModal() {
 }
 
 async function handleBorrow() {
+  const borrowDateInput = document.getElementById("borrow-date");
+  const dueDateInput = document.getElementById("due-date");
   const bookList = await getData("Books");
   const borrowList = await getData("Borrows");
   const thisBook = bookList.find((book) => book.id === bookId);
@@ -94,5 +96,5 @@ document.addEventListener("DOMContentLoaded", () => {
   modalCloseBtn.addEventListener("click", closeBorrowModal);
   borrowBtn.addEventListener("click", openBorrowModal);
   showComment();
-  setLoader(false);
+  
 });

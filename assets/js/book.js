@@ -89,11 +89,7 @@ async function showBookEditDetails() {
 
 async function showBookDetails() {
   try {
-    const borrowBtn = document.getElementById("borrow-now");
-    const borrowBtnElement = document.querySelector(
-      ".book-detail-borrow-now"
-    );
-    setLoader(true);
+    
     const books = await getData("Books");
 
     const borrowList = await getData(`Borrows/`);
@@ -146,6 +142,11 @@ async function showBookDetails() {
     const availableDate = borrowList?.find(
       (e) => e.book_id === thisBook["id"] && e.status === "Pending"
     );
+    const borrowBtn = document.getElementById("borrow-now");
+    const borrowBtnElement = document.querySelector(
+      ".book-detail-borrow-now"
+    );
+    
     if (thisBook?.isBorrowable === false && availableDate) {
       const targetDate = moment(availableDate["due_date"]);
       const duration = moment.duration(targetDate.diff(moment()));
@@ -154,6 +155,8 @@ async function showBookDetails() {
       borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
         availableDate["username"]
       },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
+      console.log(borrowBtnElement);
+      console.log(availableDate);
     } else if (thisBook?.isBorrowable === true) {
       console.log(borrowBtnElement);
       borrowBtn.innerText = "Borrow Now";
@@ -162,7 +165,7 @@ async function showBookDetails() {
       borrowBtn.style.display = "none";
       borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
     }
-    
+    setLoader(false);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -170,5 +173,6 @@ async function showBookDetails() {
 
 document.addEventListener("DOMContentLoaded",()=>{
   showBookDetails()
+  
 })
 

@@ -22,9 +22,9 @@ signinForm.addEventListener("submit", async function (e) {
   e.preventDefault();
   // Get user data from local storage
 
-  getData(`Users`).then((data) => {
+  const userList = await getData(`Users`);
 
-    const userData = data?.find((f) => f.username === usernameLogin.value);
+    const userData = userList?.find((f) => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
       return;
@@ -54,19 +54,16 @@ signinForm.addEventListener("submit", async function (e) {
       alert("Oops! Log In failed. Please try again.");
       return;
     }
-    setLoader(true);
     userData.isOnline = true;
     userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
     localStorage.setItem("user", JSON.stringify(userData));
     patchData(`Users/${userData.id}`, userData).then(() => {
-      setLoader(false);
       const redirectUrl =
         loginRole.value === "admin"
           ? "./pages/admin/admin-dashboard.html"
           : "./pages/user/homepage.html";
       window.location.href = redirectUrl;
     });
-  });
 });
 
 signupForm.addEventListener("submit", async function (event) {
@@ -84,11 +81,9 @@ signupForm.addEventListener("submit", async function (event) {
   }
 
   getData("Users").then((data) => {
-    setLoader(true);
     const userExists = data?.find((user) => user.username === emailAdd.value);
     if (userExists) {
       alert("Email id exist.");
-      setLoader(false);
       return;
     }
 
@@ -123,7 +118,6 @@ signupForm.addEventListener("submit", async function (event) {
 
     putData(`Users/${thisId}`, newUser)
       .then(() => {
-        setLoader(false);
         alert(`User with email ${emailAdd.value} created successfully! Check your email for verification and continue login.`);
         location.reload();
       })

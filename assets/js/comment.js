@@ -254,5 +254,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-
+  
 });

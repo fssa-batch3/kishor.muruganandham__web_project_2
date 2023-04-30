@@ -16,11 +16,11 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
     <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
-    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -173,89 +173,83 @@
 
       <main class="history-container">
         <h3 id="history-table-heading">History</h3>
-        <div class="history-table-wrapper">
-          <table class="history-table" aria-describedby="history-table-heading">
-            <thead>
-              <tr>
-                <th>Id.No</th>
-                <th>Book Name</th>
-                <th>Status</th>
-                <th>Borrow Date</th>
-                <th>Due Date</th>
-                <th>Return Date</th>
-              </tr>
-            </thead>
-            <tbody class="history-table-body"></tbody>
-          </table>
-        </div>
+        <div class="history-table-wrapper"></div>
       </main>
     </section>
 
-    <script>
+    <script type="module">
+      import { Grid, html } from "https://unpkg.com/gridjs?module";
       async function showHistory() {
         const bookList = await getData("Books");
-        const borrowArr = await getData(`Borrows/`);
+        const borrowArr = await getData(`Borrows`);
 
-        console.log(borrowArr);
-        const borrowList = borrowArr.filter(borrow => borrow.user_id === thisUser.id)
-        console.log(borrowList);
+        const borrowList = borrowArr.filter(
+          (borrow) => borrow.user_id === thisUser.id
+        );
 
-        let idCount = 1;
         if (borrowList === null || borrowList.length === 0) {
+          document.querySelector(
+            ".history-container"
+          ).innerHTML = `<div class="no-result" style="text-align:center; align-self:center;position: absolute;top: 50%;
+            left: 50%;transform: translate(-50%, -50%);">
+            <img src="../../assets/images/lib_page.svg" alt="lib_page" width="280px">
+            <h4 style="margin: 50px 0;">You Haven't Borrowed <br> any Books Yet!</h4>
+            <a href="../library.html" class="submit" style="padding:15px 30px;">Borrow Now</a>
+            </div>`;
+          setLoader(false);
+
           return;
         }
-        for (const i of borrowList) {
-          const thisBook = bookList.find((e) => e["id"] == i["book_id"]);
-          const tableBody = document.querySelector(".history-table-body");
 
-          const tableRow = document.createElement("tr");
-          tableBody.append(tableRow);
-
-          const tableCellId = document.createElement("td");
-          tableCellId.setAttribute("class", "history-id");
-          tableCellId.innerText = idCount++;
-          tableRow.append(tableCellId);
-
-          const tableCellBook = document.createElement("td");
-          tableCellBook.setAttribute("class", "history-bookName");
-          tableCellBook.innerText = thisBook["title"];
-          tableRow.append(tableCellBook);
-
-          const tableCellStatus = document.createElement("td");
-          const tableCellStatusSpan = document.createElement("span");
-          tableCellStatusSpan.setAttribute("class", "history-status status");
-          tableCellStatusSpan.innerText = i["status"];
-          tableCellStatus.append(tableCellStatusSpan);
-          tableRow.append(tableCellStatus);
-
-          if (i["status"] == "Completed") {
-            tableCellStatusSpan.setAttribute(
-              "class",
-              "history-status status completed"
-            );
-          } else if (i["status"] == "Rejected") {
-            tableCellStatusSpan.setAttribute(
-              "class",
-              "history-status status rejected"
-            );
+        const borrowData = borrowList.map((borrow, index) => {
+          const book = bookList.find((book) => book.id === borrow.book_id);
+          const returnDate = borrow.return_date;
+          let statusClassName = "borrow-status status";
+          if (borrow.status === "Completed") {
+            statusClassName += " completed";
           }
-          const tableCellBorrow = document.createElement("td");
-          tableCellBorrow.setAttribute("class", "history-borrow-date");
-          tableCellBorrow.innerText = i["borrow_date"];
-          tableRow.append(tableCellBorrow);
+          return [
+            index + 1,
+            book ? book.title : "",
+            {
+              text: borrow.status,
+              className: statusClassName,
+            },
+            moment(borrow.borrow_date).format("MMMM Do YYYY, h:mm a"),
+            moment(borrow.due_date).format("MMMM Do YYYY, h:mm a"),
+            returnDate !== "-"
+              ? moment(returnDate).format("MMMM Do YYYY, h:mm a")
+              : "-",
+          ];
+        });
 
-          const tableCellDue = document.createElement("td");
-          tableCellDue.setAttribute("class", "history-due-date");
-          tableCellDue.innerText = i["due_date"];
-          tableRow.append(tableCellDue);
+        const table = new Grid({
+          columns: [
+            "S.No",
+            "Book Name",
+            {
+              name: "Status",
+              formatter: (_, row) =>
+                html(
+                  `<span class='${row.cells[2].data.className}' >${row.cells[2].data.text}</span>`
+                ),
+            },
+            "Borrow Date",
+            "Due Date",
+            "Returned Date",
+          ],
+          data: borrowData,
+          pagination: {
+            limit: 10,
+          },
+          fixedHeader: true,
+        });
 
-          const tableCellSubDate = document.createElement("td");
-          tableCellSubDate.setAttribute("class", "history-submitted-date");
-          tableCellSubDate.innerText = i["return_date"];
-          tableRow.append(tableCellSubDate);
-        }
-        setLoader(false)
+        table.render(document.querySelector(".history-table-wrapper"));
+
+        setLoader(false);
       }
+
       showHistory();
     </script>
   </body>

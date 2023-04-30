@@ -121,6 +121,8 @@
                 id="firstname-sign-up"
                 placeholder="Enter your First Name "
                 pattern="[A-Za-z]{1,32}"
+                maxlength="32"
+                title="First Name Should contain only 32 characters and cannot contain numbers"
                 required
               />
             </div>
@@ -134,6 +136,8 @@
                 id="lastname-sign-up"
                 placeholder="Enter your Last Name"
                 pattern="[A-Za-z]{1,32}"
+                maxlength="32"
+                title="Last Name Should contain only 32 characters and cannot contain numbers"
                 required
               />
             </div>
@@ -192,6 +196,7 @@
                 id="password-sign-up"
                 class="password"
                 placeholder="Enter Your Password"
+                maxlength="32"
                 onblur="validatePassword('password-sign-up','.sign-up-password-error')"
                 required
               />
@@ -216,6 +221,7 @@
                 name="confirm-password-sign-up"
                 id="confirm-password-sign-up"
                 placeholder="Enter Your Password"
+                max="32"
                 onblur="validateConfirmPassword('confirm-password-sign-up','.confirm-password-sign-up','password-sign-up')"
                 required
               />

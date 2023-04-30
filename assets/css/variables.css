@@ -159,7 +159,9 @@ textarea {
     resize: none;
     font-size: var(--sm-fs)
 }
-
+.password,#confirm-password-sign-up {
+  padding-right: 50px;
+}
 input:focus,select:focus,textarea:focus {
     border: 1px solid var(--primary-color);
     box-shadow: 0 0 0 3px var(--primary-shade);
@@ -382,7 +384,7 @@ button:disabled:hover {
   }
   .background-blur{
     background-color: #000000c5;
-    inset: 0;
+    inset: 90px 0 0 95px;
     position: fixed;
     backdrop-filter: blur(2px);
   }
@@ -572,9 +574,16 @@ button:disabled:hover {
   
 
 @media only screen and (max-width:400px) {
+
     :root {
         --h1-fs: 32px;
         --h2-fs: 29px;
         --h3-fs: 25px
     }
+}
+@media only screen and (max-width:764px) {
+  .background-blur{
+    inset: 90px 0 0 0;
+  }
+
 }
