@@ -53,8 +53,9 @@ async function showBookEditDetails() {
   deleteBtn.addEventListener("click", function () {
     thisBook.isActive = false;
     books[indexOfBook] = thisBook;
-    putData(`book/${thisBook.json_id}`, thisBook).then((data) => {
-      console.log(data);
+    putData(`Books/${thisBook.id}`, thisBook)
+    .then(() => {
+      alert("Book Deleted successfully")
     });
     window.location.href =
       window.location.origin + "/pages/admin/admin_library.html";
@@ -155,10 +156,8 @@ async function showBookDetails() {
       borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
         availableDate["username"]
       },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
-      console.log(borrowBtnElement);
-      console.log(availableDate);
+
     } else if (thisBook?.isBorrowable === true) {
-      console.log(borrowBtnElement);
       borrowBtn.innerText = "Borrow Now";
       borrowBtn.disabled = false;
     } else {
