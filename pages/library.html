@@ -130,7 +130,7 @@
     </nav>
 
     <section class="main-container">
-      <header class="top-header">
+      <!-- <header class="top-header">
         <div class="left-header">
           <div class="side-toggle">
             <span class="menu-line"></span>
@@ -165,7 +165,7 @@
             </div>
           </a>
         </div>
-      </header>
+      </header> -->
 
       <main class="library-container" style="height: 100%">
         <div class="library-tags">
@@ -228,18 +228,7 @@
       }
       showBook();
 
-      function searchBooks() {
-        const searchValue = document
-          .getElementById("head-search")
-          .value.toLowerCase();
-
-        const books = document.querySelectorAll(".book");
-        books.forEach((book) => {
-          const title = book.innerHTML.toLowerCase();
-          const display = title.includes(searchValue) ? "block" : "none";
-          book.style.display = display;
-        });
-      }
+      
       // Filter books by tag
       function tagFilterBooks(value) {
         const btns = document.querySelectorAll(".library-tags button");

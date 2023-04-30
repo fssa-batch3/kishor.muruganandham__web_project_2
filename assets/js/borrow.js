@@ -96,5 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
   modalCloseBtn.addEventListener("click", closeBorrowModal);
   borrowBtn.addEventListener("click", openBorrowModal);
   showComment();
-  
 });

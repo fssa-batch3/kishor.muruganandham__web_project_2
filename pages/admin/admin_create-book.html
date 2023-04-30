@@ -136,56 +136,11 @@
     </nav>
 
     <section class="main-container">
-      <header class="top-header">
-        <div class="left-header">
-          <div class="side-toggle">
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-          </div>
-          <div class="user-date">
-            <h4 class="header-username">Hello</h4>
-            <p class="greetings">Have a Great Day!</p>
-          </div>
-        </div>
-        <div class="right-header">
-          <div class="search-field">
-            <label for="head-search"><i class="bi bi-search"></i></label>
-            <input
-              type="search"
-              name="head-search"
-              id="head-search"
-              placeholder="Search..."
-              class="search-list-show"
-            />
-            <div class="focus-out"></div>
-            <div class="search-list">
-              <div class="search-result"></div>
-              <a href="../user/library.html" class="show-all">
-                Show All Books
-              </a>
-            </div>
-          </div>
-          <a
-            href="../user/user_profile.html"
-            aria-label="profile-page"
-            class="profile-area"
-          >
-            <div class="profile-field"></div>
-            <div class="tooltip" role="tooltip" data-popper-placement="top">
-              User Profile
-              <div class="arrow" data-popper-arrow></div>
-            </div>
-          </a>
-        </div>
-      </header>
-
       <main class="create-book-container">
         <form action="" id="create-book" onsubmit="createBook()">
           <div class="title" style="text-align: center">
             <h1>Create Book</h1>
           </div>
-
           <div class="input-group">
             <label for="create-id">Id :<sup>*</sup></label>
             <div class="input-field">
@@ -331,7 +286,7 @@
   <script type="module">
     const tagsArray = await getBookGenres();
     const adminTags = Object.keys(tagsArray);
-    adminTags.forEach((element) => {
+    adminTags.forEach(element => {
       const opt = document.createElement("option");
       opt.innerText = element;
       $("#choice-js").append(opt);
@@ -343,9 +298,9 @@
       removeItemButton: true,
       maxItemCount: 3,
       allowHTML: true,
-      addItemText: (value) => {
+      addItemText: value => {
         return `Press Enter to add <b>"${value}"</b>`;
-      },
+      }
     });
 
     function tagsToArray() {
@@ -372,28 +327,28 @@
       const description = document.getElementById("Description").value;
       let newBook = {
         id: UUID,
-        subtitle: subtitle,
+        subtitle,
         author: authorName,
-        title: title,
+        title,
         image: { src: imageUrl, alt: title },
         tags: tagsToArray(),
         star_rating: [],
         isBorrowable: true,
         language: "English",
         isActive: true,
-        pages: parseInt(pages),
-        description: description,
+        pages: parseInt(pages, 10),
+        description
       };
       setLoader(true);
 
       putData(`Books/${UUID}`, newBook)
-        .then((result) => {
+        .then(result => {
           alert("Book created successfully with id " + result.id);
           setLoader(false);
 
           location.reload();
         })
-        .catch((err) => {
+        .catch(er => {
           console.error(err);
         });
     }

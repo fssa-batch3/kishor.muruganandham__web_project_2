@@ -72,6 +72,19 @@ function comparePassword(userInputPassword, saltAndHashedPassword) {
   }
 }
 
+function searchBooks() {
+  const searchValue = document
+    .getElementById("head-search")
+    .value.toLowerCase();
+
+  const books = document.querySelectorAll(".book");
+  books.forEach((book) => {
+    const title = book.innerHTML.toLowerCase();
+    const display = title.includes(searchValue) ? "block" : "none";
+    book.style.display = display;
+  });
+}
+
 function activeTab(evt, tabName) {
   // Hide all tab contents
   const tabContents = document.querySelectorAll(".tab-content");

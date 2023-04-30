@@ -14,14 +14,14 @@ for (const i of navBtns) {
 };
 
 const signOut = document.getElementById("sign-out");
-
 signOut.addEventListener("click", async () => {
-	const currentUser = await getOneData(`Users/${thisUser.id}`)
+	console.log(signOut);
+	const currentUser = await getOneData(`Users/${thisUser.id}`);
 	currentUser.isOnline = false;
-	setLoader(true)
+	setLoader(true);
 	patchData(`Users/${currentUser.id}`, currentUser)
 	.then(() => {
-		setLoader(false)
+		setLoader(false);
 		localStorage.removeItem("user");
 		(window.location.href = "../../index.html");
 	});
