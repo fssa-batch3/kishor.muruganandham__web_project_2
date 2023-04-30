@@ -343,6 +343,5 @@ function setLoader(status) {
   if (status === false) {
     document.querySelector(".loader")?.remove();
     document.querySelector(".background-blur")?.remove();
-    return;
   }
 }
