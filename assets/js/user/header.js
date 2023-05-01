@@ -68,7 +68,7 @@ function showHeader() {
   searchInput.setAttribute("name", "head-search");
   searchInput.setAttribute("id", "head-search");
   searchInput.setAttribute("placeholder", "Search...");
-  if (window.location.pathname == "/pages/library.html") {
+  if (window.location.pathname == "/pages/library.html" || window.location.pathname == "/pages/admin/admin_library.html") {
     searchInput.setAttribute("oninput", "tagFilterBooks('All'),searchBooks()");
   } else if (window.location.pathname == "/pages/user/favourites.html"){
     searchInput.setAttribute("oninput", "searchBooks()");

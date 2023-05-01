@@ -162,4 +162,17 @@ function adminSidebar() {
   </div>`;
 }
 
-
+if (thisUser.role === "admin") {
+  adminSidebar();
+  signOut = document.getElementById("sign-out");
+  signOut.addEventListener("click", async () => {
+    const currentUser = await getOneData(`Users/${thisUser.id}`);
+    currentUser.isOnline = false;
+    setLoader(true);
+    patchData(`Users/${currentUser.id}`, currentUser).then(() => {
+      setLoader(false);
+      localStorage.removeItem("user");
+      window.location.href = "../../index.html";
+    });
+  });
+}
