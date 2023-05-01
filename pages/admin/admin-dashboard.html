@@ -242,21 +242,17 @@
         const commentList = await getData("Comments");
         const bookRequestList = await getData("BookRequests");
         const bookRequestLength = bookRequestList.length || 0;
-        const borrowedBookLength = borrowedBook?.filter(
-          (e) => e.status === "Pending"
-        )?.length || 0;
-        const booksLength = bookList.filter(
-          (book) => book.isActive && book.isBorrowable
-        ).length || 0;
-        const commentsLength = commentList.filter(
-          (comment) => comment.isActive
-        ).length || 0;
-        const usersLength = userList.filter(
-          (user) => user.isActive
-        ).length || 0;
-        const activeBooksLength = bookList.filter(
-          (book) => book.isActive
-        ).length || 0;
+        const borrowedBookLength =
+          borrowedBook?.filter((e) => e.status === "Pending")?.length || 0;
+        const booksLength =
+          bookList.filter((book) => book.isActive && book.isBorrowable)
+            .length || 0;
+        const commentsLength =
+          commentList.filter((comment) => comment.isActive).length || 0;
+        const usersLength =
+          userList.filter((user) => user.isActive).length || 0;
+        const activeBooksLength =
+          bookList.filter((book) => book.isActive).length || 0;
 
         const tagsArray = await getBookGenres();
 
@@ -264,7 +260,8 @@
         const tagKeys = Object.keys(tagsArray);
 
         Chart.defaults.font.size = 16;
-        new Chart(document.getElementById("genreChart").getContext("2d"), {
+        // Create the chart objects
+        const genreChart = new Chart("genreChart", {
           type: "bar",
           data: {
             labels: tagKeys,
@@ -312,7 +309,7 @@
           },
         });
 
-        new Chart(document.getElementById("bookChart").getContext("2d"), {
+        const bookChart = new Chart("bookChart", {
           type: "pie",
           data: {
             labels: ["No of books available", "No of books borrowed"],
@@ -331,7 +328,7 @@
           },
         });
 
-        new Chart(document.getElementById("detailChart").getContext("2d"), {
+        const detailChart = new Chart("detailChart", {
           type: "doughnut",
           data: {
             labels: ["Users", "Comments", "Books requested"],
@@ -349,15 +346,17 @@
             maintainAspectRatio: false,
           },
         });
+
+        const genreCanvas = document.getElementById("genreChart");
+        const bookCanvas = document.getElementById("bookChart");
+        const detailCanvas = document.getElementById("detailChart");
+
+        genreChart.canvas = genreCanvas;
+        bookChart.canvas = bookCanvas;
+        detailChart.canvas = detailCanvas;
         setLoader(false);
       }
       showChart();
     </script>
   </body>
 </html>
-
-
-
-
-
-
