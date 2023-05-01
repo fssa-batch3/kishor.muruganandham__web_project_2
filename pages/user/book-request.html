@@ -113,7 +113,7 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="#" class="nav-items" id="sign-out"
+          <a href="#"  class="nav-items" id="sign-out"
             ><i class="bi bi-box-arrow-left"></i>
             <p>Log Out</p>
             <div
@@ -176,13 +176,14 @@
                 id="price"
                 placeholder="Enter the price"
                 class="input"
+                maxlength="4"
               />
             </div>
           </div>
           <div class="input-group">
             <label for="description">Why this Book? :<sup>*</sup></label>
             <div class="input-field">
-              <textarea name="description" id="description"></textarea>
+              <textarea name="description" id="description" maxlength="300" placeholder="Give us a small description why this book is needed for our library (Max Characters : 300)"></textarea>
             </div>
           </div>
           <div class="input-group">
@@ -219,7 +220,8 @@
             author_name: authorName.value,
             price: bookPrice.value,
             description: bookDesc.value,
-            log: moment().format("YYYY MM DD HH:mm A"),
+            user_id: thisUser.id,
+            log: moment(),
             id: reqId,
           };
           setLoader(true);
@@ -227,6 +229,7 @@
           putData(`BookRequests/${reqId}`, bookReqObj).then(() => {
             alert("Book requested successfully");
             bookReqForm.reset();
+            location.reload();
             setLoader(false);
           });
         } catch (error) {

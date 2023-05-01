@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User List</title>
+    <title>Book Request List</title>
     <link
       rel="icon"
       href="../../assets/images/book-half.svg"
@@ -82,8 +82,8 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="#" class="nav-items active"
-            ><i class="bi bi-person-fill"></i>
+          <a href="./user_list.html" class="nav-items"
+            ><i class="bi bi-person"></i>
             <p>User List</p>
             <div
               class="tooltip"
@@ -95,13 +95,13 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./bookrequest_list.html" class="nav-items "
-            ><i class="bi bi-hdd-stack"></i>
+          <a href="#" class="nav-items active"
+            ><i class="bi bi-hdd-stack-fill"></i>
             <p>Book Request List</p>
             <div
               class="tooltip"
               role="tooltip"
-              style="top: 430px;"
+              style="top: 430px"
               data-popper-placement="right"
             >
               Book Request List
@@ -138,13 +138,10 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          
         </div>
       </div>
     </nav>
     <section class="main-container">
-      
-
       <main class="user-list-container">
         <h3>User List</h3>
         <div class="user-list-table-wrapper">
@@ -154,74 +151,66 @@
     </section>
 
     <script type="module">
-      import { Grid, html } from "https://unpkg.com/gridjs?module";
-      const allUsers = await getData("Users");
-      const userList = allUsers.filter((user)=>user.isActive)
-      const userData = userList.map((user, index) => {
-        const activeStatus = user.isOnline === true ? "Online" : "Offline";
-        const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";
-        const statusClassName =
-          user.isOnline === true
-            ? "borrow-status status completed"
-            : "borrow-status status";
+      import { Grid, h } from "https://unpkg.com/gridjs?module";
+      const allReq = await getData("BookRequests");
+      const userList = await getData("Users");
+
+      const reqData = allReq.map((req, index) => {
+        const user = userList.find((user) => user.id === req.user_id);
         return [
           index + 1,
-          user["profile"],
           user["name"],
-          {
-            text: user["role"],
-            className: roleName,
-          },
-          user["username"],
-          {
-            text: activeStatus,
-            className: statusClassName,
-          },
-          user["phone_number"] || "-",
-          user["dob"],
-          user["age"] || "-",
+          req["book_name"],
+          req["author_name"],
+          req["description"],
+          moment(req["log"]).format("MMMM Do YYYY, h:mm a"),
+          req["price"] || "-",
+          req["id"]
         ];
       });
 
       const tableGrid = new Grid({
         columns: [
           "S.No",
+          "Requester Name",
+          "Book Name",
+          "Author Name",
+          "Description",
+          "Requested On",
           {
-            name: "Profile",
-            formatter: (_, row) =>
-              html(`<img class='profile-img' src='${row.cells[1].data}' />`),
+            name: "Price",
+            formatter: (_, row) => `₹ ${row.cells[6].data} INR`,
           },
-          "Name",
           {
-            name: "Role",
-            formatter: (_, row) =>
-              html(
-                `<span class='${row.cells[3].data.className}' >${row.cells[3].data.text}</span>`
-              ),
+            name: "Actions",
+            formatter: (cell, row) => {
+              return h(
+                "button",
+                {
+                  style:
+                    "margin-top: 0 ;width: fit-content;height: fit-content;padding:5px;border-radius:5px",
+                  className: "submit ",
+                  onClick: () =>
+                  deleteData(`BookRequests/${row.cells[7].data}`)
+                  .then(()=>{
+                    alert("BookRequest Marked as Bought!");
+                    location.reload();
+                  }),
+                },
+                "Mark Done"
+              );
+            },
           },
-          "Email",
-          {
-            name: "Status",
-            formatter: (_, row) =>
-              html(
-                `<span class='${row.cells[5].data.className}' >${row.cells[5].data.text}</span>`
-              ),
-          },
-          "Phone Number",
-          "Date of Birth",
-          "Age",
-
         ],
-        data: userData,
+        data: reqData,
         pagination: {
-          limit: 10,
+          limit: 5,
         },
         fixedHeader: true,
         search: true,
         autoWidth: true,
       }).render(document.querySelector(".user-list-table-body"));
-      setLoader(false)
-
+      setLoader(false);
     </script>
   </body>
 </html>

@@ -69,6 +69,19 @@ function adminSidebar() {
           <div class="arrow" data-popper-arrow></div>
         </div>
       </a>
+      <a href="./admin/bookrequest_list.html" class="nav-items "
+            ><i class="bi bi-hdd-stack"></i>
+            <p>Book Request List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 430px;"
+              data-popper-placement="right"
+            >
+              Book Request List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
     </div>
   </div>
   <div class="side-footer">

@@ -189,7 +189,8 @@
     overflow: hidden;
     border: 1px solid var(--primary-border);
     padding: 15px;
-    border-radius: 20px
+    border-radius: 20px;
+    position: relative;
 }
 
 .marquee {

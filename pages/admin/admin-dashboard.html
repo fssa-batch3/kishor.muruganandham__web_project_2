@@ -97,6 +97,19 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
+          <a href="./bookrequest_list.html" class="nav-items"
+            ><i class="bi bi-hdd-stack"></i>
+            <p>Book Request List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 430px"
+              data-popper-placement="right"
+            >
+              Book Request List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
         </div>
       </div>
       <div class="side-footer">
@@ -132,8 +145,6 @@
     </nav>
 
     <section class="main-container">
-      
-
       <main class="dashboard-container">
         <div class="first-row">
           <canvas id="genreChart" height="380px"></canvas>
@@ -153,6 +164,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+      function showEmptyComments() {
+        const marqueeContainer = document.querySelector(".marquee");
+        marqueeContainer.innerHTML = `<h5 style="position: absolute;top: 50%;
+            left: 50%;transform: translate(-50%, -50%);text-align:center;">No Recent <br/> comments Found</h5>`;
+      }
       async function recentComments() {
         try {
           const commentList = await getData("Comments");
@@ -165,6 +181,10 @@
           const filteredCommentList = sortedCommentList?.filter(
             (e) => e["isActive"] == true
           );
+          if (filteredCommentList.length === 0) {
+            showEmptyComments();
+            return;
+          }
           const loopLength =
             filteredCommentList?.length < 10 ? filteredCommentList?.length : 10;
           for (let i = 0; i < loopLength; i++) {
@@ -221,120 +241,115 @@
         const borrowedBook = await getData("Borrows");
         const commentList = await getData("Comments");
         const bookRequestList = await getData("BookRequests");
-        const bookRequestLength = bookRequestList.length;
-        const commentLength = commentList?.length;
-        const userLength = userList.length;
+        const bookRequestLength = bookRequestList.length || 0;
         const borrowedBookLength = borrowedBook?.filter(
           (e) => e.status === "Pending"
-        )?.length;
+        )?.length || 0;
         const booksLength = bookList.filter(
           (book) => book.isActive && book.isBorrowable
-        ).length;
+        ).length || 0;
+        const commentsLength = commentList.filter(
+          (comment) => comment.isActive
+        ).length || 0;
+        const usersLength = userList.filter(
+          (user) => user.isActive
+        ).length || 0;
         const activeBooksLength = bookList.filter(
           (book) => book.isActive
-        ).length;
-        
+        ).length || 0;
+
         const tagsArray = await getBookGenres();
-        
+
         const tagValues = Object.values(tagsArray);
         const tagKeys = Object.keys(tagsArray);
 
         Chart.defaults.font.size = 16;
-        new Chart(
-          document.getElementById("genreChart").getContext("2d"),
-          {
-            type: "bar",
-            data: {
-              labels: tagKeys,
-              datasets: [
-                {
-                  label: "No of Book in specific Genres",
-                  backgroundColor: "#8773e726",
-                  borderColor: "#8875e8",
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  maxBarThickness: 50,
-                  data: tagValues,
-                  hoverBackgroundColor: "#8875e8",
-                  hoverBorderColor: "#8773e726",
-                },
-              ],
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  ticks: {
-                    color: "#000000",
-                    stepSize: 3,
-                  },
-                  beginAtZero: true,
-                  max: activeBooksLength,
-                },
-                x: {
-                  ticks: {
-                    color: "#000000",
-                  },
-                  beginAtZero: true,
-                },
+        new Chart(document.getElementById("genreChart").getContext("2d"), {
+          type: "bar",
+          data: {
+            labels: tagKeys,
+            datasets: [
+              {
+                label: "No of Book in specific Genres",
+                backgroundColor: "#8773e726",
+                borderColor: "#8875e8",
+                borderWidth: 1,
+                borderRadius: 10,
+                maxBarThickness: 50,
+                data: tagValues,
+                hoverBackgroundColor: "#8875e8",
+                hoverBorderColor: "#8773e726",
               },
-              plugins: {
-                legend: {
-                  position: "bottom",
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                ticks: {
+                  color: "#000000",
+                  stepSize: 3,
                 },
+                beginAtZero: true,
+                max: activeBooksLength,
               },
-              animation: {
-                delay: 50,
+              x: {
+                ticks: {
+                  color: "#000000",
+                },
+                beginAtZero: true,
               },
             },
-          }
-        );
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
+            animation: {
+              delay: 50,
+            },
+          },
+        });
 
-        new Chart(
-          document.getElementById("bookChart").getContext("2d"),
-          {
-            type: "pie",
-            data: {
-              labels: ["No of books available", "No of books borrowed"],
-              datasets: [
-                {
-                  label: "Books",
-                  data: [booksLength, borrowedBookLength],
-                  backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
-                  hoverOffset: 10,
-                },
-              ],
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-            },
-          }
-        );
+        new Chart(document.getElementById("bookChart").getContext("2d"), {
+          type: "pie",
+          data: {
+            labels: ["No of books available", "No of books borrowed"],
+            datasets: [
+              {
+                label: "Books",
+                data: [booksLength, borrowedBookLength],
+                backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
+                hoverOffset: 10,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        });
 
-        new Chart(
-          document.getElementById("detailChart").getContext("2d"),
-          {
-            type: "doughnut",
-            data: {
-              labels: ["Users", "Comments", "Books requested"],
-              datasets: [
-                {
-                  label: "Total",
-                  data: [userLength, commentLength, bookRequestLength],
-                  backgroundColor: ["Orange", "lightcoral", "teal"],
-                  hoverOffset: 10,
-                },
-              ],
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-            },
-          }
-        );
-        setLoader(false)
+        new Chart(document.getElementById("detailChart").getContext("2d"), {
+          type: "doughnut",
+          data: {
+            labels: ["Users", "Comments", "Books requested"],
+            datasets: [
+              {
+                label: "Total",
+                data: [usersLength, commentsLength, bookRequestLength],
+                backgroundColor: ["Orange", "lightcoral", "teal"],
+                hoverOffset: 10,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        });
+        setLoader(false);
       }
       showChart();
     </script>
