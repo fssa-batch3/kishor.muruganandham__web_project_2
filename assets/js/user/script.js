@@ -104,12 +104,12 @@ function activeTab(evt, tabName) {
 
 function setRatingValue(data) {
   let radioButtons = document.getElementsByName("rating");
-  for (let i = 0; i < radioButtons.length; i++) {
-    if (radioButtons[i].id === "rating-" + data) {
-      radioButtons[i].checked = true;
+  for (const radioButton of radioButtons) {
+    if (radioButton.id === "rating-" + data) {
+      radioButton.checked = true;
       break;
     }
-  }
+  }  
 }
 
 async function getBookGenres() {

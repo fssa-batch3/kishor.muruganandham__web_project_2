@@ -164,7 +164,7 @@ function adminSidebar() {
 
 if (thisUser.role === "admin") {
   adminSidebar();
-  signOut = document.getElementById("sign-out");
+  let signOut = document.getElementById("sign-out");
   signOut.addEventListener("click", async () => {
     const currentUser = await getOneData(`Users/${thisUser.id}`);
     currentUser.isOnline = false;
