@@ -53,9 +53,8 @@ async function showBookEditDetails() {
   deleteBtn.addEventListener("click", function () {
     thisBook.isActive = false;
     books[indexOfBook] = thisBook;
-    putData(`Books/${thisBook.id}`, thisBook)
-    .then(() => {
-      alert("Book Deleted successfully")
+    putData(`Books/${thisBook.id}`, thisBook).then(() => {
+      alert("Book Deleted successfully");
     });
     window.location.href =
       window.location.origin + "/pages/admin/admin_library.html";
@@ -87,15 +86,14 @@ async function showBookEditDetails() {
   });
   setLoader(false);
 }
-
+let thisBook;
 async function showBookDetails() {
   try {
-    
     const books = await getData("Books");
-
     const borrowList = await getData(`Borrows/`);
 
-    const thisBook = books.find((book) => book.id === bookId);
+    thisBook = books.find((book) => book.id === bookId);
+  
 
     const bookImage = document.querySelector(".book-detail-image img");
     bookImage.src = thisBook["image"]["src"];
@@ -137,17 +135,15 @@ async function showBookDetails() {
       bookDetailTagsListElement.append(tagSpan);
     });
 
-    const starRatingElement = document.getElementById("stars");
-    starRatingElement.innerHTML = getStars(thisBook.star_rating);
+    
+    
 
     const availableDate = borrowList?.find(
       (e) => e.book_id === thisBook["id"] && e.status === "Pending"
     );
     const borrowBtn = document.getElementById("borrow-now");
-    const borrowBtnElement = document.querySelector(
-      ".book-detail-borrow-now"
-    );
-    
+    const borrowBtnElement = document.querySelector(".book-detail-borrow-now");
+
     if (thisBook?.isBorrowable === false && availableDate) {
       const targetDate = moment(availableDate["due_date"]);
       const duration = moment.duration(targetDate.diff(moment()));
@@ -156,7 +152,6 @@ async function showBookDetails() {
       borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
         availableDate["username"]
       },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
-
     } else if (thisBook?.isBorrowable === true) {
       borrowBtn.innerText = "Borrow Now";
       borrowBtn.disabled = false;
@@ -170,8 +165,6 @@ async function showBookDetails() {
   }
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
-  showBookDetails()
-  
-})
-
+document.addEventListener("DOMContentLoaded", () => {
+  showBookDetails();
+});

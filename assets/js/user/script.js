@@ -62,7 +62,9 @@ function comparePassword(userInputPassword, saltAndHashedPassword) {
     const [salt, storedHash] = saltAndHashedPassword.split(" ");
 
     // Hash the user input password with the stored salt
-    const hashedPassword = CryptoJS.SHA256(userInputPassword + CryptoJS.enc.Hex.parse(salt));
+    const hashedPassword = CryptoJS.SHA256(
+      userInputPassword + CryptoJS.enc.Hex.parse(salt)
+    );
 
     // Compare the hashed user input password with the stored hash
     return hashedPassword.toString() === storedHash;
@@ -100,30 +102,14 @@ function activeTab(evt, tabName) {
   evt.currentTarget.classList.add("active");
 }
 
-function getStars(rating) {
-  // Round to nearest half
-  rating = Math.round(rating * 2) / 2;
-  let output = [];
-  let i;
-  // Append all the filled whole stars
-  for (i = rating; i >= 1; i--)
-    output.push(
-      '<i class="bi bi-star-fill" aria-hidden="true" style="color: gold;"></i>&nbsp;'
-    );
-
-  // If there is a half a star, append it
-  if (i == 0.5)
-    output.push(
-      '<i class="bi bi-star-half" aria-hidden="true" style="color: gold;"></i>&nbsp;'
-    );
-
-  // Fill the empty stars
-  for (let i = 5 - rating; i >= 1; i--)
-    output.push(
-      '<i class="bi bi-star" aria-hidden="true" style="color: gold;"></i>&nbsp;'
-    );
-
-  return output.join("");
+function setRatingValue(data) {
+  let radioButtons = document.getElementsByName("rating");
+  for (let i = 0; i < radioButtons.length; i++) {
+    if (radioButtons[i].id === "rating-" + data) {
+      radioButtons[i].checked = true;
+      break;
+    }
+  }
 }
 
 async function getBookGenres() {

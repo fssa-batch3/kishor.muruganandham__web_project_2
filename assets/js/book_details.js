@@ -1,8 +1,54 @@
+const ratingInputs = document.querySelectorAll('input[type="radio"]');
+let ratingValue;
+let ratingId;
+let thisRating;
+async function ratings() {
+  const ratingList = await getData("Ratings");
+  thisRating = ratingList.find(
+    (rating) => rating.user_id === thisUser.id && rating.book_id == bookId
+  );
+  if (thisRating) {
+    ratingId = thisRating.rating_id;
+    setRatingValue(thisRating.rating);
+  } else {
+    ratingId = generateGuid();
+  }
+  const thisBookRatings = ratingList.filter(
+    (rating) => (rating.book_id == bookId)
+  );
+  const ratings = thisBookRatings.reduce((acc, obj) => acc + obj.rating, 0);
+  const avgRating = Math.round(ratings / thisBookRatings.length);
+  const starRatingElement = document.querySelector(".stars");
+  starRatingElement.innerHTML = avgRating || 0;
+}
+ratings();
 
+ratingInputs.forEach((input) => {
+  input.addEventListener("click", () => {
+    ratingValue = +input.value;
+    if (thisRating?.rating === ratingValue) {
+      return;
+    }
+    const ratingObj = {
+      user_id: thisUser.id,
+      rating: ratingValue,
+      book_id: thisBook.id,
+      rating_id: ratingId,
+    };
+    putData(`Ratings/${ratingId}`, ratingObj).then(() => {
+      if (thisRating) {
+        thisRating.rating = ratingValue;
+      }
+
+      alert("Rated Successfully");
+      ratings();
+    });
+  });
+});
 
 function adminSidebar() {
-    const navBar = document.querySelector("nav");
-    navBar.innerHTML = `<div class="side-header">
+  const navBar = document.querySelector("nav");
+  navBar.innerHTML = `<div class="side-header">
     <div class="logo">
       <i class="bi bi-book-half"></i>
       <p>Bookly</p>
@@ -114,8 +160,6 @@ function adminSidebar() {
       </a>
     </div>
   </div>`;
-  }
+}
 
-  adminSidebar()
 
-  

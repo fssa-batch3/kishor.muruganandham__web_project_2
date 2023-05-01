@@ -141,6 +141,7 @@ showHeader();
 async function displayUserData() {
   const currentUser = await getOneData(`Users/${thisUser.id}`);
   try {
+    
     const nameDisplay = document.querySelector(".header-username");
     const greetings = document.querySelector(".greetings");
     const now = moment();
