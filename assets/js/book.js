@@ -134,7 +134,7 @@ async function showBookEditDetails() {
       console.error(err);
     });
   });
-  setLoader(false);
+ 
 }
 let thisBook;
 async function showBookDetails() {
@@ -205,17 +205,20 @@ async function showBookDetails() {
       borrowBtn.style.display = "none";
       borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
     }
-    setLoader(false);
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname === "/pages/admin/book_edit.html") {
-   return showBookEditDetails();
-  } else
-  if (window.location.pathname === "/pages/book_details.html") {
-   return showBookDetails();
+    showBookEditDetails().then(() => {
+      setLoader(false);
+    });
+  } else if (window.location.pathname === "/pages/book_details.html") {
+    showBookDetails().then(() => {
+      setLoader(false);
+    });
   }
 });
+
