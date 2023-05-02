@@ -354,8 +354,7 @@
         .then((result) => {
           alert("Book created successfully with id " + result.id);
           setLoader(false);
-
-          // location.reload();
+          location.reload();
         })
         .catch((er) => {
           console.error(err);

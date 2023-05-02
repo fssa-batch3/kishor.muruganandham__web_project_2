@@ -97,6 +97,9 @@ async function showBookEditDetails() {
     books[indexOfBook] = thisBook;
     putData(`Books/${thisBook.id}`, thisBook).then(() => {
       alert("Book Deleted successfully");
+    })
+    .catch((err) => {
+      console.error(err);
     });
     window.location.href =
       window.location.origin + "/pages/admin/admin_library.html";
@@ -126,6 +129,9 @@ async function showBookEditDetails() {
       // Success notification
       alert("Book Details updated successfully");
       location.reload();
+    })
+    .catch((err) => {
+      console.error(err);
     });
   });
   setLoader(false);
@@ -205,11 +211,11 @@ async function showBookDetails() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   if (window.location.pathname === "/pages/admin/book_edit.html") {
-    showBookEditDetails();
+   await showBookEditDetails();
   } else
   if (window.location.pathname === "/pages/book_details.html") {
-    showBookDetails();
+   await showBookDetails();
   }
 });
