@@ -14,7 +14,7 @@ async function ratings() {
     ratingId = generateGuid();
   }
   const thisBookRatings = ratingList.filter(
-    (rating) => (rating.book_id == bookId)
+    (rating) => rating.book_id == bookId
   );
   const ratings = thisBookRatings.reduce((acc, obj) => acc + obj.rating, 0);
   const avgRating = Math.round(ratings / thisBookRatings.length);
@@ -35,14 +35,23 @@ ratingInputs.forEach((input) => {
       book_id: thisBook.id,
       rating_id: ratingId,
     };
-    putData(`Ratings/${ratingId}`, ratingObj).then(() => {
-      if (thisRating) {
-        thisRating.rating = ratingValue;
-      }
-
-      alert("Rated Successfully");
-      ratings();
-    });
+    putData(`Ratings/${ratingId}`, ratingObj)
+      .then(() => {
+        if (thisRating) {
+          thisRating.rating = ratingValue;
+        }
+        ratings()
+          .then(() => {
+            alert("Rated Successfully");
+            ratings();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
 });
 
@@ -165,14 +174,23 @@ function adminSidebar() {
 if (thisUser.role === "admin") {
   adminSidebar();
   let signOut = document.getElementById("sign-out");
-  signOut.addEventListener("click", async () => {
-    const currentUser = await getOneData(`Users/${thisUser.id}`);
-    currentUser.isOnline = false;
-    setLoader(true);
-    patchData(`Users/${currentUser.id}`, currentUser).then(() => {
-      setLoader(false);
-      localStorage.removeItem("user");
-      window.location.href = "../../index.html";
-    });
+  signOut.addEventListener("click", () => {
+    getOneData(`Users/${thisUser.id}`)
+      .then((currentUser) => {
+        currentUser.isOnline = false;
+        setLoader(true);
+        patchData(`Users/${currentUser.id}`, currentUser)
+          .then(() => {
+            setLoader(false);
+            localStorage.removeItem("user");
+            window.location.href = "../../index.html";
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
 }

@@ -214,10 +214,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname === "/pages/admin/book_edit.html") {
     showBookEditDetails().then(() => {
       setLoader(false);
+    })
+    .catch((err) => {
+      console.error(err);
     });
   } else if (window.location.pathname === "/pages/book_details.html") {
     showBookDetails().then(() => {
       setLoader(false);
+    })
+    .catch((err) => {
+      console.error(err);
     });
   }
 });
