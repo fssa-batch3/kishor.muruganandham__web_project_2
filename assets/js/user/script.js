@@ -145,6 +145,8 @@ async function getBookGenres() {
   }
 }
 
+
+
 async function showTags() {
   const tagsArray = await getBookGenres();
   const tagSettings = Object.keys(tagsArray);

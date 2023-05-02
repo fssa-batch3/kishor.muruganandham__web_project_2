@@ -17,16 +17,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/choices.js/10.2.0/choices.min.js"
-      integrity="sha512-OrRY3yVhfDckdPBIjU2/VXGGDjq3GPcnILWTT39iYiuV6O3cEcAxkgCBVR49viQ99vBFeu+a6/AoFAkNHgFteg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
     <link
-      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
       rel="stylesheet"
+      type="text/css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -101,13 +97,13 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./bookrequest_list.html" class="nav-items "
+          <a href="./bookrequest_list.html" class="nav-items"
             ><i class="bi bi-hdd-stack"></i>
             <p>Book Request List</p>
             <div
               class="tooltip"
               role="tooltip"
-              style="top: 430px;"
+              style="top: 430px"
               data-popper-placement="right"
             >
               Book Request List
@@ -150,7 +146,7 @@
 
     <section class="main-container">
       <main class="create-book-container">
-        <form action="" id="create-book" onsubmit="createBook()">
+        <form id="create-book">
           <div class="title" style="text-align: center">
             <h1>Create Book</h1>
           </div>
@@ -195,14 +191,13 @@
           </div>
           <div class="input-group">
             <label for="tags">Genre :<sup>*</sup></label>
-            <div class="input-field">
-              <select
-                data-placeholder="Choose tags ..."
-                name="tags[]"
-                multiple
+            <div class="input-field" style="height: unset">
+              <input
+                name="input-custom-dropdown"
+                class="custom-tag"
+                placeholder="Enter a custom Tag and Press Enter to Add."
                 id="choice-js"
-                class="chosen-select"
-              ></select>
+              />
             </div>
           </div>
           <div class="input-group">
@@ -296,32 +291,32 @@
       </div>
     </section>
   </body>
+
   <script type="module">
     const tagsArray = await getBookGenres();
-    const adminTags = Object.keys(tagsArray);
-    adminTags.forEach(element => {
-      const opt = document.createElement("option");
-      opt.innerText = element;
-      $("#choice-js").append(opt);
-    });
-
-    const choices = new Choices("#choice-js", {
-      addItems: true,
-      removeItems: true,
-      removeItemButton: true,
-      maxItemCount: 3,
-      allowHTML: true,
-      addItemText: value => {
-        return `Press Enter to add <b>"${value}"</b>`;
-      }
+    const whitelist = Object.keys(tagsArray);
+    const input = document.querySelector('input[name="input-custom-dropdown"]');
+    const tagify = new Tagify(input, {
+      whitelist: whitelist,
+      maxTags: 5,
+      dropdown: {
+        maxItems: 20,
+        classname: "tags-look",
+        enabled: 0,
+        closeOnSelect: false,
+      },
     });
 
     function tagsToArray() {
-      const tags = document.getElementById("choice-js").selectedOptions;
+      const tags =
+        document.getElementById("choice-js").previousSibling.children;
       let str = "";
-      for (const i of tags) {
-        str += " " + i.value.toLowerCase();
+      for (let i = 0; i < tags.length - 1; i++) {
+        const tag = tags[i].__tagifyTagData?.value;
+        console.log(tag);
+        str += " " + tag.toLowerCase();
       }
+
       let stringArray = str.split(" ");
       let row = stringArray.filter((n) => n);
       return row;
@@ -330,7 +325,8 @@
     const UUID = generateGuid();
     uid.placeholder = UUID;
 
-    function createBook() {
+    const createBookForm = document.getElementById("create-book");
+    createBookForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const title = document.getElementById("Title").value;
       const subtitle = document.getElementById("Sub-title").value;
@@ -350,21 +346,22 @@
         language: "English",
         isActive: true,
         pages: parseInt(pages, 10),
-        description
+        description,
       };
       setLoader(true);
 
       putData(`Books/${UUID}`, newBook)
-        .then(result => {
+        .then((result) => {
           alert("Book created successfully with id " + result.id);
           setLoader(false);
 
-          location.reload();
+          // location.reload();
         })
-        .catch(er => {
+        .catch((er) => {
           console.error(err);
         });
-    }
+    });
+
     setLoader(false);
   </script>
 </html>

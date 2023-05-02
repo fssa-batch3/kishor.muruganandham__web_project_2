@@ -542,6 +542,20 @@ th.gridjs-th{
   border: 1px solid var(--primary-border);
   cursor: pointer;
 }
+tag{
+  
+  --tag-bg : var(--card-white);
+  --tag-inset-shadow-size: 1.5em;
+}
+.tagify__tag.tagify--noAnim{
+  z-index: unset;
+}
+.tagify.custom-tag{
+  --tag-border-radius: 10px;
+  border-radius: 15px;
+  width: 100%;
+  --tags-border-color: var(--primary-border);
+}
 @media only screen and (max-width: 600px) {
   .hero-section {
     flex-wrap: wrap-reverse;

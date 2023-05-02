@@ -2,6 +2,20 @@
 const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id");
 
+function tagsToArray() {
+  const tags = document.querySelector('input[name="input-custom-dropdown"]')
+    .previousSibling.children;
+  let str = "";
+  for (let i = 0; i < tags.length - 1; i++) {
+    const tag = tags[i].innerText;
+    str += " " + tag.toLowerCase();
+  }
+
+  let stringArray = str.split(" ");
+  let row = stringArray.filter((n) => n);
+  return row;
+}
+
 async function showBookEditDetails() {
   // Store references to all relevant DOM elements
   const bookIdNo = document.getElementById("ed-book-id");
@@ -16,9 +30,19 @@ async function showBookEditDetails() {
   const deleteBtn = document.querySelector(".book-delete.submit");
   const cancelBtn = document.querySelector(".book-cancel.submit");
   const saveBtn = document.querySelector(".book-save.submit");
+  const imgEditBtn = document.querySelector(".bi-pencil-fill");
   const books = await getData("Books");
   const thisBook = books.find((book) => book.id === bookId);
+  const tagsArray = await getBookGenres();
+  const whitelist = Object.keys(tagsArray);
   const indexOfBook = books.indexOf(thisBook);
+  const str = thisBook.tags.join(", ");
+  let imgUrl;
+  const customInput = document.querySelector(
+    'input[name="input-custom-dropdown"]'
+  );
+  customInput.value = str;
+  
 
   // Set the values of form fields based on the data for the book
   bookIdNo.value = thisBook.id;
@@ -34,6 +58,7 @@ async function showBookEditDetails() {
   // Add event listener to Edit button to enable form fields for editing
   editBtn.addEventListener("click", function (e) {
     e.preventDefault();
+    imgEditBtn.style.display = "block";
     const editable = document.querySelectorAll(".ed-input");
     editable.forEach((inp) => {
       inp.removeAttribute("disabled");
@@ -42,8 +67,25 @@ async function showBookEditDetails() {
     deleteBtn.style.display = "none";
     cancelBtn.style.display = "block";
     saveBtn.style.display = "block";
+    const tagify = new Tagify(customInput, {
+      whitelist: whitelist,
+      maxTags: 5,
+      dropdown: {
+        maxItems: 20,
+        classname: "tags-look",
+        enabled: 0,
+        closeOnSelect: false,
+      },
+    });
   });
-
+  imgEditBtn.addEventListener("click", ()=>{
+    imgUrl = prompt("Enter the URL of Book ")
+    if (imgUrl === "") {
+      alert("Please enter correct URL")
+    }
+    thisBook.image.src = imgUrl;
+    bookImage.src = imgUrl;
+  })
   // Add event listener to Cancel button to reload the page and revert any unsaved changes
   cancelBtn.addEventListener("click", function () {
     location.reload();
@@ -72,9 +114,11 @@ async function showBookEditDetails() {
     thisBook.title = bookTitle.value;
     thisBook.author = bookAuthor.value;
     thisBook.language = bookLang.value;
+    
     thisBook.pages = parseInt(bookPages.value, 10);
     thisBook.description = bookDesc.value;
     thisBook.image.src = bookImage.src;
+    thisBook.tags = tagsToArray();
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
     books[indexOfBook] = thisBook;
     putData(`Books/${thisBook.id}`, thisBook).then((data) => {
@@ -93,7 +137,6 @@ async function showBookDetails() {
     const borrowList = await getData(`Borrows/`);
 
     thisBook = books.find((book) => book.id === bookId);
-  
 
     const bookImage = document.querySelector(".book-detail-image img");
     bookImage.src = thisBook["image"]["src"];
@@ -135,9 +178,6 @@ async function showBookDetails() {
       bookDetailTagsListElement.append(tagSpan);
     });
 
-    
-    
-
     const availableDate = borrowList?.find(
       (e) => e.book_id === thisBook["id"] && e.status === "Pending"
     );
@@ -166,5 +206,10 @@ async function showBookDetails() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  showBookDetails();
+  if (window.location.pathname === "/pages/admin/book_edit.html") {
+    showBookEditDetails();
+  } else
+  if (window.location.pathname === "/pages/book_details.html") {
+    showBookDetails();
+  }
 });

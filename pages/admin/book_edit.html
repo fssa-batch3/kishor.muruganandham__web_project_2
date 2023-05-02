@@ -23,6 +23,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -98,13 +104,13 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./bookrequest_list.html" class="nav-items "
+          <a href="./bookrequest_list.html" class="nav-items"
             ><i class="bi bi-hdd-stack"></i>
             <p>Book Request List</p>
             <div
               class="tooltip"
               role="tooltip"
-              style="top: 430px;"
+              style="top: 430px"
               data-popper-placement="right"
             >
               Book Request List
@@ -146,8 +152,6 @@
     </nav>
 
     <section class="main-container">
-     
-
       <main class="book-edit-container">
         <div class="book-edit-left-wrap">
           <div class="book-edit-image">
@@ -194,6 +198,19 @@
                 id="ed-book-id"
                 class="input"
                 value="12345"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-group" >
+            <label for="ed-book-tags">Genre : </label>
+            <div class="input-field" style="height: unset;">
+              <input
+                name="input-custom-dropdown"
+                class="custom-tag ed-input"
+                placeholder="Enter a custom Tag and Press Enter to Add."
+                id="ed-book-tags"
+                style="min-height: 55px;"
                 disabled
               />
             </div>
@@ -269,11 +286,7 @@
       </main>
     </section>
 
-    
     <script type="module">
-
-
-      showBookEditDetails();
       
     </script>
   </body>
