@@ -213,9 +213,9 @@ async function showBookDetails() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (window.location.pathname === "/pages/admin/book_edit.html") {
-   await showBookEditDetails();
+   return showBookEditDetails();
   } else
   if (window.location.pathname === "/pages/book_details.html") {
-   await showBookDetails();
+   return showBookDetails();
   }
 });
