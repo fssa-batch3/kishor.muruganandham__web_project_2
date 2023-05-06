@@ -31,9 +31,9 @@ async function displayBooks(books, bookRack) {
 }
 
 const popularBookRack = document.querySelector(".generated-books");
-displayBooks(popularBookData, popularBookRack);
+await displayBooks(popularBookData, popularBookRack);
 const interestingBookRack = document.querySelector(".interesting-books");
-displayBooks(interestingBookData, interestingBookRack);
+await displayBooks(interestingBookData, interestingBookRack);
 
 toggleFavorites();
 checkForFavorites();

@@ -237,11 +237,12 @@ async function toggleFavourites() {
           userFavourites?.push(bookId);
         }
         await putData(`Users/${currentUser.id}`, currentUser);
-        checkForFavourites();
+        await checkForFavourites();
       });
     });
   } catch (error) {
     console.error(error);
+    return alert("Error Toggling Favourites, Please try again.Error: " + error);
   }
 }
 

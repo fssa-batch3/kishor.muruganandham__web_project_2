@@ -66,13 +66,8 @@ saveForm.addEventListener("submit", async (e) => {
   thisUser.age = moment().diff(dateOfBirth.value, "years");
   thisUser.phone_number = phoneNumber.value;
   const phoneNumberPattern = /^[6789]\d{9}$/;
-  if (
-    phoneNumber.value !== "" &&
-    phoneNumberPattern.test(phoneNumber.value) === false
-  ) {
-    alert(
-      "Invalid phone number. Phone number must be 10 digits long and should start with 6,7,8,9 only."
-    );
+  if (phoneNumber.value !== "" && phoneNumberPattern.test(phoneNumber.value) === false) {
+    alert("Invalid phone number. Phone number must be 10 digits long and should start with 6,7,8,9 only.");
     return;
   }
   if (thisUser.username !== emailAddress.value) {
@@ -84,33 +79,42 @@ saveForm.addEventListener("submit", async (e) => {
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(thisUser));
     alert("User Details updated successfully");
-    location.reload();
+    return location.reload();
   } catch (error) {
     console.log(error);
     alert("Error updating user details. Please try again later.");
+    return;
   }
 });
 
+
 deleteBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const confirmValue = confirm("Are you sure you want to delete your account?");
-  if (confirmValue === true) {
+  try {
+    e.preventDefault();
+    const confirmValue = confirm(
+      "Are you sure you want to delete your account?"
+    );
+    if (confirmValue === false) {
+      return;
+    }
     const promptValue = prompt(
       `This action cannot be undone. This will permanently delete the ${thisUser.username} account and remove all details associated with it. Please type your password to confirm.`
     );
-    if (promptValue === thisUser.password) {
-      thisUser.isActive = false;
-      try {
-        await putData(`Users/${thisUser.id}`, thisUser);
-        localStorage.removeItem("user");
-        localStorage.setItem("user", JSON.stringify(thisUser));
-        alert("The journey has come to an end, your account has been deleted.");
-        window.location.href = "../../index.html";
-      } catch (error) {
-        console.log(error);
-        alert("Error deleting user account. Please try again later.");
-      }
+    if (promptValue !== thisUser.password) {
+      alert("Please enter your password correctly");
+      return;
     }
+    thisUser.isActive = false;
+
+    await putData(`Users/${thisUser.id}`, thisUser);
+    localStorage.removeItem("user");
+    localStorage.setItem("user", JSON.stringify(thisUser));
+    alert("The journey has come to an end, your account has been deleted.");
+    return window.location.href = window.location.origin;
+  } catch (error) {
+    console.log(error);
+    alert("Error deleting user account. Please try again later.");
+    return;
   }
 });
 

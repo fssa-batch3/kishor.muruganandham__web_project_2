@@ -25,7 +25,7 @@ signOut.addEventListener("click", async () => {
     window.location.href = "../../index.html";
   } catch (error) {
     console.error(error);
-    alert("Error Signing out: " + error.message);
+    return alert("Error Signing out: " + error.message);
   }
 });
 

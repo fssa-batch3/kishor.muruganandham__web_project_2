@@ -23,19 +23,21 @@ verifyEmail.addEventListener("click", async () => {
     await patchData(`Users/${userId}`, currentUser);
     verifyContainer.style.display = "none";
     verifySuccessContainer.style.display = "block";
-    let counter = 5;
-    function redirect() {
-      if (counter === 0) {
-        window.location.href = "../index.html";
-      } else {
-        verifyRedirect.innerText = counter;
-        counter--;
-        setTimeout(redirect, 1000);
-      }
-    };
     redirect();
   } catch (error) {
     console.error(error);
+    return alert("Error Verifying your Email Please try again. Error :" + error);
   }
 });
+
+function redirect() {
+  let counter = 5;
+  if (counter === 0) {
+    window.location.href = "../index.html";
+  } else {
+    verifyRedirect.innerText = counter;
+    counter--;
+    setTimeout(redirect, 1000);
+  }
+};
 
