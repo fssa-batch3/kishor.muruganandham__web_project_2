@@ -177,7 +177,7 @@ async function displayUserData() {
   }
 }
 
-displayUserData();
+await displayUserData();
 setLoader(true);
 
 async function addSearchResults() {

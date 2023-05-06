@@ -22,7 +22,7 @@ signOut.addEventListener("click", async () => {
     await patchData(`Users/${currentUser.id}`, currentUser);
     setLoader(false);
     localStorage.removeItem("user");
-    window.location.href = "../../index.html";
+    return window.location.href = window.location.origin;
   } catch (error) {
     console.error(error);
     return alert("Error Signing out: " + error.message);

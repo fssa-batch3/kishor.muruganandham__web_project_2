@@ -50,9 +50,11 @@ forgetForm.addEventListener("submit", async (event) => {
     // Show success message
     alert("Password updated successfully");
     // Redirect to home page
-    window.location.href = "/index.html";
+    return window.location.href = window.location.origin;
+
   } catch (err) {
     console.log(err);
+    return alert("Error updating password, Please try again. Error" + err);
   }
 });
 

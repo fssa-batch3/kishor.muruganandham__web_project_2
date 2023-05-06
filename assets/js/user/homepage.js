@@ -6,7 +6,7 @@ async function showData() {
     let borrowList = await getData("Borrows");
     const commentList = await getData("Comments");
     const bookList = await getData("Books");
-    const commentListLength = commentList.filter(comment => comment.user_id === thisUser.id && comment.isActive).length;
+    const commentListLength = commentList.filter(comment => comment.user_id === thisUser.id && comment.isActive).length || 0;
     const borrowListLength = borrowList.filter(borrow => borrow.user_id === thisUser.id).length || 0;
     const bookListLength = bookList?.length ? bookList.length : 0;
     const favoriteListLength = thisUser.favourites?.length > 1 ? thisUser.favourites.length - 1 : 0;
