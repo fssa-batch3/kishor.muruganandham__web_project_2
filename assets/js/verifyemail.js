@@ -26,14 +26,15 @@ verifyEmail.addEventListener("click", async () => {
     redirect();
   } catch (error) {
     console.error(error);
-    return alert("Error Verifying your Email Please try again. Error :" + error);
+    alert("Error Verifying your Email Please try again. Error :" + error);
   }
 });
+
 
 function redirect() {
   let counter = 5;
   if (counter === 0) {
-    window.location.href = "../index.html";
+    window.location.assign(window.location.origin);
   } else {
     verifyRedirect.innerText = counter;
     counter--;

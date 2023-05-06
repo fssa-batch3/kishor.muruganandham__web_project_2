@@ -79,11 +79,10 @@ saveForm.addEventListener("submit", async (e) => {
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(thisUser));
     alert("User Details updated successfully");
-    return location.reload();
+    location.reload();
   } catch (error) {
     console.log(error);
     alert("Error updating user details. Please try again later.");
-    return;
   }
 });
 
@@ -110,11 +109,10 @@ deleteBtn.addEventListener("click", async (e) => {
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(thisUser));
     alert("The journey has come to an end, your account has been deleted.");
-    return window.location.href = window.location.origin;
+    window.location.assign(window.location.origin);
   } catch (error) {
     console.log(error);
     alert("Error deleting user account. Please try again later.");
-    return;
   }
 });
 

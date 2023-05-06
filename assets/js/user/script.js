@@ -240,10 +240,9 @@ async function toggleFavourites() {
         await checkForFavourites();
       });
     });
-    return;
   } catch (error) {
     console.error(error);
-    return alert("Error Toggling Favourites, Please try again.Error: " + error);
+    alert("Error Toggling Favourites, Please try again.Error: " + error);
   }
 }
 

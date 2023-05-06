@@ -65,10 +65,10 @@ signinForm.addEventListener("submit", async function (e) {
     } else {
       redirectUrl = "./pages/user/homepage.html";
     }
-    return window.location.href = redirectUrl;
+    window.location.assign(redirectUrl);
   } catch (error) {
     console.error(error);
-    return alert("An error occurred while logging in. Please try again later.");
+    alert("An error occurred while logging in. Please try again later.");
   }
 });
 
@@ -122,9 +122,9 @@ signupForm.addEventListener("submit", async function (event) {
     alert(
       `User with email ${emailAdd.value} created successfully! Check your email for verification and continue login.`
     );
-    return location.reload();
+    location.reload();
   } catch (error) {
     console.error(error);
-    return alert("An error occurred while Signing in. Please try again later.");
+    alert("An error occurred while Signing in. Please try again later.");
   }
 });
