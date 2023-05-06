@@ -10,9 +10,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
-    <link rel="icon" href="../assets/images/book-half.svg" type="image/x-icon" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
-
+    <link
+      rel="icon"
+      href="../assets/images/book-half.svg"
+      type="image/x-icon"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+      integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
       integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
@@ -22,61 +30,78 @@
     <script src="../assets/js/db.js"></script>
     <script src="../assets/js/user/script.js"></script>
     <style>
-        body{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            width: 100%;
-            background-color: var(--body-bg);
-        }
-        .verify-style{
-            display: flex;
-            flex-direction: column;
-            max-width: 500px;
-            text-align: center;
-            padding: 30px 40px;
-            border-radius: 30px;
-            background-color: var(--body-white);
-            border: 1px solid var(--primary-border);
-        }
-        .verify-content{
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        #confirm-email{
-            display: block;
-            width: fit-content;
-            margin: auto;
-            padding: 10px 20px;
-            border-radius: 15px;
-        }
-        .verify-success-container{
-            display: none;
-        }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+        background-color: var(--body-bg);
+      }
+      .verify-style {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        text-align: center;
+        padding: 30px 40px;
+        border-radius: 30px;
+        background-color: var(--body-white);
+        border: 1px solid var(--primary-border);
+      }
+      .verify-content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+      #confirm-email {
+        display: block;
+        width: fit-content;
+        margin: auto;
+        padding: 10px 20px;
+        border-radius: 15px;
+      }
+      .verify-success-container {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <div class="verify-container verify-style">
-        <div class="verify-img">
-            <img src="../assets/images/undraw_mailbox_re_dvds.svg" alt="mail-box" width="250px">
-        </div>
-        <div class="verify-content">
-            <h4>Verify Your Email address</h4>
-            <p>Please Click the below button to confirm your email address and activate your account</p>
-            <button class="submit" id="confirm-email">CONFIRM EMAIL</button>
-            <small>If you received this in error, simply ignore this email and do not click the button</small>
-        </div>
+      <div class="verify-img">
+        <img
+          src="../assets/images/undraw_mailbox_re_dvds.svg"
+          alt="mail-box"
+          width="250px"
+        />
+      </div>
+      <div class="verify-content">
+        <h4>Verify Your Email address</h4>
+        <p>
+          Please Click the below button to confirm your email address and
+          activate your account
+        </p>
+        <button class="submit" id="confirm-email">CONFIRM EMAIL</button>
+        <small
+          >If you received this in error, simply ignore this email and do not
+          click the button</small
+        >
+      </div>
     </div>
     <div class="verify-success-container verify-style">
-        <div class="verify-img">
-            <img src="../assets/images/undraw_mail_sent_re_0ofv.svg" alt="mail-box" width="200px">
-        </div>
-        <div class="verify-content">
-            <h4>Your Email address has Been Verified Successfully</h4>
-            <p>You will be redirected to homepage in <span class="verify-redirect">5</span> seconds</p>
-        </div>
+      <div class="verify-img">
+        <img
+          src="../assets/images/undraw_mail_sent_re_0ofv.svg"
+          alt="mail-box"
+          width="200px"
+        />
+      </div>
+      <div class="verify-content">
+        <h4>Your Email address has Been Verified Successfully</h4>
+        <p>
+          You will be redirected to homepage in
+          <span class="verify-redirect">5</span> seconds
+        </p>
+      </div>
     </div>
     <script src="../assets/js/verifyemail.js"></script>
   </body>

@@ -7,16 +7,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
-    "eslint": "^7.30.0",
-    "eslint-config-airbnb-base": "^14.2.1",
     "husky": "^8.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

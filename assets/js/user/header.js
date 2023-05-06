@@ -137,9 +137,21 @@ function showHeader() {
 showHeader();
 
 // Display user name and profile picture
+let currentUser;
 
-async function displayUserData() {
-  const currentUser = await getOneData(`Users/${thisUser.id}`);
+async function getCurrentUser() {
+  currentUser = await getOneData(`Users/${thisUser.id}`);
+}
+
+getCurrentUser()
+.then(()=>{
+  displayUserData();
+})
+.catch(error=>{
+  console.error(error);
+});
+
+function displayUserData() {
   try {
     const nameDisplay = document.querySelector(".header-username");
     const greetings = document.querySelector(".greetings");
@@ -177,7 +189,7 @@ async function displayUserData() {
   }
 }
 
-await displayUserData();
+
 setLoader(true);
 
 async function addSearchResults() {

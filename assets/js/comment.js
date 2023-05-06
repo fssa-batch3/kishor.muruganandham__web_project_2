@@ -6,7 +6,7 @@ async function showComment() {
   const commentLikeList = (await getData("Likes")) || [];
   const borrowList = await getData(`Borrows/`);
   const filteredComments = comments
-    .filter((comment) => comment.book_id === bookId && comment.isActive)
+    .filter((comment) => comment.book_id === bookId && comment.isActive);
   if (filteredComments.length < 1) {
     commentContainer.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
   }
@@ -171,7 +171,7 @@ async function showComment() {
         saveIconElement.style.display = "none";
         comment["description"] = descriptionElement.textContent;
         putData(`Comments/${comment.comment_id}`, comment)
-        .then((result) => {
+        .then(() => {
           alert("Comment updated successfully");
         }).catch((err) => {
           console.error(err);
@@ -199,9 +199,7 @@ async function showComment() {
             like.user_id === likeData.user_id
         );
         if (index !== -1) {
-          console.log(commentLikeList);
           commentLikeList.splice(index, 1);
-          console.log(commentLikeList);
           putData(`Likes/${isLiked.like_id}`, commentLikeList)
           .then(() => {
             showComment();
