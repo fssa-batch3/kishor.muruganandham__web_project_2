@@ -109,7 +109,7 @@ function setRatingValue(data) {
       radioButton.checked = true;
       break;
     }
-  }  
+  }
 }
 
 async function getBookGenres() {
@@ -130,22 +130,20 @@ async function getBookGenres() {
     const uniqueCategories = [
       ...new Set(
         Object.keys(bookCountsByGenre).map((cat) => cat.toLowerCase())
-      ),
+      )
     ];
-    const result = {};
-    uniqueCategories.forEach((cat) => {
+    return uniqueCategories.reduce((acc, cat) => {
       const catCounts = Object.entries(bookCountsByGenre)
         .filter(([key, val]) => key.toLowerCase() === cat)
         .map(([key, val]) => val);
-      result[cat] = catCounts.reduce((acc, val) => acc + val, 0);
-    });
-    return result;
+      acc[cat] = catCounts.reduce((acc, val) => acc + val, 0);
+      return acc;
+    }, {});
   } catch (error) {
     console.error(error);
+    return null;
   }
 }
-
-
 
 async function showTags() {
   const tagsArray = await getBookGenres();
@@ -162,7 +160,9 @@ async function showTags() {
 function generateBook(book, bookRack) {
   try {
     // Check if the book is active before proceeding.
-    if (book.isActive !== true) return;
+    if (book.isActive !== true) {
+      return
+    };
 
     // Create a new div element to hold the book card.
     const bookDiv = document.createElement("div");
@@ -228,7 +228,7 @@ async function toggleFavourites() {
     // Add an event listener to each favorite button to toggle the book's favorite status.
     favButtons.forEach((button) => {
       const bookId = button.parentElement.dataset.id;
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         const userFavourites = currentUser["favourites"];
         if (userFavourites?.includes(bookId)) {
           const index = userFavourites.indexOf(bookId);
@@ -236,9 +236,8 @@ async function toggleFavourites() {
         } else {
           userFavourites?.push(bookId);
         }
-        putData(`Users/${currentUser.id}`, currentUser).then(() => {
-          checkForFavourites();
-        });
+        await putData(`Users/${currentUser.id}`, currentUser);
+        checkForFavourites();
       });
     });
   } catch (error) {

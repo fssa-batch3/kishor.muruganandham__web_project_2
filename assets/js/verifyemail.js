@@ -11,28 +11,31 @@ const verifySuccessContainer = document.querySelector(
 const verifyRedirect = document.querySelector(".verify-redirect");
 
 verifyEmail.addEventListener("click", async () => {
-  const currentUser = await getOneData(`Users/${userId}`);
-  const verified = comparePassword(verifyId, currentUser.verify_id);
-  if (verified === false) {
-    alert("Email verification failed. Please try again");
-    setLoader(false);
-    return;
-  }
-
-  currentUser.isVerified = true;
-  patchData(`Users/${userId}`, currentUser).then(() => {
-      verifyContainer.style.display = "none";
-      verifySuccessContainer.style.display = "block";
+  try {
+    const currentUser = await getOneData(`Users/${userId}`);
+    const verified = comparePassword(verifyId, currentUser.verify_id);
+    if (verified === false) {
+      alert("Email verification failed. Please try again");
+      setLoader(false);
+      return;
+    }
+    currentUser.isVerified = true;
+    await patchData(`Users/${userId}`, currentUser);
+    verifyContainer.style.display = "none";
+    verifySuccessContainer.style.display = "block";
     let counter = 5;
-    const redirect = () => {
-        if (counter === 0) {
-            window.location.href = "../index.html";
+    function redirect() {
+      if (counter === 0) {
+        window.location.href = "../index.html";
       } else {
-          verifyRedirect.innerText = counter;
-          counter--;
-          setTimeout(redirect, 1000);
-        }
+        verifyRedirect.innerText = counter;
+        counter--;
+        setTimeout(redirect, 1000);
+      }
     };
     redirect();
-  });
+  } catch (error) {
+    console.error(error);
+  }
 });
+

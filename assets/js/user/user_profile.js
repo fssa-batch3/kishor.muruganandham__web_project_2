@@ -16,7 +16,7 @@ datePicker.setAttribute("min", minDate);
 datePicker.setAttribute("max", maxDate);
 
 if (thisUser.role === "admin") {
-  adminSidebar()
+  adminSidebar();
 }
 profDisp.style.background = `url(${thisUser.profile}) no-repeat center center/cover`;
 firstName.value = thisUser.first_name;
@@ -66,7 +66,6 @@ saveForm.addEventListener("submit", async (e) => {
   thisUser.age = moment().diff(dateOfBirth.value, "years");
   thisUser.phone_number = phoneNumber.value;
   const phoneNumberPattern = /^[6789]\d{9}$/;
-
   if (
     phoneNumber.value !== "" &&
     phoneNumberPattern.test(phoneNumber.value) === false
@@ -80,15 +79,19 @@ saveForm.addEventListener("submit", async (e) => {
     alert("You can't change the Email Address");
     return;
   }
-  putData(`Users/${thisUser.id}`, thisUser).then(() => {
+  try {
+    await putData(`Users/${thisUser.id}`, thisUser);
     localStorage.removeItem("user");
     localStorage.setItem("user", JSON.stringify(thisUser));
     alert("User Details updated successfully");
     location.reload();
-  });
+  } catch (error) {
+    console.log(error);
+    alert("Error updating user details. Please try again later.");
+  }
 });
 
-deleteBtn.addEventListener("click", (e) => {
+deleteBtn.addEventListener("click", async (e) => {
   e.preventDefault();
   const confirmValue = confirm("Are you sure you want to delete your account?");
   if (confirmValue === true) {
@@ -97,15 +100,20 @@ deleteBtn.addEventListener("click", (e) => {
     );
     if (promptValue === thisUser.password) {
       thisUser.isActive = false;
-      putData(`Users/${thisUser.id}`, thisUser).then(() => {
+      try {
+        await putData(`Users/${thisUser.id}`, thisUser);
         localStorage.removeItem("user");
         localStorage.setItem("user", JSON.stringify(thisUser));
         alert("The journey has come to an end, your account has been deleted.");
         window.location.href = "../../index.html";
-      });
+      } catch (error) {
+        console.log(error);
+        alert("Error deleting user account. Please try again later.");
+      }
     }
   }
 });
+
 
 setLoader(false);
 

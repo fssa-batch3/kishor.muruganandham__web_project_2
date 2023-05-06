@@ -1,4 +1,4 @@
-const form = document.getElementById("forget-password-form");
+const forgetForm = document.getElementById("forget-password-form");
 const emailInput = document.getElementById("username-forget");
 const oldPasswordInput = document.getElementById("old-password-forget");
 const newPasswordInput = document.getElementById("new-password-forget");
@@ -7,7 +7,7 @@ const confirmPasswordInput = document.getElementById(
 );
 
 // Add form submit listener
-form.addEventListener("submit", async (event) => {
+forgetForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   // Get form input values
@@ -16,7 +16,7 @@ form.addEventListener("submit", async (event) => {
   const newPassword = newPasswordInput.value.trim();
   const confirmPassword = confirmPasswordInput.value.trim();
 
-  // Retrieve user data from localStorage
+  // Retrieve user data from DB
   const users = await getData("Users");
   const currentUser = users.find((user) => user.username === email);
 
@@ -42,16 +42,17 @@ form.addEventListener("submit", async (event) => {
     alert("New password and confirm password do not match");
     return;
   }
-  // Update user data in localStorage
+
+  // Update user data in DB
   currentUser.password = encryptPassword(newPassword);
-  putData(`Users/${currentUser.id}`, currentUser)
-    .then((result) => {
-      // Show success message
-      alert("Password updated successfully");
-      // Redirect to home page
-      window.location.href = "/index.html";
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await putData(`Users/${currentUser.id}`, currentUser);
+    // Show success message
+    alert("Password updated successfully");
+    // Redirect to home page
+    window.location.href = "/index.html";
+  } catch (err) {
+    console.log(err);
+  }
 });
+

@@ -172,7 +172,7 @@ async function showComment() {
         comment["description"] = descriptionElement.textContent;
         putData(`Comments/${comment.comment_id}`, comment)
         .then((result) => {
-          alert("Comment updated successfully")
+          alert("Comment updated successfully");
         }).catch((err) => {
           console.error(err);
         });

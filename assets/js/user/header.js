@@ -68,9 +68,9 @@ function showHeader() {
   searchInput.setAttribute("name", "head-search");
   searchInput.setAttribute("id", "head-search");
   searchInput.setAttribute("placeholder", "Search...");
-  if (window.location.pathname == "/pages/library.html" || window.location.pathname == "/pages/admin/admin_library.html") {
+  if (window.location.pathname === "/pages/library.html" || window.location.pathname === "/pages/admin/admin_library.html") {
     searchInput.setAttribute("oninput", "tagFilterBooks('All'),searchBooks()");
-  } else if (window.location.pathname == "/pages/user/favourites.html"){
+  } else if (window.location.pathname === "/pages/user/favourites.html"){
     searchInput.setAttribute("oninput", "searchBooks()");
   } else{
     searchInput.classList.add("search-list-show");
@@ -141,7 +141,6 @@ showHeader();
 async function displayUserData() {
   const currentUser = await getOneData(`Users/${thisUser.id}`);
   try {
-    
     const nameDisplay = document.querySelector(".header-username");
     const greetings = document.querySelector(".greetings");
     const now = moment();
@@ -184,83 +183,77 @@ setLoader(true);
 async function addSearchResults() {
   try {
     const currentUser = await getData(`Users/${thisUser.id}`);
-    const searchResult = document.querySelector(".search-result");
-    if (searchResult) {
-      getData("Books").then((details) => {
-        // Iterate through book list and add search result elements
-        for (const book of details) {
-          if (book.isActive === true) {
-            const searchItem = document.createElement("a");
-            searchItem.setAttribute("class", "search-item");
-            searchItem.setAttribute("data-id", book["id"]);
-            if (currentUser.role === "admin") {
-              searchItem.setAttribute(
-                "href",
-                "../../pages/admin/book_edit.html?id=" + book["id"]
-              );
-            } else {
-              searchItem.setAttribute(
-                "href",
-                "../../pages/book_details.html?id=" + book["id"]
-              );
-            }
-            searchResult.append(searchItem);
+    const bookList = await getData("Books");
+     const details = bookList.filter((book) => book.isActive === true);
+    createSearchItems(details, currentUser);
+    addSearchListEventListeners();
 
-            const searchImg = document.createElement("img");
-            searchImg.setAttribute("class", "search-item-img");
-            searchImg.setAttribute("src", book["image"]["src"]);
-            searchImg.setAttribute("alt", book["image"]["alt"]);
-            searchImg.setAttribute("width", "70px");
-            searchItem.append(searchImg);
-
-            const searchTitle = document.createElement("p");
-            searchTitle.setAttribute("class", "search-item-title");
-            searchTitle.innerText = book["title"];
-            searchItem.append(searchTitle);
-
-            const searchArrow = document.createElement("i");
-            searchArrow.setAttribute("class", "bi bi-caret-right-fill");
-            searchItem.append(searchArrow);
-          }
-        }
-      });
-
-      // Show search list when search input is focused
-      document.querySelector(".search-list-show")?.addEventListener("focus", function () {
-          document.querySelector(".search-list").classList.add("active");
-          document.querySelector(".focus-out").classList.add("active");
-        });
-
-      // Hide search list when focus is lost
-      document
-        .querySelector(".focus-out")
-        .addEventListener("click", function () {
-          document.querySelector(".search-list").classList.remove("active");
-          document.querySelector(".focus-out").classList.remove("active");
-        });
-
-      // Filter search results based on input
-      const searchInput = document.getElementById("head-search");
-      searchInput.addEventListener("input", function () {
-        const searchValue = searchInput.value.toLowerCase();
-        const Books = document.getElementsByClassName("search-item");
-
-        for (const i of Books) {
-          const book = i.innerText.toLowerCase();
-          if (book.includes(searchValue)) {
-            i.style.display = "flex";
-          } else {
-            i.style.display = "none";
-          }
-        }
-      });
-    }
   } catch (error) {
     console.error("An error occurred while adding search results: ", error);
   }
 }
 
-addSearchResults();
+function createSearchItems(books, currentUser) {
+  const searchResult = document.querySelector(".search-result");
+  if (!searchResult) {
+    return;
+  }
+  const searchItems = books.map(book => {
+    const searchItem = document.createElement("a");
+    searchItem.classList.add("search-item");
+    searchItem.dataset.id = book.id;
+    searchItem.href = `../../pages/${currentUser.role === "admin" ? "admin/book_edit.html" : "book_details.html"}?id=${book.id}`;
+
+    const searchImg = document.createElement("img");
+    searchImg.classList.add("search-item-img");
+    searchImg.src = book.image.src;
+    searchImg.alt = book.image.alt;
+    searchImg.width = 70;
+    searchItem.append(searchImg);
+
+    const searchTitle = document.createElement("p");
+    searchTitle.classList.add("search-item-title");
+    searchTitle.textContent = book.title;
+    searchItem.append(searchTitle);
+
+    const searchArrow = document.createElement("i");
+    searchArrow.classList.add("bi", "bi-caret-right-fill");
+    searchItem.append(searchArrow);
+
+    return searchItem;
+  });
+
+  searchResult.append(...searchItems);
+}
+
+
+function addSearchListEventListeners() {
+  const searchListShow = document.querySelector(".search-list-show");
+  const searchList = document.querySelector(".search-list");
+  const focusOut = document.querySelector(".focus-out");
+  const searchInput = document.getElementById("head-search");
+
+  searchListShow?.addEventListener("focus", function () {
+    searchList.classList.add("active");
+    focusOut.classList.add("active");
+  });
+
+  focusOut.addEventListener("click", function () {
+    searchList.classList.remove("active");
+    focusOut.classList.remove("active");
+  });
+
+  searchInput?.addEventListener("input", function () {
+    const searchValue = searchInput?.value.toLowerCase();
+    const books = document.getElementsByClassName("search-item");
+
+    for (const book of books) {
+      const title = book.querySelector(".search-item-title").innerText.toLowerCase();
+      book.style.display = title.includes(searchValue) ? "flex" : "none";
+    }
+  });
+}
+
 
 // Toggle sidebar
 const sideToggle = document.querySelector(".side-toggle");

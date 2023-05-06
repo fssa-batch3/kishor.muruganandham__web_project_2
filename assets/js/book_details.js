@@ -5,7 +5,7 @@ let thisRating;
 async function ratings() {
   const ratingList = await getData("Ratings");
   thisRating = ratingList.find(
-    (rating) => rating.user_id === thisUser.id && rating.book_id == bookId
+    (rating) => rating.user_id === thisUser.id && rating.book_id === bookId
   );
   if (thisRating) {
     ratingId = thisRating.rating_id;
@@ -14,14 +14,14 @@ async function ratings() {
     ratingId = generateGuid();
   }
   const thisBookRatings = ratingList.filter(
-    (rating) => rating.book_id == bookId
+    (rating) => rating.book_id === bookId
   );
   const ratings = thisBookRatings.reduce((acc, obj) => acc + obj.rating, 0);
   const avgRating = Math.round(ratings / thisBookRatings.length);
   const starRatingElement = document.querySelector(".stars");
   starRatingElement.innerHTML = avgRating || 0;
 }
-ratings();
+await ratings();
 
 ratingInputs.forEach((input) => {
   input.addEventListener("click", () => {
@@ -36,18 +36,12 @@ ratingInputs.forEach((input) => {
       rating_id: ratingId,
     };
     putData(`Ratings/${ratingId}`, ratingObj)
-      .then(() => {
+      .then(async () => {
         if (thisRating) {
           thisRating.rating = ratingValue;
         }
-        ratings()
-          .then(() => {
-            alert("Rated Successfully");
-            ratings();
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        await ratings();
+        alert("Rated Successfully");
       })
       .catch((err) => {
         console.error(err);

@@ -16,13 +16,11 @@ const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
 
-// Listen to form submit event
 signinForm.addEventListener("submit", async function (e) {
   // Prevent default form submission
   e.preventDefault();
-  // Get user data from local storage
-
-  const userList = await getData(`Users`);
+  try {
+    const userList = await getData(`Users`);
 
     const userData = userList?.find((f) => f.username === usernameLogin.value);
     if (!userData) {
@@ -40,7 +38,9 @@ signinForm.addEventListener("submit", async function (e) {
 
     if (userData.isVerified === false) {
       // Show an alert with error message
-      alert("Your Email has not been verified yet, check your email for verification mail");
+      alert(
+        "Your Email has not been verified yet, check your email for verification mail"
+      );
       return;
     }
     if (isPasswordValid === false) {
@@ -57,45 +57,47 @@ signinForm.addEventListener("submit", async function (e) {
     userData.isOnline = true;
     userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
     localStorage.setItem("user", JSON.stringify(userData));
-    patchData(`Users/${userData.id}`, userData).then(() => {
-      const redirectUrl =
-        loginRole.value === "admin"
-          ? "./pages/admin/admin-dashboard.html"
-          : "./pages/user/homepage.html";
-      window.location.href = redirectUrl;
-    });
+    await patchData(`Users/${userData.id}`, userData);
+
+    let redirectUrl;
+    if (loginRole.value === "admin") {
+      redirectUrl = "./pages/admin/admin-dashboard.html";
+    } else {
+      redirectUrl = "./pages/user/homepage.html";
+    }
+    window.location.href = redirectUrl;
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while logging in. Please try again later.");
+  }
 });
 
 signupForm.addEventListener("submit", async function (event) {
-  event.preventDefault();
-  const firstName = document.getElementById("firstname-sign-up");
-  const lastName = document.getElementById("lastname-sign-up");
-  const dob = document.getElementById("DOB-sign-up");
-  const emailAdd = document.getElementById("email-sign-up");
-  const pass = document.getElementById("password-sign-up");
-  const role = document.getElementById("role-sign-up");
-  const formInputs = [firstName, lastName, dob, emailAdd, pass, role];
+  try {
+    event.preventDefault();
+    const firstName = document.getElementById("firstname-sign-up");
+    const lastName = document.getElementById("lastname-sign-up");
+    const dob = document.getElementById("DOB-sign-up");
+    const emailAdd = document.getElementById("email-sign-up");
+    const pass = document.getElementById("password-sign-up");
+    const role = document.getElementById("role-sign-up");
 
-  if (formInputs.some((input) => input.value === "")) {
-    return alert("All fields should be filled");
-  }
-
-  getData("Users").then((data) => {
+    const data = await getData("Users");
     const userExists = data?.find((user) => user.username === emailAdd.value);
     if (userExists) {
-      alert("Email id exist.");
+      alert("User with same Email id exist.");
       return;
     }
 
     const thisId = generateGuid();
     const vid = generateGuid();
     emailjs.init("KyF7Lia_QmwUPjOe5");
-    emailjs.send("service_ifbzv8d","template_1zlwcip",{
+    emailjs.send("service_ifbzv8d", "template_1zlwcip", {
       to_name: `${firstName.value} ${lastName.value}`,
       message: "Email Verification",
-      link: `${window.location.origin}/pages/verify_email.html?id=${thisId}&&vid=${vid}` ,
-      to_email: `${emailAdd.value}`,
-      });
+      link: `${window.location.origin}/pages/verify_email.html?id=${thisId}&&vid=${vid}`,
+      to_email: `${emailAdd.value}`
+    });
     const newUser = {
       id: thisId,
       first_name: firstName.value,
@@ -113,20 +115,16 @@ signupForm.addEventListener("submit", async function (event) {
       verify_id: encryptPassword(vid),
       created_at: moment().format("YYYY-MM-DD HH:mm:ss A"),
       profile: `https://ui-avatars.com/api/?name=${firstName.value}${lastName.value}&rounded=true&uppercase=false&background=random`,
-      favourites: [0],
+      favourites: [0]
     };
 
-    putData(`Users/${thisId}`, newUser)
-      .then(() => {
-        alert(`User with email ${emailAdd.value} created successfully! Check your email for verification and continue login.`);
-        location.reload();
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  });
+    await putData(`Users/${thisId}`, newUser);
+    alert(
+      `User with email ${emailAdd.value} created successfully! Check your email for verification and continue login.`
+    );
+    location.reload();
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred while Signing in. Please try again later.");
+  }
 });
-
-
-
-
