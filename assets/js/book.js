@@ -42,7 +42,6 @@ async function showBookEditDetails() {
     'input[name="input-custom-dropdown"]'
   );
   customInput.value = str;
-  
 
   // Set the values of form fields based on the data for the book
   bookIdNo.value = thisBook.id;
@@ -68,24 +67,24 @@ async function showBookEditDetails() {
     cancelBtn.style.display = "block";
     saveBtn.style.display = "block";
     const tagify = new Tagify(customInput, {
-      whitelist: whitelist,
+      whitelist,
       maxTags: 5,
       dropdown: {
         maxItems: 20,
         classname: "tags-look",
         enabled: 0,
-        closeOnSelect: false,
+        closeOnSelect: false
       },
     });
   });
   imgEditBtn.addEventListener("click", ()=>{
-    imgUrl = prompt("Enter the URL of Book ")
+    imgUrl = prompt("Enter the URL of Book ");
     if (imgUrl === "") {
-      alert("Please enter correct URL")
+      alert("Please enter correct URL");
     }
     thisBook.image.src = imgUrl;
     bookImage.src = imgUrl;
-  })
+  });
   // Add event listener to Cancel button to reload the page and revert any unsaved changes
   cancelBtn.addEventListener("click", function () {
     location.reload();
@@ -117,7 +116,6 @@ async function showBookEditDetails() {
     thisBook.title = bookTitle.value;
     thisBook.author = bookAuthor.value;
     thisBook.language = bookLang.value;
-    
     thisBook.pages = parseInt(bookPages.value, 10);
     thisBook.description = bookDesc.value;
     thisBook.image.src = bookImage.src;

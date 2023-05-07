@@ -130,7 +130,7 @@ async function getBookGenres() {
     const uniqueCategories = [
       ...new Set(
         Object.keys(bookCountsByGenre).map((cat) => cat.toLowerCase())
-      )
+      ),
     ];
     return uniqueCategories.reduce((acc, cat) => {
       const catCounts = Object.entries(bookCountsByGenre)
@@ -161,8 +161,8 @@ function generateBook(book, bookRack) {
   try {
     // Check if the book is active before proceeding.
     if (book.isActive !== true) {
-      return
-    };
+      return;
+    }
 
     // Create a new div element to hold the book card.
     const bookDiv = document.createElement("div");
@@ -183,7 +183,12 @@ function generateBook(book, bookRack) {
 
     // Create a new image element for the book cover, and set its source and alt text.
     const bookImage = document.createElement("img");
+    console.log(book.image.src);
     bookImage.src = book.image.src;
+    bookImage.addEventListener("error", () => {
+      bookImage.src =
+        "https://via.placeholder.com/280x400/cccccc/3b3b3b.jpeg?text=Error+Loading+Image";
+    });
     bookImage.alt = book.image.alt;
     bookImage.setAttribute("width", "150px");
 
@@ -332,4 +337,59 @@ function setLoader(status) {
     document.querySelector(".loader")?.remove();
     document.querySelector(".background-blur")?.remove();
   }
+}
+
+async function showUploadWidget() {
+  setLoader(false);
+ await cloudinary.openUploadWidget(
+    {
+      cloudName: "dvgctptr1",
+      uploadPreset: "ktr5yccc",
+      sources: [
+        "local",
+        "url",
+        "camera",
+        "image_search",
+        "google_drive",
+        "facebook",
+        "dropbox",
+        "instagram",
+        "shutterstock",
+        "getty",
+        "istock",
+        "unsplash",
+      ],
+      showAdvancedOptions: true,
+      cropping: true,
+      multiple: false,
+      defaultSource: "local",
+      styles: {
+        palette: {
+          window: "#ffffff",
+          sourceBg: "#f4f4f5",
+          windowBorder: "#90a0b3",
+          tabIcon: "#000000",
+          inactiveTabIcon: "#555a5f",
+          menuIcons: "#555a5f",
+          link: "#4F30E8",
+          action: "#1A936B",
+          inProgress: "#4F30E8",
+          complete: "#1A936B",
+          error: "#EA3A3D",
+          textDark: "#000000",
+          textLight: "#fcfffd",
+        },
+        fonts: { default: null, "sans-serif": { url: null, active: true } },
+      },
+    },
+    (err, info) => {
+      if (!err && info.event == "success") {
+        const profileUrl = info.info.secure_url;
+        if (profileUrl) {
+          thisUser.profile = profileUrl;
+          profDisp.style.background = `url(${profileUrl}) no-repeat center center/cover`;
+        }
+      }
+    }
+  );
 }

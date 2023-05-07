@@ -44,13 +44,7 @@ editBtn.addEventListener("click", (e) => {
   profileEditBtn.style.display = "block";
 });
 
-profileEditBtn.addEventListener("click", () => {
-  const profileUrl = prompt("Enter the Profile Image Url");
-  if (profileUrl) {
-    thisUser.profile = profileUrl;
-    profDisp.style.background = `url(${profileUrl}) no-repeat center center/cover`;
-  }
-});
+profileEditBtn.addEventListener("click",showUploadWidget);
 
 cancelBtn.addEventListener("click", (e) => {
   e.preventDefault();

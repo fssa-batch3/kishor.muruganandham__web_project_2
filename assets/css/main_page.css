@@ -76,7 +76,7 @@ body {
   opacity: 0.9;
 }
 
-.user-info-container{
+.user-info-container {
   max-width: 400px;
   min-width: 280px;
   width: 100%;
@@ -92,7 +92,7 @@ body {
   border-radius: 30px;
   background-color: var(--card-white);
 }
-.instructions{
+.instructions {
   height: fit-content;
   min-width: 300px;
   max-width: 400px;
@@ -102,11 +102,21 @@ body {
   border-radius: 30px;
   background-color: var(--card-white);
 }
-.instructions p {
+.instructions ul {
   max-height: 190px;
   overflow-y: auto;
 }
-.user-info-content{
+
+.instructions ul li{
+  display: block;
+  margin: 10px 0;
+}
+.instructions ul li::before{
+  content: "\2022";
+  margin-right: 0.5em;
+
+}
+.user-info-content {
   font-weight: 600;
 }
 
@@ -217,7 +227,6 @@ body {
   box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.08);
   overflow-x: auto;
 }
-
 
 .library-tags > button {
   width: fit-content;
@@ -463,13 +472,12 @@ table th:last-child {
 table tbody tr:nth-child(even) {
   background-color: var(--body-white);
 }
-table .profile-img{
+table .profile-img {
   width: 40px;
   border-radius: 50%;
   border: 1px solid var(--primary-border);
-
 }
-.gridjs-search input{
+.gridjs-search input {
   min-height: 50px;
 }
 .status {
@@ -516,25 +524,25 @@ table .profile-img{
 .history-delete .bi-trash:hover {
   background-color: var(--danger-red-shade);
 }
-.gridjs-wrapper{
+.gridjs-wrapper {
   border-radius: 25px;
 }
 
-th.gridjs-th{
+th.gridjs-th {
   background-color: var(--primary-color);
 }
-.gridjs-th-content{
+.gridjs-th-content {
   color: var(--font-white);
 }
-.gridjs-summary{
+.gridjs-summary {
   margin: 10px 0;
 }
-.gridjs-pages{
+.gridjs-pages {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
-.gridjs-pages button{
+.gridjs-pages button {
   padding: 5px 15px;
   background-color: var(--primary-color);
   color: var(--font-white);
@@ -542,15 +550,14 @@ th.gridjs-th{
   border: 1px solid var(--primary-border);
   cursor: pointer;
 }
-tag{
-  
-  --tag-bg : var(--card-white);
+.tagify__tag {
+  --tag-bg: var(--card-white);
   --tag-inset-shadow-size: 1.5em;
 }
-.tagify__tag.tagify--noAnim{
+.tagify__tag.tagify--noAnim {
   z-index: unset;
 }
-.tagify.custom-tag{
+.tagify.custom-tag {
   --tag-border-radius: 10px;
   border-radius: 15px;
   width: 100%;

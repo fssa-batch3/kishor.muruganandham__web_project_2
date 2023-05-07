@@ -301,16 +301,16 @@
   <script type="module">
     const tagsArray = await getBookGenres();
     const whitelist = Object.keys(tagsArray);
-    const input = document.querySelector('input[name="input-custom-dropdown"]');
-    const tagify = new Tagify(input, {
-      whitelist: whitelist,
+    const customInput = document.querySelector('input[name="input-custom-dropdown"]');
+    const tagify = new Tagify(customInput, {
+      whitelist,
       maxTags: 5,
       dropdown: {
         maxItems: 20,
         classname: "tags-look",
         enabled: 0,
-        closeOnSelect: false,
-      },
+        closeOnSelect: false
+      }
     });
 
     function tagsToArray() {
