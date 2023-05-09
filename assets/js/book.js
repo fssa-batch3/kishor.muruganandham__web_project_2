@@ -77,14 +77,7 @@ async function showBookEditDetails() {
       },
     });
   });
-  imgEditBtn.addEventListener("click", ()=>{
-    imgUrl = prompt("Enter the URL of Book ");
-    if (imgUrl === "") {
-      alert("Please enter correct URL");
-    }
-    thisBook.image.src = imgUrl;
-    bookImage.src = imgUrl;
-  });
+  imgEditBtn.addEventListener("click", showUploadWidget);
   // Add event listener to Cancel button to reload the page and revert any unsaved changes
   cancelBtn.addEventListener("click", function () {
     location.reload();

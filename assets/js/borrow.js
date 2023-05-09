@@ -81,13 +81,12 @@ async function handleBorrow() {
       borrow_id: borrowId,
     };
     thisBook.isBorrowable = false;
+    await patchData(`Books/${thisBook.id}`, thisBook);
     await putData(`Borrows/${borrowId}`, borrowObj);
-    console.log(data);
     // Success notification
     alert("Book Borrowed successfully");
     closeBorrowModal();
     showBookDetails();
-    await patchData(`Books/${thisBook.id}`, thisBook);
   } catch (error) {
     console.error(error);
     alert("Error while borrowing book, Please try again. Error: " + error);

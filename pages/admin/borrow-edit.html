@@ -208,11 +208,12 @@
                 <label for="borrow-edit-borrow-date">Borrow-date :</label>
                 <div class="input-field">
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="borrow-edit-borrow-date"
                     id="borrow-edit-borrow-date"
                     placeholder="borrow-date"
                     class="input"
+                    disabled
                   />
                 </div>
               </div>
@@ -220,11 +221,12 @@
                 <label for="borrow-edit-due-date">due-date :</label>
                 <div class="input-field">
                   <input
-                    type="date"
+                    type="datetime-local"
                     name="borrow-edit-due-date"
                     id="borrow-edit-due-date"
                     placeholder="due-date"
                     class="input"
+                    disabled
                   />
                 </div>
               </div>
@@ -295,14 +297,14 @@
       }
       bookImage.setAttribute("src", bookDetail["image"]["src"]);
       bookImage.setAttribute("alt", bookDetail["image"]["alt"]);
-      bookBorrowDate.value = borrowDetail["borrow_date"];
-      bookDueDate.value = borrowDetail["due_date"];
+      bookBorrowDate.value = moment(borrowDetail["borrow_date"]).format("YYYY-MM-DDTHH:mm");
+      bookDueDate.value = moment(borrowDetail["due_date"]).format("YYYY-MM-DDTHH:mm");
+      console.log();
+      console.log(moment(borrowDetail["due_date"]).format("YYYY-MM-DD h:mm A"));
       bookSubmittedDate.value = borrowDetail["remarks"] || "";
       borrowStatus.value = borrowDetail["status"];
 
-      saveBtn.addEventListener("click", function (e) {
-        borrowDetail["borrow_date"] = bookBorrowDate.value;
-        borrowDetail["due_date"] = bookDueDate.value;
+      saveBtn.addEventListener("click", async function (e) {
         borrowDetail["return_date"] = moment();
         borrowDetail["status"] = borrowStatus.value;
         if (borrowStatus.value === "Completed") {
@@ -314,6 +316,7 @@
           (e) => e.id === borrowDetail["id"]
         );
         userBorrowHistory["status"] = borrowStatus.value;
+        await patchData(`Books/${bookDetail.id}`, bookDetail);
         patchData(`Borrows/${borrowDetail["borrow_id"]}`, borrowDetail).then(
           () => {
             window.location.href = "./borrow-list.html";

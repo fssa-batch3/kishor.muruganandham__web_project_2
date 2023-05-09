@@ -21,7 +21,7 @@ async function ratings() {
   const starRatingElement = document.querySelector(".stars");
   starRatingElement.innerHTML = avgRating || 0;
 }
-await ratings();
+ratings();
 
 ratingInputs.forEach((input) => {
   input.addEventListener("click", () => {

@@ -183,7 +183,6 @@ function generateBook(book, bookRack) {
 
     // Create a new image element for the book cover, and set its source and alt text.
     const bookImage = document.createElement("img");
-    console.log(book.image.src);
     bookImage.src = book.image.src;
     bookImage.addEventListener("error", () => {
       bookImage.src =
@@ -339,9 +338,9 @@ function setLoader(status) {
   }
 }
 
-async function showUploadWidget() {
-  setLoader(false);
- await cloudinary.openUploadWidget(
+function showUploadWidget() {
+
+  cloudinary.openUploadWidget(
     {
       cloudName: "dvgctptr1",
       uploadPreset: "ktr5yccc",
@@ -359,6 +358,7 @@ async function showUploadWidget() {
         "istock",
         "unsplash",
       ],
+      googleApiKey: "<image_search_google_api_key>",
       showAdvancedOptions: true,
       cropping: true,
       multiple: false,
@@ -384,10 +384,14 @@ async function showUploadWidget() {
     },
     (err, info) => {
       if (!err && info.event == "success") {
-        const profileUrl = info.info.secure_url;
-        if (profileUrl) {
-          thisUser.profile = profileUrl;
-          profDisp.style.background = `url(${profileUrl}) no-repeat center center/cover`;
+        const imgUrl = info.info.secure_url;
+        if (window.location.pathname === '/pages/user_profile.html') {
+          thisUser.profile = imgUrl;
+          profDisp.style.background = `url(${imgUrl}) no-repeat center center/cover`;
+        }
+        if (window.location.pathname === "/pages/admin/book_edit.html") {
+          thisBook.image.src = imgUrl;
+          bookImage.src = imgUrl;
         }
       }
     }

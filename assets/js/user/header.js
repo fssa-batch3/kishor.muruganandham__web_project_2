@@ -238,13 +238,13 @@ function createSearchItems(books, currentUser) {
   searchResult.append(...searchItems);
 }
 
+addSearchResults()
 
 function addSearchListEventListeners() {
   const searchListShow = document.querySelector(".search-list-show");
   const searchList = document.querySelector(".search-list");
   const focusOut = document.querySelector(".focus-out");
   const searchInput = document.getElementById("head-search");
-
   searchListShow?.addEventListener("focus", function () {
     searchList.classList.add("active");
     focusOut.classList.add("active");
