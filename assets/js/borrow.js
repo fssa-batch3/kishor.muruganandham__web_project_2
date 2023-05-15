@@ -103,5 +103,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCloseBtn = document.querySelector(".modal-close");
   modalCloseBtn.addEventListener("click", closeBorrowModal);
   borrowBtn.addEventListener("click", openBorrowModal);
-  showComment();
+  // showComment();
 });

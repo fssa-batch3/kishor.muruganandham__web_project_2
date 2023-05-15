@@ -243,6 +243,7 @@
 }
 
 .comment-profile img {
+  height: 40px;
   border-radius: 50%;
   border: 1.5px solid var(--primary-border);
 }
@@ -258,7 +259,7 @@
   inset: unset;
   height: fit-content;
   max-height: 100px;
-  bottom: 30px;
+  top: 30px;
   right: -20px;
   max-width: 200px;
   width: fit-content;
