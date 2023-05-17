@@ -156,7 +156,7 @@
     <script type="module">
       import { Grid, html } from "https://unpkg.com/gridjs?module";
       const allUsers = await getData("Users");
-      const userList = allUsers.filter((user)=>user.isActive)
+      const userList = allUsers.filter((user)=>user.isActive && user.isVerified)
       const userData = userList.map((user, index) => {
         const activeStatus = user.isOnline === true ? "Online" : "Offline";
         const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";

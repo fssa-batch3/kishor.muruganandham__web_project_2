@@ -93,7 +93,8 @@ deleteBtn.addEventListener("click", async (e) => {
     const promptValue = prompt(
       `This action cannot be undone. This will permanently delete the ${thisUser.username} account and remove all details associated with it. Please type your password to confirm.`
     );
-    if (promptValue !== thisUser.password) {
+    const isPasswordValid = comparePassword(promptValue, thisUser.password)
+    if (!isPasswordValid) {
       alert("Please enter your password correctly");
       return;
     }
