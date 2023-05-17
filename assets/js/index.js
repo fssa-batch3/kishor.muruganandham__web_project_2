@@ -16,16 +16,19 @@ const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
 
-async function signInHandler(e) {
+signinForm.addEventListener("submit",  function (e) {
   // Prevent default form submission
   e.preventDefault();
   try {
-    const userList = await getData(`Users`);
+    (async () => {
+  
+      const userList = await getData(`Users`);
+      // ...
 
     const userData = userList?.find((f) => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
-      return void 0;
+      return;
     }
     const matchedUser =
       userData.username === usernameLogin.value &&
@@ -41,18 +44,18 @@ async function signInHandler(e) {
       alert(
         "Your Email has not been verified yet, check your email for verification mail"
       );
-      return void 0;
+      return;
     }
     if (isPasswordValid === false) {
       // Show an alert with error message
       alert("Password You have entered is wrong. Please try again.");
-      return void 0;
+      return;
     }
     //   If there's a match, set user id in local storage and redirect
     if (matchedUser === false) {
       // Show an alert with error message
       alert("Oops! Log In failed. Please try again.");
-      return void 0;
+      return;
     }
     userData.isOnline = true;
     userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
@@ -66,12 +69,13 @@ async function signInHandler(e) {
       redirectUrl = "./pages/user/homepage.html";
     }
     window.location.assign(redirectUrl);
+  })();
+
   } catch (error) {
     console.error(error);
     alert("An error occurred while logging in. Please try again later.");
   }
-}
-signinForm.addEventListener("submit", signInHandler);
+});
 
 signupForm.addEventListener("submit", async function (event) {
   try {
