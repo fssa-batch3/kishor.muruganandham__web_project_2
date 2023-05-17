@@ -16,7 +16,7 @@ const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
 
-async function signHandler(e) {
+async function signInHandler(e) {
   // Prevent default form submission
   e.preventDefault();
   try {
@@ -25,7 +25,7 @@ async function signHandler(e) {
     const userData = userList?.find((f) => f.username === usernameLogin.value);
     if (!userData) {
       alert("User does not exist.");
-      return;
+      return void 0;
     }
     const matchedUser =
       userData.username === usernameLogin.value &&
@@ -41,18 +41,18 @@ async function signHandler(e) {
       alert(
         "Your Email has not been verified yet, check your email for verification mail"
       );
-      return;
+      return void 0;
     }
     if (isPasswordValid === false) {
       // Show an alert with error message
       alert("Password You have entered is wrong. Please try again.");
-      return;
+      return void 0;
     }
     //   If there's a match, set user id in local storage and redirect
     if (matchedUser === false) {
       // Show an alert with error message
       alert("Oops! Log In failed. Please try again.");
-      return;
+      return void 0;
     }
     userData.isOnline = true;
     userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
@@ -71,7 +71,7 @@ async function signHandler(e) {
     alert("An error occurred while logging in. Please try again later.");
   }
 }
-signinForm.addEventListener("submit", signHandler);
+signinForm.addEventListener("submit", signInHandler);
 
 signupForm.addEventListener("submit", async function (event) {
   try {
