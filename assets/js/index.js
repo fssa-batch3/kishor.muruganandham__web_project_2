@@ -16,7 +16,7 @@ const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
 
-signinForm.addEventListener("submit", async function (e) {
+async function signHandler(e) {
   // Prevent default form submission
   e.preventDefault();
   try {
@@ -70,7 +70,8 @@ signinForm.addEventListener("submit", async function (e) {
     console.error(error);
     alert("An error occurred while logging in. Please try again later.");
   }
-});
+}
+signinForm.addEventListener("submit", signHandler);
 
 signupForm.addEventListener("submit", async function (event) {
   try {
