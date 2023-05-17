@@ -6,8 +6,7 @@ const confirmPasswordInput = document.getElementById(
   "new-confirm-password-forget"
 );
 
-// Add form submit listener
-forgetForm.addEventListener("submit", async (event) => {
+forgetForm.addEventListener("submit", function(event) {
   event.preventDefault();
 
   // Get form input values
@@ -17,44 +16,52 @@ forgetForm.addEventListener("submit", async (event) => {
   const confirmPassword = confirmPasswordInput.value.trim();
 
   // Retrieve user data from DB
-  const users = await getData("Users");
-  const currentUser = users.find((user) => user.username === email);
+  getData("Users")
+    .then(function(users) {
+      const currentUser = users.find(user => user.username === email);
 
-  // Check if user exists and old password is correct
-  if (!currentUser) {
-    alert("Email not found");
-    return;
-  }
-  const isCorrectPass = comparePassword(oldPassword, currentUser.password);
-  if (isCorrectPass === false) {
-    alert("Incorrect password");
-    return;
-  }
+      // Check if user exists and old password is correct
+      if (!currentUser) {
+        alert("Email not found");
+        return;
+      }
+      const isCorrectPass = comparePassword(oldPassword, currentUser.password);
+      if (isCorrectPass === false) {
+        alert("Incorrect password");
+        return;
+      }
 
-  // Check if new password is the same as the old password
-  if (oldPassword === newPassword) {
-    alert("New password cannot be the same as old password");
-    return;
-  }
+      // Check if new password is the same as the old password
+      if (oldPassword === newPassword) {
+        alert("New password cannot be the same as the old password");
+        return;
+      }
 
-  // Check if new password and confirm password match
-  if (newPassword !== confirmPassword) {
-    alert("New password and confirm password do not match");
-    return;
-  }
+      // Check if new password and confirm password match
+      if (newPassword !== confirmPassword) {
+        alert("New password and confirm password do not match");
+        return;
+      }
 
-  // Update user data in DB
-  currentUser.password = encryptPassword(newPassword);
-  try {
-    await putData(`Users/${currentUser.id}`, currentUser);
-    // Show success message
-    alert("Password updated successfully");
-    // Redirect to home page
-    window.location.assign(window.location.origin);
+      // Update user data in DB
+      currentUser.password = encryptPassword(newPassword);
 
-  } catch (err) {
-    console.log(err);
-    alert("Error updating password, Please try again. Error" + err);
-  }
+      putData(`Users/${currentUser.id}`, currentUser)
+        .then(function() {
+          // Show success message
+          alert("Password updated successfully");
+          // Redirect to home page
+          window.location.assign(window.location.origin);
+        })
+        .catch(function(err) {
+          console.log(err);
+          alert("Error updating password. Please try again. Error: " + err);
+        });
+    })
+    .catch(function(err) {
+      console.error(err);
+      alert("Error fetching user data. Please try again later.");
+    });
 });
+
 
