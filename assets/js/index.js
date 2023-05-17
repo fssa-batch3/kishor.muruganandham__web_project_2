@@ -16,65 +16,58 @@ const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
 const loginRole = document.getElementById("role-sign-in");
 
-signinForm.addEventListener("submit",  function (e) {
-  // Prevent default form submission
+signinForm.addEventListener("submit", function(e) {
   e.preventDefault();
-  try {
-    (async () => {
-  
-      const userList = await getData(`Users`);
-      // ...
 
-    const userData = userList?.find((f) => f.username === usernameLogin.value);
-    if (!userData) {
-      alert("User does not exist.");
-      return;
-    }
-    const matchedUser =
-      userData.username === usernameLogin.value &&
-      userData.role === loginRole.value &&
-      userData.isActive === true;
-    const isPasswordValid = comparePassword(
-      passwordLogin.value,
-      userData.password
-    );
+  getData("Users")
+    .then(function(userList) {
 
-    if (userData.isVerified === false) {
-      // Show an alert with error message
-      alert(
-        "Your Email has not been verified yet, check your email for verification mail"
+      const userData = userList?.find((f) => f.username === usernameLogin.value);
+      if (!userData) {
+        alert("User does not exist.");
+        return;
+      }
+      const matchedUser =
+        userData.username === usernameLogin.value &&
+        userData.role === loginRole.value &&
+        userData.isActive === true;
+      const isPasswordValid = comparePassword(
+        passwordLogin.value,
+        userData.password
       );
-      return;
-    }
-    if (isPasswordValid === false) {
-      // Show an alert with error message
-      alert("Password You have entered is wrong. Please try again.");
-      return;
-    }
-    //   If there's a match, set user id in local storage and redirect
-    if (matchedUser === false) {
-      // Show an alert with error message
-      alert("Oops! Log In failed. Please try again.");
-      return;
-    }
-    userData.isOnline = true;
-    userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
-    localStorage.setItem("user", JSON.stringify(userData));
-    await patchData(`Users/${userData.id}`, userData);
 
-    let redirectUrl;
-    if (loginRole.value === "admin") {
-      redirectUrl = "./pages/admin/admin-dashboard.html";
-    } else {
-      redirectUrl = "./pages/user/homepage.html";
-    }
-    window.location.assign(redirectUrl);
-  })();
-
-  } catch (error) {
-    console.error(error);
-    alert("An error occurred while logging in. Please try again later.");
-  }
+      if (userData.isVerified === false) {
+        alert(
+          "Your Email has not been verified yet, check your email for verification mail"
+        );
+        return;
+      }
+      if (isPasswordValid === false) {
+        alert("Password You have entered is wrong. Please try again.");
+        return;
+      }
+      if (matchedUser === false) {
+        alert("Oops! Log In failed. Please try again.");
+        return;
+      }
+      userData.isOnline = true;
+      userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
+      localStorage.setItem("user", JSON.stringify(userData));
+      return patchData(`Users/${userData.id}`, userData);
+    })
+    .then(function() {
+      let redirectUrl;
+      if (loginRole.value === "admin") {
+        redirectUrl = "./pages/admin/admin-dashboard.html";
+      } else {
+        redirectUrl = "./pages/user/homepage.html";
+      }
+      window.location.assign(redirectUrl);
+    })
+    .catch(function(error) {
+      console.error(error);
+      alert("An error occurred while logging in. Please try again later.");
+    });
 });
 
 signupForm.addEventListener("submit", async function (event) {
