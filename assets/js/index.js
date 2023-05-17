@@ -53,16 +53,20 @@ signinForm.addEventListener("submit", function(e) {
       userData.isOnline = true;
       userData.last_login = moment().format("YYYY-MM-DD HH:mm:ss A");
       localStorage.setItem("user", JSON.stringify(userData));
-      return patchData(`Users/${userData.id}`, userData);
-    })
-    .then(function() {
-      let redirectUrl;
-      if (loginRole.value === "admin") {
-        redirectUrl = "./pages/admin/admin-dashboard.html";
-      } else {
-        redirectUrl = "./pages/user/homepage.html";
-      }
-      window.location.assign(redirectUrl);
+      return patchData(`Users/${userData.id}`, userData)
+      .then(function() {
+        let redirectUrl;
+        if (loginRole.value === "admin") {
+          redirectUrl = "./pages/admin/admin-dashboard.html";
+        } else {
+          redirectUrl = "./pages/user/homepage.html";
+        }
+        window.location.assign(redirectUrl);
+      })
+      .catch(function(error) {
+        console.error(error);
+        alert("An error occurred while logging in. Please try again later.");
+      });
     })
     .catch(function(error) {
       console.error(error);
