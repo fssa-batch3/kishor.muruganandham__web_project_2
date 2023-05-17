@@ -69,8 +69,9 @@ async function handleBorrow() {
       return;
     }
     const borrowId = generateGuid();
+    const borrow_date = moment().format("YYYY-MM-DD h:mm A");
     const borrowObj = {
-      borrow_date: moment().format("YYYY-MM-DD h:mm A"),
+      borrow_date,
       due_date: dueDate,
       status: "Pending",
       return_date: "-",
@@ -80,18 +81,27 @@ async function handleBorrow() {
       remarks: null,
       borrow_id: borrowId,
     };
+    emailjs.init("KyF7Lia_QmwUPjOe5");
+    emailjs.send("service_ifbzv8d", "template_lev9n7d", {
+      name: thisUser.name,
+      borrow_date,
+      due_date: dueDate,
+      link: `${window.location.origin}/pages/user/history.html`,
+      reply_to: thisUser.username,
+      book_title: thisBook.title,
+    });
     thisBook.isBorrowable = false;
     await patchData(`Books/${thisBook.id}`, thisBook);
     await putData(`Borrows/${borrowId}`, borrowObj);
     // Success notification
-    alert("Book Borrowed successfully");
+    alert(`Book Borrowed successfully. Reference mail is sent to : ${thisUser.username}`);
     closeBorrowModal();
     showBookDetails();
   } catch (error) {
     console.error(error);
     alert("Error while borrowing book, Please try again. Error: " + error);
   }
-} 
+}
 
 function closeBorrowModal() {
   document.querySelector(".backdrop").classList.remove("active");
@@ -103,5 +113,4 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCloseBtn = document.querySelector(".modal-close");
   modalCloseBtn.addEventListener("click", closeBorrowModal);
   borrowBtn.addEventListener("click", openBorrowModal);
-  // showComment();
 });

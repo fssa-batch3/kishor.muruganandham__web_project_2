@@ -5,6 +5,15 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+function isLoggedIn() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("Login Expired, please login again");
+    window.location.href = window.location.origin;
+  }
+}
+isLoggedIn()
+
 function showHeader() {
   // Create header element with class "top-header"
   const header = document.createElement("header");
