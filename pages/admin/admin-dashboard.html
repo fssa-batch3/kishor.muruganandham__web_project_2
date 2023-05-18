@@ -253,7 +253,7 @@
           userList.filter((user) => user.isActive).length || 0;
         const activeBooksLength =
           bookList.filter((book) => book.isActive).length || 0;
-
+        console.log(bookList.filter((book) => book.isActive))
         const tagsArray = await getBookGenres();
 
         const tagValues = Object.values(tagsArray);

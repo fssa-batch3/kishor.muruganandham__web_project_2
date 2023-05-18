@@ -73,7 +73,7 @@ async function showBookEditDetails() {
         maxItems: 20,
         classname: "tags-look",
         enabled: 0,
-        closeOnSelect: false
+        closeOnSelect: false,
       },
     });
   });
@@ -87,14 +87,15 @@ async function showBookEditDetails() {
   deleteBtn.addEventListener("click", function () {
     thisBook.isActive = false;
     books[indexOfBook] = thisBook;
-    putData(`Books/${thisBook.id}`, thisBook).then(() => {
-      alert("Book Deleted successfully");
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-    window.location.href =
-      window.location.origin + "/pages/admin/admin_library.html";
+    putData(`Books/${thisBook.id}`, thisBook)
+      .then(() => {
+        alert("Book Deleted successfully");
+        window.location.href =
+          window.location.origin + "/pages/admin/admin_library.html";
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
 
   // Add event listener to Save button to update the book data and update the book list in Database
@@ -115,17 +116,17 @@ async function showBookEditDetails() {
     thisBook.tags = tagsToArray();
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
     books[indexOfBook] = thisBook;
-    putData(`Books/${thisBook.id}`, thisBook).then((data) => {
-      setLoader(false);
-      // Success notification
-      alert("Book Details updated successfully");
-      location.reload();
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    putData(`Books/${thisBook.id}`, thisBook)
+      .then((data) => {
+        setLoader(false);
+        // Success notification
+        alert("Book Details updated successfully");
+        location.reload();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   });
- 
 }
 let thisBook;
 async function showBookDetails() {
@@ -203,19 +204,20 @@ async function showBookDetails() {
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname === "/pages/admin/book_edit.html") {
-    showBookEditDetails().then(() => {
-      setLoader(false);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    showBookEditDetails()
+      .then(() => {
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   } else if (window.location.pathname === "/pages/book_details.html") {
-    showBookDetails().then(() => {
-      setLoader(false);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    showBookDetails()
+      .then(() => {
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 });
-

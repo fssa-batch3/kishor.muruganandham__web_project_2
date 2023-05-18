@@ -1,4 +1,3 @@
-
 const parentElement = document.querySelector(".comments-container");
 
 async function editComment(commentData, commentDescription) {
@@ -20,14 +19,15 @@ async function deleteComment(commentData, commentContainer) {
     commentData["isActive"] = false;
     commentContainer.remove();
   }
-  if (parentElement.innerHTML !== null) {
+  const commentExists = document.querySelector(".book-detail-comments-wrap");
+  if (!commentExists) {
     parentElement.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
   }
   await putData(`Comments/${commentData.comment_id}`, commentData);
   alert("Comment deleted successfully");
 }
 
-async function likeComment(commentData, likeIcon, likeNumber) {
+async function likeComment(commentData, likeIcon, likeNumber, likeNameElement) {
   const likeNum = +likeNumber.textContent;
   const addedLikeNum = likeNum + 1;
   const subtractedLikeNum = likeNum != 0 ? likeNum - 1 : 0;
@@ -47,11 +47,27 @@ async function likeComment(commentData, likeIcon, likeNumber) {
       like_id: likeId,
     };
     putData(`Likes/${likeId}`, like).then(() => {
+      let updatedInnerText = likeNameElement.innerText;
+      if (updatedInnerText.charAt(updatedInnerText.length - 1) === ".") {
+        updatedInnerText = updatedInnerText.slice(0, -1) + ", ";
+      }
+      updatedInnerText += `${thisUser.name}. `;
+      likeNameElement.innerText = updatedInnerText;
       likeNumber.innerHTML = addedLikeNum;
       likeIcon.className = "bi bi-heart-fill";
     });
   } else {
     deleteData(`Likes/${thisLike.like_id}`).then(() => {
+      let updatedInnerText = likeNameElement.innerText;
+
+      if (updatedInnerText.includes(thisUser.name + ", ")) {
+        updatedInnerText = updatedInnerText.replace(thisUser.name + ", ", "");
+      }
+      if (updatedInnerText.includes(thisUser.name + ".")) {
+        updatedInnerText = updatedInnerText.replace(thisUser.name + ".", "");
+      }
+      likeNameElement.innerText = updatedInnerText;
+
       likeNumber.innerHTML = subtractedLikeNum;
       likeIcon.className = "bi bi-heart";
     });
@@ -68,30 +84,74 @@ function commentCurrentTime(time) {
   return formattedDateTime;
 }
 
-async function showComment() {
+function showComment() {
   parentElement.innerHTML = "";
-  const userList = await getData("Users");
-  const comments = await getData("Comments");
-  const likes = await getData("Likes");
-  const borrowList = await getData("Borrows");
-  const filteredComments = comments
-    .filter((comment) => comment.book_id === bookId && comment.isActive)
-    .reverse();
-  if (filteredComments.length < 1) {
-    parentElement.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
-  }
-  filteredComments.forEach((commentData) => {
-    const likeArr = likes.filter(
-      (like) => like.comment_id === commentData.comment_id
-    );
-    const user = userList.find((user) => user.id === commentData.user_id);
+  getData("Users")
+    .then(function (userList) {
+      getData("Comments")
+        .then(function (comments) {
+          getData("Likes")
+            .then(function (likes) {
+              getData("Borrows")
+                .then(function (borrowList) {
+                  const filteredComments = comments
+                    .filter(
+                      (comment) =>
+                        comment.book_id === bookId && comment.isActive
+                    )
+                    .reverse();
+                  if (filteredComments.length < 1) {
+                    parentElement.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
+                  }
+                  filteredComments.forEach(function (commentData) {
+                    const likeArr = likes.filter(
+                      (like) => like.comment_id === commentData.comment_id
+                    );
+                    const user = userList.find(
+                      (user) => user.id === commentData.user_id
+                    );
 
-    const commentSection = createCommentSection(commentData, user, likeArr, borrowList);
-    parentElement.prepend(commentSection);
-  });
+                    const commentSection = createCommentSection(
+                      commentData,
+                      user,
+                      likeArr,
+                      borrowList,
+                      userList
+                    );
+                    parentElement.prepend(commentSection);
+                  });
+                })
+                .catch(function (error) {
+                  console.error(error);
+                  alert(
+                    "An error occurred while fetching borrow list. Please try again later."
+                  );
+                });
+            })
+            .catch(function (error) {
+              console.error(error);
+              alert(
+                "An error occurred while fetching likes. Please try again later."
+              );
+            });
+        })
+        .catch(function (error) {
+          console.error(error);
+          alert(
+            "An error occurred while fetching comments. Please try again later."
+          );
+        });
+    })
+    .catch(function (error) {
+      console.error(error);
+      alert(
+        "An error occurred while fetching user list. Please try again later."
+      );
+    });
 }
+
 showComment();
-function createCommentSection(commentData, user, likeArr, borrowList) {
+function createCommentSection(commentData, user, likeArr, borrowList, userList) {
   const thisLike = likeArr.find(
     (like) =>
       like.comment_id === commentData.comment_id && like.user_id === thisUser.id
@@ -153,7 +213,7 @@ function createCommentSection(commentData, user, likeArr, borrowList) {
   likeNameElement.setAttribute("role", "tooltip");
   likeNameElement.dataset.popperPlacement = "top";
   likeArr?.forEach((names, index, array) => {
-    const name = names["username"];
+    const name = userList.find(n => n.id === names["user_id"])["name"];
     if (array.length == 0 || index === array.length - 1) {
       likeNameElement.innerText += `${name}. `;
     } else {
@@ -180,7 +240,7 @@ function createCommentSection(commentData, user, likeArr, borrowList) {
   const likeIcon = document.createElement("i");
   likeIcon.className = thisLike ? "bi bi-heart-fill" : "bi bi-heart";
   likeIcon.addEventListener("click", () => {
-    likeComment(commentData, likeIcon, likeNumber);
+    likeComment(commentData, likeIcon, likeNumber, likeNameElement);
   });
 
   commentLike.appendChild(likeIcon);
