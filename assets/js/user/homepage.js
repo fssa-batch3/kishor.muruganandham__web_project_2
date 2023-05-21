@@ -12,14 +12,15 @@ async function getAllDatas() {
 async function showData() {
   try {
     await getAllDatas();
+    const currentUser = userList.find(user => user.id === thisUser.id)
     const commentListLength = commentList.filter(
-      (comment) => comment.user_id === thisUser.id && comment.isActive
+      (comment) => comment.user_id === currentUser.id && comment.isActive
     ).length;
     const borrowListLength =
-      borrowList.filter((borrow) => borrow.user_id === thisUser.id).length || 0;
-    const bookListLength = bookList?.length ? bookList.length : 0;
+      borrowList.filter((borrow) => borrow.user_id === currentUser.id).length || 0;
+    const bookListLength = bookList.filter(b => b.isActive).length || 0;
     const favoriteListLength =
-      thisUser.favourites?.length > 1 ? thisUser.favourites.length - 1 : 0;
+      currentUser.favourites?.length > 1 ? currentUser.favourites.length - 1 : 0;
     document.querySelector(".book-count-info").innerHTML = `${bookListLength}`;
     document.querySelector(".comments-count-info").textContent =
       commentListLength;

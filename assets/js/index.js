@@ -14,7 +14,6 @@ const signinForm = document.getElementById("sign-in");
 const signupForm = document.getElementById("sign-up");
 const usernameLogin = document.getElementById("username-sign-in");
 const passwordLogin = document.querySelector(".password");
-const loginRole = document.getElementById("role-sign-in");
 
 signinForm.addEventListener("submit", function(e) {
   e.preventDefault();
@@ -29,7 +28,6 @@ signinForm.addEventListener("submit", function(e) {
       }
       const matchedUser =
         userData.username === usernameLogin.value &&
-        userData.role === loginRole.value &&
         userData.isActive === true;
       const isPasswordValid = comparePassword(
         passwordLogin.value,
@@ -56,7 +54,7 @@ signinForm.addEventListener("submit", function(e) {
       return patchData(`Users/${userData.id}`, userData)
       .then(function() {
         let redirectUrl;
-        if (loginRole.value === "admin") {
+        if (userData.role === "admin") {
           redirectUrl = "./pages/admin/admin-dashboard.html";
         } else {
           redirectUrl = "./pages/user/homepage.html";
@@ -114,7 +112,6 @@ signupForm.addEventListener("submit", function(event) {
         isActive: true,
         username: emailAdd.value,
         password: encryptPassword(pass.value),
-        isOnline: false,
         isVerified: false,
         verify_id: encryptPassword(vid),
         created_at: moment().format("YYYY-MM-DD HH:mm:ss A"),

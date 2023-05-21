@@ -164,17 +164,17 @@
             </div>
           </div>
           <div class="input-group">
-            <label for="price"
-              >Approx price :<sup style="color: var(--font-black)"
+            <label for="source-link"
+              >Source Link :<sup style="color: var(--font-black)"
                 >(optional)</sup
               ></label
             >
             <div class="input-field">
               <input
-                type="price"
-                name="price"
-                id="price"
-                placeholder="Enter the price"
+                type="url"
+                name="source-link"
+                id="source-link"
+                placeholder="Enter the source-link"
                 class="input"
                 maxlength="4"
               />
@@ -198,7 +198,7 @@
       const bookReqForm = document.querySelector(".book-request");
       const bookName = document.getElementById("book-name");
       const authorName = document.getElementById("author-name");
-      const bookPrice = document.getElementById("price");
+      const bookSrcLink = document.getElementById("source-link");
       const bookDesc = document.getElementById("description");
 
       // Add event listener to the form
@@ -218,7 +218,7 @@
           const bookReqObj = {
             book_name: bookName.value.toLowerCase(),
             author_name: authorName.value,
-            price: bookPrice.value,
+            source_link: bookSrcLink.value,
             description: bookDesc.value,
             user_id: thisUser.id,
             log: moment(),

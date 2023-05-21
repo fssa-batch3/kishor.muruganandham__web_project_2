@@ -1,6 +1,6 @@
 const parentElement = document.querySelector(".comments-container");
 
-async function editComment(commentData, commentDescription) {
+async function editComment(commentData, commentDescription,comment) {
   const newDescription = prompt(
     "Enter the new description:",
     commentDescription.textContent
@@ -8,11 +8,39 @@ async function editComment(commentData, commentDescription) {
   if (newDescription !== null) {
     commentDescription.textContent = newDescription;
   }
-  await putData(`Comments/${commentData.comment_id}`, commentData);
+  commentData.isEdited = true;
+  commentData.edited_at = moment().format("DD-MMM-YYYY hh:mm A");
   commentData.description = newDescription;
+  showCommentEdited(comment,commentData.edited_at)
+  await putData(`Comments/${commentData.comment_id}`, commentData);
   alert("Comment edited successfully");
 }
 
+function showCommentEdited(comment,editedTime){
+  const commentFooter = document.createElement("div");
+  commentFooter.className = "comment-footer";
+
+  const editedElement = document.createElement("div");
+  editedElement.className = "tooltip";
+  editedElement.setAttribute("role", "tooltip");
+  editedElement.dataset.popperPlacement = "top";
+  editedElement.textContent = editedTime;
+
+  const commentEdited = document.createElement("small");
+  commentEdited.className = "comment-edited";
+  commentEdited.textContent = "(edited)";
+
+  commentEdited.addEventListener("mouseover", () => {
+    editedElement.style.display = "block";
+  });
+  commentEdited.addEventListener("mouseout", () => {
+    editedElement.style.display = "none";
+  });
+
+  commentFooter.appendChild(editedElement);
+  commentFooter.appendChild(commentEdited);
+  comment.appendChild(commentFooter);
+}
 async function deleteComment(commentData, commentContainer) {
   const deleteConfirm = confirm("Are you sure want to delete this comment?");
   if (deleteConfirm) {
@@ -151,7 +179,13 @@ function showComment() {
 }
 
 showComment();
-function createCommentSection(commentData, user, likeArr, borrowList, userList) {
+function createCommentSection(
+  commentData,
+  user,
+  likeArr,
+  borrowList,
+  userList
+) {
   const thisLike = likeArr.find(
     (like) =>
       like.comment_id === commentData.comment_id && like.user_id === thisUser.id
@@ -213,7 +247,7 @@ function createCommentSection(commentData, user, likeArr, borrowList, userList) 
   likeNameElement.setAttribute("role", "tooltip");
   likeNameElement.dataset.popperPlacement = "top";
   likeArr?.forEach((names, index, array) => {
-    const name = userList.find(n => n.id === names["user_id"])["name"];
+    const name = userList.find((n) => n.id === names["user_id"])["name"];
     if (array.length == 0 || index === array.length - 1) {
       likeNameElement.innerText += `${name}. `;
     } else {
@@ -253,7 +287,7 @@ function createCommentSection(commentData, user, likeArr, borrowList, userList) 
     editIcon.className = "bi bi-pencil-square";
     editIcon.textContent = "Edit";
     editIcon.addEventListener("click", async () => {
-      editComment(commentData, commentDescription);
+      editComment(commentData, commentDescription,comment);
     });
     commentActions.appendChild(editIcon);
 
@@ -283,6 +317,11 @@ function createCommentSection(commentData, user, likeArr, borrowList, userList) 
   comment.appendChild(commentHeader);
   commentHeader.appendChild(commentActions);
   comment.appendChild(commentBody);
+
+  if (commentData["isEdited"]) {
+    showCommentEdited(comment,commentData["edited_at"])
+  }
+
   commentsWrap.append(comment);
 
   return commentsWrap;
@@ -310,6 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
       time: moment().format("DD-MMM-YYYY hh:mm A"),
       user_id: thisUser["id"],
       book_id: bookId,
+      isEdited: false,
     };
     if (commentValue.value.trim().length < 1) {
       return alert("Comment cannot be empty");

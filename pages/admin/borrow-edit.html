@@ -12,11 +12,11 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
     <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
-    integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
@@ -92,13 +92,13 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
-          <a href="./bookrequest_list.html" class="nav-items "
+          <a href="./bookrequest_list.html" class="nav-items"
             ><i class="bi bi-hdd-stack"></i>
             <p>Book Request List</p>
             <div
               class="tooltip"
               role="tooltip"
-              style="top: 430px;"
+              style="top: 430px"
               data-popper-placement="right"
             >
               Book Request List
@@ -140,8 +140,6 @@
     </nav>
 
     <section class="main-container">
-      
-
       <main class="borrow-edit-container">
         <div class="borrow-edit-user-detail">
           <div class="profile-area">
@@ -173,74 +171,24 @@
         </div>
         <div class="borrow-edit-book-detail">
           <div class="book-detail-left-col">
-            <div class="book-detail-left-row">
-              <div class="input-group">
-                <label for="borrow-edit-book-name">Book-Name :</label>
-                <div class="input-field">
-                  <input
-                    type="text"
-                    name="borrow-edit-book-name"
-                    id="borrow-edit-book-name"
-                    placeholder="Book-Name"
-                    class="input"
-                    disabled
-                  />
-                </div>
-              </div>
-              <div class="input-group">
-                <label for="borrow-edit-availability"
-                  >Book Availability :</label
-                >
-                <div class="input-field">
-                  <input
-                    type="text"
-                    name="borrow-edit-availability"
-                    id="borrow-edit-availability"
-                    placeholder="availability"
-                    class="input"
-                    disabled
-                  />
-                </div>
-              </div>
+            <div>Book Name : <b id="borrow-edit-book-name"></b></div>
+            <div>Book Availablity : <b id="borrow-edit-availability"></b></div>
+            <div>
+              Borrow Date :
+              <b id="borrow-edit-borrow-date"></b>
             </div>
-            <div class="book-detail-left-row">
-              <div class="input-group">
-                <label for="borrow-edit-borrow-date">Borrow-date :</label>
-                <div class="input-field">
-                  <input
-                    type="datetime-local"
-                    name="borrow-edit-borrow-date"
-                    id="borrow-edit-borrow-date"
-                    placeholder="borrow-date"
-                    class="input"
-                    disabled
-                  />
-                </div>
-              </div>
-              <div class="input-group">
-                <label for="borrow-edit-due-date">due-date :</label>
-                <div class="input-field">
-                  <input
-                    type="datetime-local"
-                    name="borrow-edit-due-date"
-                    id="borrow-edit-due-date"
-                    placeholder="due-date"
-                    class="input"
-                    disabled
-                  />
-                </div>
-              </div>
+            <div>
+              Due Date :
+              <b id="borrow-edit-due-date"></b>
             </div>
-            <div class="book-detail-left-row">
-              <div class="input-group">
-                <label for="borrow-edit-remarks">Remarks :</label>
-                <div class="input-field">
-                  <textarea
-                    id="borrow-edit-remarks"
-                    placeholder="If there is any damage in book it can be noted here"
-                    class="input"
-                  ></textarea>
-                </div>
+            <div class="input-group">
+              <label for="borrow-edit-remarks">Remarks :</label>
+              <div class="input-field">
+                <textarea
+                  id="borrow-edit-remarks"
+                  placeholder="If there is any damage in book it can be noted here"
+                  class="input"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -285,23 +233,25 @@
       );
       const bookBorrowDate = document.getElementById("borrow-edit-borrow-date");
       const bookDueDate = document.getElementById("borrow-edit-due-date");
-      const bookSubmittedDate = document.getElementById("borrow-edit-remarks");
+      const bookRemarks = document.getElementById("borrow-edit-remarks");
 
       userName.innerHTML = userDetail["name"];
       profilePic.style.background = `url(${userDetail["profile"]}) no-repeat center center/cover`;
-      bookName.value = bookDetail["title"];
+      bookName.innerText = bookDetail["title"];
       if (bookDetail["isBorrowable"] === true) {
-        bookAvailablity.value = "Available";
+        bookAvailablity.innerText = "Available";
       } else {
-        bookAvailablity.value = "Not Available";
+        bookAvailablity.innerText = "Not Available";
       }
       bookImage.setAttribute("src", bookDetail["image"]["src"]);
       bookImage.setAttribute("alt", bookDetail["image"]["alt"]);
-      bookBorrowDate.value = moment(borrowDetail["borrow_date"]).format("YYYY-MM-DDTHH:mm");
-      bookDueDate.value = moment(borrowDetail["due_date"]).format("YYYY-MM-DDTHH:mm");
-      console.log();
-      console.log(moment(borrowDetail["due_date"]).format("YYYY-MM-DD h:mm A"));
-      bookSubmittedDate.value = borrowDetail["remarks"] || "";
+      bookBorrowDate.textContent = moment(borrowDetail["borrow_date"]).format(
+        "DD-MMM-YYYY"
+      );
+      bookDueDate.textContent = moment(borrowDetail["due_date"]).format(
+        "DD-MMM-YYYY"
+      );
+      bookRemarks.value = borrowDetail["remarks"] || "";
       borrowStatus.value = borrowDetail["status"];
 
       saveBtn.addEventListener("click", async function (e) {
@@ -316,9 +266,11 @@
           (e) => e.id === borrowDetail["id"]
         );
         userBorrowHistory["status"] = borrowStatus.value;
+        borrowDetail["remarks"] = bookRemarks.value
         await patchData(`Books/${bookDetail.id}`, bookDetail);
         patchData(`Borrows/${borrowDetail["borrow_id"]}`, borrowDetail).then(
           () => {
+            alert("Borrow Details updated successfully")
             window.location.href = "./borrow-list.html";
           }
         );

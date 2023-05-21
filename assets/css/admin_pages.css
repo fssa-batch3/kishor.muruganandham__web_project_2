@@ -47,7 +47,7 @@
 
 .borrow-edit-book-detail {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 30px;
   margin: 20px 5px;
@@ -57,9 +57,8 @@
 .book-detail-left-col {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  flex: 1;
+  flex-direction: column;
+  gap: 30px;
   min-width: 300px;
 }
 
@@ -69,14 +68,6 @@
   align-items: center;
 }
 
-.book-detail-left-row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  min-width: 50%;
-  gap: 20px;
-  width: 100%;
-}
 
 .borrow-action-btn {
   height: unset;

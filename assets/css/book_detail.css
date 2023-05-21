@@ -21,7 +21,7 @@
   flex-direction: column;
   justify-content: center;
   position: sticky;
-  top: 80px;
+  top: 50px;
 }
 
 .book-detail-image img {
@@ -44,6 +44,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .comments-container {
@@ -75,6 +76,7 @@
 }
 
 .book-detail-comment {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,7 +108,13 @@
 .add-comment-container .input-field {
   height: unset;
 }
+.comment-edited{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor:pointer;
 
+}
 #add-comment {
   padding-right: 55px;
 }
@@ -255,6 +263,12 @@
   position: relative;
 }
 
+.comment-footer{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .comment-like .tooltip {
   inset: unset;
   height: fit-content;
@@ -263,6 +277,15 @@
   right: -20px;
   max-width: 200px;
   width: fit-content;
+  text-align: center;
+}
+.comment-footer .tooltip {
+  inset: unset;
+  height: fit-content;
+  max-height: 100px;
+  bottom: 50px;
+  right: 0px;
+  width: 130px;
   text-align: center;
 }
 @keyframes display {

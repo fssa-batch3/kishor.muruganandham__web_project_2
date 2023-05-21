@@ -17,24 +17,24 @@ async function openBorrowModal() {
     document.querySelector(".modal").classList.add("active");
     document.getElementById("book-title").value = thisBook?.title;
 
-    const durationDate = moment().format("YYYY-MM-DD h:mm A");
+    const durationDate = moment().format("YYYY-MM-DD");
     let dueDateCalculated = moment(durationDate)
       .add(15, "days")
-      .format("YYYY-MM-DD h:mm A");
+      .format("YYYY-MM-DD");
     borrowDateInput.value = durationDate;
     dueDateInput.value = dueDateCalculated;
-    fullBorrowDate.innerText = moment().format("MMMM Do YYYY, h:mm a");
+    fullBorrowDate.innerText = moment().format("MMMM Do YYYY");
     fullDueDate.innerText = moment(dueDateCalculated).format(
-      "MMMM Do YYYY, h:mm a"
+      "MMMM Do YYYY"
     );
 
     dueDurationInput.addEventListener("change", () => {
       dueDateCalculated = moment(durationDate)
         .add(dueDurationInput.value, "days")
-        .format("YYYY-MM-DD h:mm A");
+        .format("YYYY-MM-DD");
       dueDateInput.value = dueDateCalculated;
       fullDueDate.innerText = moment(dueDateCalculated).format(
-        "MMMM Do YYYY, h:mm a"
+        "MMMM Do YYYY"
       );
     });
 

@@ -158,12 +158,8 @@
       const allUsers = await getData("Users");
       const userList = allUsers.filter((user)=>user.isActive && user.isVerified)
       const userData = userList.map((user, index) => {
-        const activeStatus = user.isOnline === true ? "Online" : "Offline";
         const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";
-        const statusClassName =
-          user.isOnline === true
-            ? "borrow-status status completed"
-            : "borrow-status status";
+       "borrow-status status";
         return [
           index + 1,
           user["profile"],
@@ -173,10 +169,6 @@
             className: roleName,
           },
           user["username"],
-          {
-            text: activeStatus,
-            className: statusClassName,
-          },
           user["phone_number"] || "-",
           user["dob"],
           user["age"] || "-",
@@ -200,13 +192,6 @@
               ),
           },
           "Email",
-          {
-            name: "Status",
-            formatter: (_, row) =>
-              html(
-                `<span class='${row.cells[5].data.className}' >${row.cells[5].data.text}</span>`
-              ),
-          },
           "Phone Number",
           "Date of Birth",
           "Age",
