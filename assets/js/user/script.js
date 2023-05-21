@@ -385,6 +385,7 @@ function showUploadWidget() {
     (err, info) => {
       if (!err && info.event == "success") {
         const imgUrl = info.info.secure_url;
+        console.log(info)
         if (window.location.pathname === '/pages/user_profile.html') {
           thisUser.profile = imgUrl;
           profDisp.style.background = `url(${imgUrl}) no-repeat center center/cover`;
