@@ -201,18 +201,24 @@ function displayUserData() {
 
 setLoader(true);
 
-async function addSearchResults() {
-  try {
-    const currentUser = await getData(`Users/${thisUser.id}`);
-    const bookList = await getData("Books");
-     const details = bookList.filter((book) => book.isActive === true);
-    createSearchItems(details, currentUser);
-    addSearchListEventListeners();
-
-  } catch (error) {
-    console.error("An error occurred while adding search results: ", error);
-  }
+function addSearchResults() {
+  getData(`Users/${thisUser.id}`)
+    .then((currentUser) => {
+      getData("Books")
+        .then((bookList) => {
+          const details = bookList.filter((book) => book.isActive === true);
+          createSearchItems(details, currentUser);
+          addSearchListEventListeners();
+        })
+        .catch((error) => {
+          console.error("An error occurred while retrieving book data: ", error);
+        });
+    })
+    .catch((error) => {
+      console.error("An error occurred while retrieving current user data: ", error);
+    });
 }
+
 
 function createSearchItems(books, currentUser) {
   const searchResult = document.querySelector(".search-result");

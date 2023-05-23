@@ -117,7 +117,7 @@ async function showBookEditDetails() {
     thisBook.isBorrowable = JSON.parse(bookAvailablity.value);
     books[indexOfBook] = thisBook;
     putData(`Books/${thisBook.id}`, thisBook)
-      .then((data) => {
+      .then(() => {
         setLoader(false);
         // Success notification
         alert("Book Details updated successfully");
@@ -129,78 +129,84 @@ async function showBookEditDetails() {
   });
 }
 let thisBook;
-async function showBookDetails() {
-  try {
-    const books = await getData("Books");
-    const borrowList = await getData(`Borrows/`);
+function showBookDetails() {
+  getData("Books")
+    .then((books) => {
+      getData(`Borrows/`)
+        .then((borrowList) => {
+          thisBook = books.find((book) => book.id === bookId);
 
-    thisBook = books.find((book) => book.id === bookId);
+          const bookImage = document.querySelector(".book-detail-image img");
+          bookImage.src = thisBook["image"]["src"];
+          bookImage.alt = thisBook["image"]["alt"];
 
-    const bookImage = document.querySelector(".book-detail-image img");
-    bookImage.src = thisBook["image"]["src"];
-    bookImage.alt = thisBook["image"]["alt"];
+          const bookViews = borrowList?.filter(
+            (e) => e.book_id === thisBook["id"]
+          ).length;
+          const bookViewsElement = document.querySelector(".book-views");
+          bookViewsElement.textContent = bookViews > 0 ? `${bookViews}` : `0`;
 
-    const bookViews = borrowList?.filter(
-      (e) => e.book_id === thisBook["id"]
-    ).length;
-    const bookViewsElement = document.querySelector(".book-views");
-    bookViewsElement.textContent = bookViews > 0 ? `${bookViews}` : `0`;
+          const bookTitleElement = document.querySelector(".book-detail-header h2");
+          bookTitleElement.textContent = thisBook["title"];
 
-    const bookTitleElement = document.querySelector(".book-detail-header h2");
-    bookTitleElement.textContent = thisBook["title"];
+          const bookAuthorElement = document.querySelector(".book-detail-header p");
+          bookAuthorElement.textContent = thisBook["author"];
 
-    const bookAuthorElement = document.querySelector(".book-detail-header p");
-    bookAuthorElement.textContent = thisBook["author"];
+          const bookDescriptionElement = document.querySelector(
+            ".book-detail-description p"
+          );
+          bookDescriptionElement.textContent = thisBook["description"];
 
-    const bookDescriptionElement = document.querySelector(
-      ".book-detail-description p"
-    );
-    bookDescriptionElement.textContent = thisBook["description"];
+          const bookPagesElement = document.querySelector(".book-detail-pages-info");
+          bookPagesElement.innerHTML = thisBook["pages"];
 
-    const bookPagesElement = document.querySelector(".book-detail-pages-info");
-    bookPagesElement.innerHTML = thisBook["pages"];
+          const bookLanguageElement = document.querySelector(
+            ".book-detail-language-info"
+          );
+          bookLanguageElement.innerHTML = thisBook["language"];
 
-    const bookLanguageElement = document.querySelector(
-      ".book-detail-language-info"
-    );
-    bookLanguageElement.innerHTML = thisBook["language"];
+          const bookDetailTagsListElement = document.querySelector(
+            ".book-detail-tags-list"
+          );
+          bookDetailTagsListElement.innerHTML = "";
+          thisBook["tags"].forEach((tag) => {
+            const tagSpan = document.createElement("span");
+            tagSpan.className = "book-detail-tags";
+            tagSpan.innerText = tag;
+            bookDetailTagsListElement.append(tagSpan);
+          });
 
-    const bookDetailTagsListElement = document.querySelector(
-      ".book-detail-tags-list"
-    );
-    bookDetailTagsListElement.innerHTML = "";
-    thisBook["tags"].forEach((tag) => {
-      const tagSpan = document.createElement("span");
-      tagSpan.className = "book-detail-tags";
-      tagSpan.innerText = tag;
-      bookDetailTagsListElement.append(tagSpan);
+          const availableDate = borrowList?.find(
+            (e) => e.book_id === thisBook["id"] && e.status === "Pending"
+          );
+          const borrowBtn = document.getElementById("borrow-now");
+          const borrowBtnElement = document.querySelector(".book-detail-borrow-now");
+
+          if (thisBook?.isBorrowable === false && availableDate) {
+            const targetDate = moment(availableDate["due_date"]);
+            const duration = moment.duration(targetDate.diff(moment()));
+            const daysDiff = duration.asDays();
+            borrowBtn.style.display = "none";
+            borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
+              availableDate["username"]
+            },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
+          } else if (thisBook?.isBorrowable === true) {
+            borrowBtn.innerText = "Borrow Now";
+            borrowBtn.disabled = false;
+          } else {
+            borrowBtn.style.display = "none";
+            borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
+          }
+        })
+        .catch((error) => {
+          console.error("An error occurred while fetching borrow list:", error);
+        });
+    })
+    .catch((error) => {
+      console.error("An error occurred while fetching book list:", error);
     });
-
-    const availableDate = borrowList?.find(
-      (e) => e.book_id === thisBook["id"] && e.status === "Pending"
-    );
-    const borrowBtn = document.getElementById("borrow-now");
-    const borrowBtnElement = document.querySelector(".book-detail-borrow-now");
-
-    if (thisBook?.isBorrowable === false && availableDate) {
-      const targetDate = moment(availableDate["due_date"]);
-      const duration = moment.duration(targetDate.diff(moment()));
-      const daysDiff = duration.asDays();
-      borrowBtn.style.display = "none";
-      borrowBtnElement.innerHTML = `<p class="available-date">Borrowed By ${
-        availableDate["username"]
-      },<br>Will Available in ${Math.ceil(daysDiff)} days</p>`;
-    } else if (thisBook?.isBorrowable === true) {
-      borrowBtn.innerText = "Borrow Now";
-      borrowBtn.disabled = false;
-    } else {
-      borrowBtn.style.display = "none";
-      borrowBtnElement.innerHTML = `<p class="available-date">Book is under Progress by Admin</p>`;
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname === "/pages/admin/book_edit.html") {

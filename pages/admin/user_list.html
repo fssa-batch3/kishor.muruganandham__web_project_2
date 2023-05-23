@@ -159,7 +159,6 @@
       const userList = allUsers.filter((user)=>user.isActive && user.isVerified)
       const userData = userList.map((user, index) => {
         const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";
-       "borrow-status status";
         return [
           index + 1,
           user["profile"],

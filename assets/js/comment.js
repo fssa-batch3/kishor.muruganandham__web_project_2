@@ -335,7 +335,7 @@ function createCommentSection(
     const editIcon = document.createElement("span");
     editIcon.className = "bi bi-pencil-square";
     editIcon.textContent = "Edit";
-    editIcon.addEventListener("click", async () => {
+    editIcon.addEventListener("click",  () => {
       editComment(commentData, commentDescription,comment);
     });
     commentActions.appendChild(editIcon);
@@ -343,7 +343,7 @@ function createCommentSection(
     const deleteIcon = document.createElement("span");
     deleteIcon.className = "bi bi-trash";
     deleteIcon.textContent = "Delete";
-    deleteIcon.addEventListener("click", async () => {
+    deleteIcon.addEventListener("click",  () => {
       deleteComment(commentData, commentsWrap);
     });
     commentActions.appendChild(deleteIcon);
@@ -403,11 +403,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (commentValue.value.trim().length < 1) {
       return alert("Comment cannot be empty");
     }
-
+  
     const commentSection = createCommentSection(commentObj, thisUser, []);
     parentElement.prepend(commentSection);
     document.querySelector(".no-comments")?.remove();
-    putData(`Comments/${commentId}`, commentObj);
-    commentValue.value = "";
+  
+    putData(`Comments/${commentId}`, commentObj)
+      .then(() => {
+        commentValue.value = "";
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Error sending comment: " + error.message);
+      });
   });
+  
 });

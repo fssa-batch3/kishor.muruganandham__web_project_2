@@ -14,20 +14,24 @@ for (const i of navBtns) {
 }
 
 let signOut = document.getElementById("sign-out");
-signOut.addEventListener("click", async () => {
-  try {
-    const currentUser = await getOneData(`Users/${thisUser.id}`);
-    currentUser.isOnline = false;
-    setLoader(true);
-    await patchData(`Users/${currentUser.id}`, currentUser);
-    setLoader(false);
-    localStorage.removeItem("user");
-    window.location.assign(window.location.origin);
-  } catch (error) {
-    console.error(error);
-    alert("Error Signing out: " + error.message);
-  }
+signOut.addEventListener("click", () => {
+  getOneData(`Users/${thisUser.id}`)
+    .then((currentUser) => {
+      currentUser.isOnline = false;
+      setLoader(true);
+      return patchData(`Users/${currentUser.id}`, currentUser);
+    })
+    .then(() => {
+      setLoader(false);
+      localStorage.removeItem("user");
+      window.location.assign(window.location.origin);
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Error signing out: " + error.message);
+    });
 });
+
 
 
 

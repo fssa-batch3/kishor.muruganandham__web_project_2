@@ -51,7 +51,7 @@ cancelBtn.addEventListener("click", (e) => {
   location.reload();
 });
 
-saveForm.addEventListener("submit", async (e) => {
+saveForm.addEventListener("submit", (e) => {
   e.preventDefault();
   thisUser.first_name = firstName.value;
   thisUser.last_name = lastName.value;
@@ -68,48 +68,51 @@ saveForm.addEventListener("submit", async (e) => {
     alert("You can't change the Email Address");
     return;
   }
-  try {
-    await putData(`Users/${thisUser.id}`, thisUser);
-    localStorage.removeItem("user");
-    localStorage.setItem("user", JSON.stringify(thisUser));
-    alert("User Details updated successfully");
-    location.reload();
-  } catch (error) {
-    console.log(error);
-    alert("Error updating user details. Please try again later.");
-  }
+  
+  putData(`Users/${thisUser.id}`, thisUser)
+    .then(() => {
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(thisUser));
+      alert("User Details updated successfully");
+      location.reload();
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Error updating user details. Please try again later.");
+    });
 });
 
 
-deleteBtn.addEventListener("click", async (e) => {
-  try {
-    e.preventDefault();
-    const confirmValue = confirm(
-      "Are you sure you want to delete your account?"
-    );
-    if (confirmValue === false) {
-      return;
-    }
-    const promptValue = prompt(
-      `This action cannot be undone. This will permanently delete the ${thisUser.username} account and remove all details associated with it. Please type your password to confirm.`
-    );
-    const isPasswordValid = comparePassword(promptValue, thisUser.password)
-    if (!isPasswordValid) {
-      alert("Please enter your password correctly");
-      return;
-    }
-    thisUser.isActive = false;
 
-    await putData(`Users/${thisUser.id}`, thisUser);
-    localStorage.removeItem("user");
-    localStorage.setItem("user", JSON.stringify(thisUser));
-    alert("The journey has come to an end, your account has been deleted.");
-    window.location.assign(window.location.origin);
-  } catch (error) {
-    console.log(error);
-    alert("Error deleting user account. Please try again later.");
+deleteBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const confirmValue = confirm("Are you sure you want to delete your account?");
+  if (confirmValue === false) {
+    return;
   }
+  const promptValue = prompt(
+    `This action cannot be undone. This will permanently delete the ${thisUser.username} account and remove all details associated with it. Please type your password to confirm.`
+  );
+  const isPasswordValid = comparePassword(promptValue, thisUser.password);
+  if (!isPasswordValid) {
+    alert("Please enter your password correctly");
+    return;
+  }
+  thisUser.isActive = false;
+
+  putData(`Users/${thisUser.id}`, thisUser)
+    .then(() => {
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(thisUser));
+      alert("The journey has come to an end, your account has been deleted.");
+      window.location.assign(window.location.origin);
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Error deleting user account. Please try again later.");
+    });
 });
+
 
 
 setLoader(false);
