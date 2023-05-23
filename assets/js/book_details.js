@@ -18,7 +18,7 @@ function ratings() {
         (rating) => rating.book_id === bookId
       );
       const raters = thisBookRatings.length < 2 ? `${thisBookRatings.length} User` : `${thisBookRatings.length} Users`;
-      document.querySelector('.raters').textContent = raters
+      document.querySelector('.raters').textContent = raters;
       const ratings = thisBookRatings.reduce((acc, obj) => acc + obj.rating, 0);
       const avgRating = Math.round(ratings / thisBookRatings.length);
       const starRatingElement = document.querySelector(".stars");
