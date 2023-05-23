@@ -10,25 +10,29 @@ const verifySuccessContainer = document.querySelector(
 );
 const verifyRedirect = document.querySelector(".verify-redirect");
 
-verifyEmail.addEventListener("click", async () => {
-  try {
-    const currentUser = await getOneData(`Users/${userId}`);
-    const verified = comparePassword(verifyId, currentUser.verify_id);
-    if (verified === false) {
-      alert("Email verification failed. Please try again");
-      setLoader(false);
-      return;
-    }
-    currentUser.isVerified = true;
-    await patchData(`Users/${userId}`, currentUser);
-    verifyContainer.style.display = "none";
-    verifySuccessContainer.style.display = "block";
-    redirect();
-  } catch (error) {
-    console.error(error);
-    alert("Error Verifying your Email Please try again. Error :" + error);
-  }
+verifyEmail.addEventListener("click", () => {
+  getOneData(`Users/${userId}`)
+    .then((currentUser) => {
+      const verified = comparePassword(verifyId, currentUser.verify_id);
+      if (verified === false) {
+        alert("Email verification failed. Please try again");
+        setLoader(false);
+        return;
+      }
+      currentUser.isVerified = true;
+      return patchData(`Users/${userId}`, currentUser);
+    })
+    .then(() => {
+      verifyContainer.style.display = "none";
+      verifySuccessContainer.style.display = "block";
+      redirect();
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Error Verifying your Email. Please try again. Error: " + error);
+    });
 });
+
 
 
 function redirect() {

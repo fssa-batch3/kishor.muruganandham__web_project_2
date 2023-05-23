@@ -1,20 +1,30 @@
 const parentElement = document.querySelector(".comments-container");
 
-async function editComment(commentData, commentDescription,comment) {
+function editComment(commentData, commentDescription, comment) {
   const newDescription = prompt(
     "Enter the new description:",
     commentDescription.textContent
   );
+
   if (newDescription !== null) {
     commentDescription.textContent = newDescription;
   }
+
   commentData.isEdited = true;
   commentData.edited_at = moment().format("DD-MMM-YYYY hh:mm A");
   commentData.description = newDescription;
-  showCommentEdited(comment,commentData.edited_at)
-  await putData(`Comments/${commentData.comment_id}`, commentData);
-  alert("Comment edited successfully");
+  showCommentEdited(comment, commentData.edited_at);
+
+  putData(`Comments/${commentData.comment_id}`, commentData)
+    .then(() => {
+      alert("Comment edited successfully");
+    })
+    .catch((error) => {
+      console.error("An error occurred while editing the comment:", error);
+      alert("Failed to edit the comment");
+    });
 }
+
 
 function showCommentEdited(comment,editedTime){
   const commentFooter = document.createElement("div");
@@ -41,66 +51,105 @@ function showCommentEdited(comment,editedTime){
   commentFooter.appendChild(commentEdited);
   comment.appendChild(commentFooter);
 }
-async function deleteComment(commentData, commentContainer) {
+function deleteComment(commentData, commentContainer) {
   const deleteConfirm = confirm("Are you sure want to delete this comment?");
   if (deleteConfirm) {
     commentData["isActive"] = false;
     commentContainer.remove();
   }
+
   const commentExists = document.querySelector(".book-detail-comments-wrap");
   if (!commentExists) {
     parentElement.innerHTML = `<p class="no-comments">No Active Comments Found</p>`;
   }
-  await putData(`Comments/${commentData.comment_id}`, commentData);
-  alert("Comment deleted successfully");
+
+  putData(`Comments/${commentData.comment_id}`, commentData)
+    .then(() => {
+      alert("Comment deleted successfully");
+    })
+    .catch((error) => {
+      console.error("An error occurred while deleting the comment:", error);
+      alert("Failed to delete the comment");
+    });
 }
 
-async function likeComment(commentData, likeIcon, likeNumber, likeNameElement) {
+
+function likeComment(commentData, likeIcon, likeNumber, likeNameElement) {
   const likeNum = +likeNumber.textContent;
   const addedLikeNum = likeNum + 1;
   const subtractedLikeNum = likeNum != 0 ? likeNum - 1 : 0;
-  const commentLikeList = await getData("Likes");
-  const likeId = generateGuid();
-  const thisLike = commentLikeList.find(
-    (like) =>
-      like.comment_id === commentData.comment_id && like.user_id === thisUser.id
-  );
-  const likeIndex = commentLikeList.indexOf(thisLike);
-  if (likeIndex === -1) {
-    const like = {
-      comment_id: commentData.comment_id,
-      user_id: thisUser.id,
-      book_id: bookId,
-      username: thisUser.name,
-      like_id: likeId,
-    };
-    putData(`Likes/${likeId}`, like).then(() => {
-      let updatedInnerText = likeNameElement.innerText;
-      if (updatedInnerText.charAt(updatedInnerText.length - 1) === ".") {
-        updatedInnerText = updatedInnerText.slice(0, -1) + ", ";
-      }
-      updatedInnerText += `${thisUser.name}. `;
-      likeNameElement.innerText = updatedInnerText;
-      likeNumber.innerHTML = addedLikeNum;
-      likeIcon.className = "bi bi-heart-fill";
-    });
-  } else {
-    deleteData(`Likes/${thisLike.like_id}`).then(() => {
-      let updatedInnerText = likeNameElement.innerText;
+  let commentLikeList;
 
-      if (updatedInnerText.includes(thisUser.name + ", ")) {
-        updatedInnerText = updatedInnerText.replace(thisUser.name + ", ", "");
-      }
-      if (updatedInnerText.includes(thisUser.name + ".")) {
-        updatedInnerText = updatedInnerText.replace(thisUser.name + ".", "");
-      }
-      likeNameElement.innerText = updatedInnerText;
+  getData("Likes")
+    .then((likeList) => {
+      commentLikeList = likeList;
+      const likeId = generateGuid();
+      const thisLike = commentLikeList.find(
+        (like) =>
+          like.comment_id === commentData.comment_id &&
+          like.user_id === thisUser.id
+      );
+      const likeIndex = commentLikeList.indexOf(thisLike);
 
-      likeNumber.innerHTML = subtractedLikeNum;
-      likeIcon.className = "bi bi-heart";
+      if (likeIndex === -1) {
+        const like = {
+          comment_id: commentData.comment_id,
+          user_id: thisUser.id,
+          book_id: bookId,
+          username: thisUser.name,
+          like_id: likeId,
+        };
+
+        putData(`Likes/${likeId}`, like)
+          .then(() => {
+            let updatedInnerText = likeNameElement.innerText;
+            if (updatedInnerText.charAt(updatedInnerText.length - 1) === ".") {
+              updatedInnerText = updatedInnerText.slice(0, -1) + ", ";
+            }
+            updatedInnerText += `${thisUser.name}. `;
+            likeNameElement.innerText = updatedInnerText;
+            likeNumber.innerHTML = addedLikeNum;
+            likeIcon.className = "bi bi-heart-fill";
+          })
+          .catch((error) => {
+            console.error("An error occurred while adding the like:", error);
+            alert("Failed to add the like");
+          });
+      } else {
+        const likeToDelete = commentLikeList[likeIndex];
+        deleteData(`Likes/${likeToDelete.like_id}`)
+          .then(() => {
+            let updatedInnerText = likeNameElement.innerText;
+
+            if (updatedInnerText.includes(thisUser.name + ", ")) {
+              updatedInnerText = updatedInnerText.replace(
+                thisUser.name + ", ",
+                ""
+              );
+            }
+            if (updatedInnerText.includes(thisUser.name + ".")) {
+              updatedInnerText = updatedInnerText.replace(
+                thisUser.name + ".",
+                ""
+              );
+            }
+            likeNameElement.innerText = updatedInnerText;
+
+            likeNumber.innerHTML = subtractedLikeNum;
+            likeIcon.className = "bi bi-heart";
+          })
+          .catch((error) => {
+            console.error("An error occurred while deleting the like:", error);
+            alert("Failed to delete the like");
+          });
+      }
+    })
+    .catch((error) => {
+      console.error("An error occurred while retrieving the like list:", error);
+      alert("Failed to retrieve the like list");
     });
-  }
 }
+
 
 function commentCurrentTime(time) {
   const momentTime = moment(time);

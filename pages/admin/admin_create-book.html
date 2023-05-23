@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Book</title>
     <link rel="stylesheet" href="../../assets/css/main_page.css" />
-    <link rel="icon" href="../../assets/images/book-half.svg" type="image/x-icon" />
+    <link
+      rel="icon"
+      href="../../assets/images/book-half.svg"
+      type="image/x-icon"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
@@ -23,7 +27,7 @@
       rel="stylesheet"
       type="text/css"
     />
-    
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.8/tagify.min.js"
       integrity="sha512-7vyDVrzHbIl2MbbDj2lgeXUVSe4NSbY5jn030+QN321CTl8XEc3J5Qlq976YY5gs+Ifwff9Q2SrDXLPWxAp2oQ=="
@@ -180,6 +184,7 @@
                 placeholder="Enter the title name"
                 class="input"
                 required
+                value="From Animals into Gods"
               />
             </div>
           </div>
@@ -193,6 +198,7 @@
                 placeholder="Enter the Sub-title name"
                 class="input"
                 required
+                value="An Unexpected Journey"
               />
             </div>
           </div>
@@ -204,6 +210,7 @@
                 class="custom-tag"
                 placeholder="Enter a custom Tag and Press Enter to Add."
                 id="choice-js"
+                value="history,science"
               />
             </div>
           </div>
@@ -217,6 +224,7 @@
                 placeholder="Enter the Authorname"
                 class="input"
                 required
+                value="Yuval Noah Harari"
               />
             </div>
           </div>
@@ -230,6 +238,7 @@
                 placeholder="Enter Number of Pages"
                 class="input"
                 required
+                value="464"
               />
             </div>
           </div>
@@ -243,13 +252,16 @@
                 placeholder="Enter image URL"
                 class="input"
                 required
+                value="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1595674533i/23692271.jpg"
               />
             </div>
           </div>
           <div class="input-group">
             <label for="description">Description :<sup>*</sup></label>
             <div class="input-field">
-              <textarea name="description" id="Description"></textarea>
+              <textarea name="description" id="Description">
+Sapiens takes readers on a journey through the history of Homo sapiens, exploring how our species evolved and the impact we have had on the world. It covers a wide range of topics, including biology, anthropology, and the rise of human civilizations.</textarea
+              >
             </div>
           </div>
           <div class="input-group">
@@ -302,7 +314,9 @@
   <script type="module">
     const tagsArray = await getBookGenres();
     const whitelist = Object.keys(tagsArray);
-    const customInput = document.querySelector('input[name="input-custom-dropdown"]');
+    const customInput = document.querySelector(
+      'input[name="input-custom-dropdown"]'
+    );
     const tagify = new Tagify(customInput, {
       whitelist,
       maxTags: 5,
@@ -310,8 +324,8 @@
         maxItems: 20,
         classname: "tags-look",
         enabled: 0,
-        closeOnSelect: false
-      }
+        closeOnSelect: false,
+      },
     });
 
     function tagsToArray() {
