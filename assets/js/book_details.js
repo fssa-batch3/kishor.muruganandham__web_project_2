@@ -48,7 +48,7 @@ ratingInputs.forEach((input) => {
         if (thisRating) {
           thisRating.rating = ratingValue;
         }
-        await ratings();
+        ratings();
         alert("Rated Successfully");
       })
       .catch((err) => {

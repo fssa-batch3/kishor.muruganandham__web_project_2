@@ -219,11 +219,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   } else if (window.location.pathname === "/pages/book_details.html") {
     showBookDetails()
-      .then(() => {
-        setLoader(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
   }
 });
