@@ -139,6 +139,10 @@ function showBookDetails() {
           const bookImage = document.querySelector(".book-detail-image img");
           bookImage.src = thisBook["image"]["src"];
           bookImage.alt = thisBook["image"]["alt"];
+          bookImage.addEventListener("error", () => {
+            bookImage.src =
+              "https://via.placeholder.com/280x400/cccccc/3b3b3b.jpeg?text=Error+Loading+Image";
+          });
 
           const bookViews = borrowList?.filter(
             (e) => e.book_id === thisBook["id"]
