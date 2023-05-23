@@ -69,8 +69,7 @@ async function showBookEditDetails() {
     deleteBtn.style.display = "none";
     cancelBtn.style.display = "block";
     saveBtn.style.display = "block";
-    new Tagify(customInput, {
-      whitelist,
+    const tagify = new Tagify(customInput, {
       maxTags: 5,
       dropdown: {
         maxItems: 20,
@@ -79,6 +78,7 @@ async function showBookEditDetails() {
         closeOnSelect: false,
       },
     });
+    tagify.whitelist = whitelist;
   });
   imgEditBtn.addEventListener("click", showUploadWidget);
   // Add event listener to Cancel button to reload the page and revert any unsaved changes
