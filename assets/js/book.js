@@ -53,7 +53,11 @@ async function showBookEditDetails() {
   bookImage.src = thisBook.image.src;
   bookImage.alt = thisBook.title;
   bookAvailablity.value = JSON.stringify(thisBook.isBorrowable);
-
+  bookImage.addEventListener("error", () => {
+    bookImage.src =
+      "https://via.placeholder.com/280x400/cccccc/3b3b3b.jpeg?text=Error+Loading+Image";
+  });
+  
   // Add event listener to Edit button to enable form fields for editing
   editBtn.addEventListener("click", function (e) {
     e.preventDefault();
