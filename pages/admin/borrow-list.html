@@ -147,7 +147,7 @@
       
 
       <main class="Borrow-container">
-        <h3 id="Borrow-table-heading">Borrow</h3>
+        <h3 id="Borrow-table-heading">Borrow List</h3>
         <div class="Borrow-table-wrapper"></div>
       </main>
     </section>
@@ -205,6 +205,8 @@
           limit: 10,
         },
         fixedHeader: true,
+        search: true,
+        autoWidth: true,
       }).render(document.querySelector(".Borrow-table-wrapper"));
       setLoader(false);
     </script>

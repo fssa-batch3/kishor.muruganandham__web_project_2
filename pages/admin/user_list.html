@@ -146,7 +146,7 @@
       
 
       <main class="user-list-container">
-        <h3>Book Request List</h3>
+        <h3>User List</h3>
         <div class="user-list-table-wrapper">
           <div class="user-list-table-body"></div>
         </div>
@@ -156,7 +156,7 @@
     <script type="module">
       import { Grid, html } from "https://unpkg.com/gridjs?module";
       const allUsers = await getData("Users");
-      const userList = allUsers.filter((user)=>user.isActive && user.isVerified)
+      const userList = allUsers.filter((user)=>user.isActive && user.isVerified);
       const userData = userList.map((user, index) => {
         const roleName = user.role === "admin" ? "borrow-status status primary" : "borrow-status status completed";
         return [
