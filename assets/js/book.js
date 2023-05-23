@@ -37,7 +37,6 @@ async function showBookEditDetails() {
   const whitelist = Object.keys(tagsArray);
   const indexOfBook = books.indexOf(thisBook);
   const str = thisBook.tags.join(", ");
-  let imgUrl;
   const customInput = document.querySelector(
     'input[name="input-custom-dropdown"]'
   );
@@ -57,7 +56,7 @@ async function showBookEditDetails() {
     bookImage.src =
       "https://via.placeholder.com/280x400/cccccc/3b3b3b.jpeg?text=Error+Loading+Image";
   });
-  
+
   // Add event listener to Edit button to enable form fields for editing
   editBtn.addEventListener("click", function (e) {
     e.preventDefault();
@@ -70,7 +69,7 @@ async function showBookEditDetails() {
     deleteBtn.style.display = "none";
     cancelBtn.style.display = "block";
     saveBtn.style.display = "block";
-    const tagify = new Tagify(customInput, {
+    new Tagify(customInput, {
       whitelist,
       maxTags: 5,
       dropdown: {

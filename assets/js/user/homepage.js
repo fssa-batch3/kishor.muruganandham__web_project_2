@@ -55,7 +55,7 @@ function showInterestingBook() {
       const interestingBookData = [];
       const filteredBookList = bookList.filter((book) => book.isActive);
       while (interestingBookData.length < 8) {
-        const randomIndex = Math.floor(Math.random() * filteredBookList.length);
+        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (2**32 - 1)  * filteredBookList.length);
         const randomBook = filteredBookList[randomIndex];
         if (!interestingBookData.includes(randomBook)) {
           interestingBookData.push(randomBook);
@@ -84,7 +84,7 @@ function showRecommendedBooks() {
         (book) => !currentUserBooks.includes(book.id) && book.isActive
       );
       while (recommendedBooksData.length < 8) {
-        const randomIndex = Math.floor(Math.random() * filteredBooks.length);
+        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (2**32 - 1)  * filteredBooks.length);
         const randomBook = filteredBooks[randomIndex];
         if (!recommendedBooksData.includes(randomBook)) {
           recommendedBooksData.push(randomBook);
