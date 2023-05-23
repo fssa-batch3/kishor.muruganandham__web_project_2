@@ -222,65 +222,71 @@ function generateBook(book, bookRack) {
   }
 }
 
-// This function adds event listeners to the favorite buttons on the book cards.
-async function toggleFavourites() {
-  try {
-    const currentUser = await getOneData(`Users/${thisUser.id}`);
-    // Get all the favorite buttons on the page.
-    const favButtons = document.querySelectorAll(".fav-btn");
+function toggleFavourites() {
+  getOneData(`Users/${thisUser.id}`)
+    .then((currentUser) => {
+      // Get all the favorite buttons on the page.
+      const favButtons = document.querySelectorAll(".fav-btn");
 
-    // Add an event listener to each favorite button to toggle the book's favorite status.
-    favButtons.forEach((button) => {
-      const bookId = button.parentElement.dataset.id;
-      button.addEventListener("click", async () => {
-        const userFavourites = currentUser["favourites"];
-        if (userFavourites?.includes(bookId)) {
-          const index = userFavourites.indexOf(bookId);
-          userFavourites.splice(index, 1);
-        } else {
-          userFavourites?.push(bookId);
-        }
-        await putData(`Users/${currentUser.id}`, currentUser);
-        await checkForFavourites();
+      // Add an event listener to each favorite button to toggle the book's favorite status.
+      favButtons.forEach((button) => {
+        const bookId = button.parentElement.dataset.id;
+        button.addEventListener("click", () => {
+          const userFavourites = currentUser["favourites"];
+          if (userFavourites?.includes(bookId)) {
+            const index = userFavourites.indexOf(bookId);
+            userFavourites.splice(index, 1);
+          } else {
+            userFavourites?.push(bookId);
+          }
+          putData(`Users/${currentUser.id}`, currentUser)
+            .then(() => checkForFavourites())
+            .catch((error) => {
+              console.error(error);
+              alert("Error checking for favourites. Please try again. Error: " + error);
+            });
+        });
       });
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Error Toggling Favourites, Please try again. Error: " + error);
     });
-  } catch (error) {
-    console.error(error);
-    alert("Error Toggling Favourites, Please try again.Error: " + error);
-  }
 }
 
-// This function updates the active state of favourite buttons based on the user's favourites data.
-async function checkForFavourites() {
-  try {
-    const currentUser = await getOneData(`Users/${thisUser.id}`);
-    // Get the user's favourites data.
-    const favourites = currentUser.favourites;
-    // Get all the favourite buttons on the page.
-    const favButtons = document.querySelectorAll(".fav-btn");
 
-    // Loop through each button and update its active state based on the favourites data.
-    favButtons.forEach((button) => {
-      const isFavourite = favourites?.includes(button.parentElement.dataset.id);
+function checkForFavourites() {
+  getOneData(`Users/${thisUser.id}`)
+    .then((currentUser) => {
+      // Get the user's favourites data.
+      const favourites = currentUser.favourites;
+      // Get all the favourite buttons on the page.
+      const favButtons = document.querySelectorAll(".fav-btn");
 
-      if (isFavourite) {
-        button.classList.add("active");
-        button.firstChild.classList.replace(
-          "bi-bookmark-heart",
-          "bi-bookmark-heart-fill"
-        );
-      } else {
-        button.classList.remove("active");
-        button.firstChild.classList.replace(
-          "bi-bookmark-heart-fill",
-          "bi-bookmark-heart"
-        );
-      }
+      // Loop through each button and update its active state based on the favourites data.
+      favButtons.forEach((button) => {
+        const isFavourite = favourites?.includes(button.parentElement.dataset.id);
+
+        if (isFavourite) {
+          button.classList.add("active");
+          button.firstChild.classList.replace(
+            "bi-bookmark-heart",
+            "bi-bookmark-heart-fill"
+          );
+        } else {
+          button.classList.remove("active");
+          button.firstChild.classList.replace(
+            "bi-bookmark-heart-fill",
+            "bi-bookmark-heart"
+          );
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("An error occurred in checkForFavourites function:", error);
     });
-  } catch (error) {
-    console.error("An error occurred in checkForFavourites function:", error);
-  }
 }
+
 
 function setLoader(status) {
   const bodyContainer = document.body;
