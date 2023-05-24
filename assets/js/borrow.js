@@ -72,7 +72,7 @@ function handleBorrow() {
         }
 
         const borrowId = generateGuid();
-        const borrow_date = moment().format("YYYY-MM-DD h:mm A");
+        const borrow_date = moment().format("YYYY-MM-DD");
         const borrowObj = {
           borrow_date,
           due_date: dueDate,

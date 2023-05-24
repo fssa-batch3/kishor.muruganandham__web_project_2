@@ -10,14 +10,27 @@ const verifySuccessContainer = document.querySelector(
 );
 const verifyRedirect = document.querySelector(".verify-redirect");
 
+let counter = 5;
+
+function redirect() {
+  if (counter === 0) {
+    window.location.assign(window.location.origin);
+  } else {
+    verifyRedirect.innerText = counter;
+    counter--;
+    console.log(counter);
+    setTimeout(redirect, 1000);
+  }
+}
+
 verifyEmail.addEventListener("click", () => {
   getOneData(`Users/${userId}`)
     .then((currentUser) => {
       const verified = comparePassword(verifyId, currentUser.verify_id);
-      if (verified === false) {
-        alert("Email verification failed. Please try again");
+      if (!verified) {
+        alert("Email verification failed. Please try again.");
         setLoader(false);
-        return;
+        throw new Error("Email verification failed");
       }
       currentUser.isVerified = true;
       return patchData(`Users/${userId}`, currentUser);
@@ -28,21 +41,17 @@ verifyEmail.addEventListener("click", () => {
       redirect();
     })
     .catch((error) => {
-      console.error(error);
-      alert("Error Verifying your Email. Please try again. Error: " + error);
+      if (error.message !== "Email verification failed") {
+        console.error(error);
+        alert("Error verifying your email. Please try again. Error: " + error);
+      }
     });
 });
 
 
 
-function redirect() {
-  let counter = 5;
-  if (counter === 0) {
-    window.location.assign(window.location.origin);
-  } else {
-    verifyRedirect.innerText = counter;
-    counter--;
-    setTimeout(redirect, 1000);
-  }
-};
+
+
+
+
 
