@@ -77,37 +77,21 @@ function deleteComment(commentData, commentContainer) {
 function likeComment(commentData, likeIcon, likeNumber, likeNameElement) {
   const likeNum = +likeNumber.textContent;
   const addedLikeNum = likeNum + 1;
-  const subtractedLikeNum = likeNum != 0 ? likeNum - 1 : 0;
+  const subtractedLikeNum = likeNum !== 0 ? likeNum - 1 : 0;
+
   let commentLikeList;
 
   getData("Likes")
     .then((likeList) => {
       commentLikeList = likeList;
-      const likeId = generateGuid();
-      const thisLike = commentLikeList.find(
-        (like) =>
-          like.comment_id === commentData.comment_id &&
-          like.user_id === thisUser.id
-      );
+
+      const thisLike = findLike(commentLikeList, commentData.comment_id, thisUser.id);
       const likeIndex = commentLikeList.indexOf(thisLike);
 
       if (likeIndex === -1) {
-        const like = {
-          comment_id: commentData.comment_id,
-          user_id: thisUser.id,
-          book_id: bookId,
-          username: thisUser.name,
-          like_id: likeId,
-        };
-
-        putData(`Likes/${likeId}`, like)
+        addLike(commentData, likeIcon, likeNumber, likeNameElement)
           .then(() => {
-            let updatedInnerText = likeNameElement.innerText;
-            if (updatedInnerText.charAt(updatedInnerText.length - 1) === ".") {
-              updatedInnerText = updatedInnerText.slice(0, -1) + ", ";
-            }
-            updatedInnerText += `${thisUser.name}. `;
-            likeNameElement.innerText = updatedInnerText;
+            likeNameElement.innerText = updateLikeName(likeNameElement.innerText, thisUser.name);
             likeNumber.innerHTML = addedLikeNum;
             likeIcon.className = "bi bi-heart-fill";
           })
@@ -116,25 +100,9 @@ function likeComment(commentData, likeIcon, likeNumber, likeNameElement) {
             alert("Failed to add the like");
           });
       } else {
-        const likeToDelete = commentLikeList[likeIndex];
-        deleteData(`Likes/${likeToDelete.like_id}`)
+        deleteLike(commentLikeList, likeIndex, likeIcon, likeNumber, likeNameElement)
           .then(() => {
-            let updatedInnerText = likeNameElement.innerText;
-
-            if (updatedInnerText.includes(thisUser.name + ", ")) {
-              updatedInnerText = updatedInnerText.replace(
-                thisUser.name + ", ",
-                ""
-              );
-            }
-            if (updatedInnerText.includes(thisUser.name + ".")) {
-              updatedInnerText = updatedInnerText.replace(
-                thisUser.name + ".",
-                ""
-              );
-            }
-            likeNameElement.innerText = updatedInnerText;
-
+            likeNameElement.innerText = updateLikeName(likeNameElement.innerText, thisUser.name);
             likeNumber.innerHTML = subtractedLikeNum;
             likeIcon.className = "bi bi-heart";
           })
@@ -149,6 +117,46 @@ function likeComment(commentData, likeIcon, likeNumber, likeNameElement) {
       alert("Failed to retrieve the like list");
     });
 }
+
+function findLike(likeList, commentId, userId) {
+  return likeList.find(
+    (like) =>
+      like.comment_id === commentId &&
+      like.user_id === userId
+  );
+}
+
+function addLike(commentData, likeIcon, likeNumber, likeNameElement) {
+  const likeId = generateGuid();
+  const like = {
+    comment_id: commentData.comment_id,
+    user_id: thisUser.id,
+    book_id: bookId,
+    username: thisUser.name,
+    like_id: likeId,
+  };
+
+  return putData(`Likes/${likeId}`, like);
+}
+
+function deleteLike(likeList, likeIndex, likeIcon, likeNumber, likeNameElement) {
+  const likeToDelete = likeList[likeIndex];
+  return deleteData(`Likes/${likeToDelete.like_id}`);
+}
+
+function updateLikeName(originalName, userName) {
+  let updatedName = originalName;
+
+  if (updatedName.includes(userName + ", ")) {
+    updatedName = updatedName.replace(userName + ", ", "");
+  }
+  if (updatedName.includes(userName + ".")) {
+    updatedName = updatedName.replace(userName + ".", "");
+  }
+
+  return updatedName;
+}
+
 
 
 function commentCurrentTime(time) {
