@@ -47,20 +47,26 @@ function displayBooks(books, bookRack) {
   }
 }
 
-function showInterestingBook() {
+function showInterestingBooks() {
   getAllDatas()
     .then(() => {
-      const interestingBookRack = document.querySelector(".intresting-books");
+      const interestingBookRack = document.querySelector(".interesting-books");
 
       const interestingBookData = [];
       const filteredBookList = bookList.filter((book) => book.isActive);
-      while (interestingBookData.length < 8) {
-        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (2**32 - 1)  * filteredBookList.length);
+
+      while (interestingBookData.length < 8 && filteredBookList.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredBookList.length);
         const randomBook = filteredBookList[randomIndex];
+
         if (!interestingBookData.includes(randomBook)) {
           interestingBookData.push(randomBook);
         }
+
+        // Remove the selected book from filteredBookList to avoid duplicates
+        filteredBookList.splice(randomIndex, 1);
       }
+
       displayBooks(interestingBookData, interestingBookRack);
     })
     .catch((error) => {
@@ -68,27 +74,33 @@ function showInterestingBook() {
     });
 }
 
+
 function showRecommendedBooks() {
   getAllDatas()
     .then(() => {
       const recommendedBooksRack = document.querySelector(".generated-books");
       const recommendedBooksData = [];
       const userFavourites = thisUser.favourites;
-      let currentUserBooks = borrowList
+      const currentUserBooks = borrowList
         .filter((borrow) => borrow.user_id === thisUser.id)
         .map((borrow) => borrow.book_id);
+
       userFavourites.slice(1).forEach((fav) => currentUserBooks.push(fav));
+
       const currentUserBooksSet = new Set(currentUserBooks);
-      currentUserBooks = Array.from(currentUserBooksSet);
+      const currentUserBooksArray = Array.from(currentUserBooksSet);
+
       const filteredBooks = bookList.filter(
-        (book) => !currentUserBooks.includes(book.id) && book.isActive
+        (book) => !currentUserBooksArray.includes(book.id) && book.isActive
       );
-      while (recommendedBooksData.length < 8) {
-        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (2**32 - 1)  * filteredBooks.length);
+
+      while (recommendedBooksData.length < 8 && filteredBooks.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredBooks.length);
         const randomBook = filteredBooks[randomIndex];
         if (!recommendedBooksData.includes(randomBook)) {
           recommendedBooksData.push(randomBook);
         }
+        filteredBooks.splice(randomIndex, 1);
       }
 
       displayBooks(recommendedBooksData, recommendedBooksRack);
@@ -98,5 +110,6 @@ function showRecommendedBooks() {
     });
 }
 
+
 showRecommendedBooks();
-showInterestingBook();
+showInterestingBooks();
