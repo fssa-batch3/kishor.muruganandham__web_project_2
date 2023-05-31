@@ -1,5 +1,27 @@
 {
   "dependencies": {
+    "dotenv": "^16.0.3",
+    "firebase": "^9.21.0",
     "moment": "^2.29.4"
-  }
+  },
+  "name": "library-management",
+  "description": "Link for Webpage: https://fssa-batch3.github.io/kishor.muruganandham__web_project_2/",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "husky": "^8.0.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fssa-batch3/kishor.muruganandham__web_project_2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fssa-batch3/kishor.muruganandham__web_project_2/issues"
+  },
+  "homepage": "https://github.com/fssa-batch3/kishor.muruganandham__web_project_2#readme"
 }

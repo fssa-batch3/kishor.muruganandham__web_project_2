@@ -1,45 +1,115 @@
+let bookList = [];
+let userList = [];
+let borrowList = [];
+let commentList = [];
+async function getAllDatas() {
+  bookList = await getData("Books");
+  userList = await getData("Users");
+  borrowList = await getData("Borrows");
+  commentList = await getData("Comments");
+}
 
-let borrow_list = JSON.parse(localStorage.getItem("borrow-list"));
-const tagSettings = JSON.parse(localStorage.getItem("settings"));
+function showData() {
+  getAllDatas()
+    .then(() => {
+      const currentUser = userList.find((user) => user.id === thisUser.id);
+      const commentListLength = commentList.filter(
+        (comment) => comment.user_id === currentUser.id && comment.isActive
+      ).length;
+      const borrowListLength =
+        borrowList.filter((borrow) => borrow.user_id === currentUser.id).length || 0;
+      const bookListLength = bookList.filter((b) => b.isActive).length || 0;
+      const favoriteListLength =
+        currentUser.favourites?.length > 1 ? currentUser.favourites.length - 1 : 0;
+      document.querySelector(".book-count-info").innerHTML = `${bookListLength}`;
+      document.querySelector(".comments-count-info").textContent =
+        commentListLength;
+      document.querySelector(".favourites-count-info").textContent =
+        favoriteListLength;
+      document.querySelector(".borrow-count-info").textContent = borrowListLength;
+      setLoader(false);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
-const popularBookData = popular_book_list;
-const intrestingBookData = intresting_book_list;
-
-document.querySelector(".avail-books").innerHTML = `${book_list.length}`;
-document.querySelector(".fav-books").innerHTML = `${userId.favourites.length}`;
-document.querySelector(".card-text p").innerHTML = `Our Goal : ${tagSettings["books"]["avail_books"]}`;
-
-document.querySelector(".chart").dataset.percent = `${book_list.length}`;
-document.querySelector(".fav-chart").dataset.percent = `${userId.favourites.length}`;
-
-document.querySelector(".borrowed-books").innerHTML = `${borrow_list.length}`;
-document.querySelector(".borrow-chart").dataset.percent = `${borrow_list.length}`;
-
-const elements = document.querySelectorAll(".chart");
-elements.forEach((element) => {
-  new EasyPieChart(element, {
-    size: 120,
-    lineWidth: 13,
-    barColor: "#ffffff",
-    trackColor: "#ffffff55",
-    scaleColor: "transparent",
-    
-  });
-});
-
+showData();
 function displayBooks(books, bookRack) {
-  for (const book of books) {
-    generateBook(book, bookRack);
+  try {
+    for (const book of books) {
+      generateBook(book, bookRack);
+    }
+    toggleFavourites();
+    checkForFavourites();
+  } catch (error) {
+    console.error(error);
   }
 }
 
-const popularBookRack = document.querySelector(".generated-books");
-displayBooks(popularBookData, popularBookRack);
+function showInterestingBooks() {
+  getAllDatas()
+    .then(() => {
+      const interestingBookRack = document.querySelector(".interesting-books");
 
-const interestingBookRack = document.querySelector(".intresting-books");
-displayBooks(intrestingBookData, interestingBookRack);
+      const interestingBookData = [];
+      const filteredBookList = bookList.filter((book) => book.isActive);
 
-toggleFavourites();
-checkForFavourites();
+      while (interestingBookData.length < 8 && filteredBookList.length > 0) {
+        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (2**32 - 1) * filteredBookList.length);
+        const randomBook = filteredBookList[randomIndex];
+
+        if (!interestingBookData.includes(randomBook)) {
+          interestingBookData.push(randomBook);
+        }
+
+        // Remove the selected book from filteredBookList to avoid duplicates
+        filteredBookList.splice(randomIndex, 1);
+      }
+
+      displayBooks(interestingBookData, interestingBookRack);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 
+function showRecommendedBooks() {
+  getAllDatas()
+    .then(() => {
+      const recommendedBooksRack = document.querySelector(".generated-books");
+      const recommendedBooksData = [];
+      const userFavourites = thisUser.favourites;
+      const currentUserBooks = borrowList
+        .filter((borrow) => borrow.user_id === thisUser.id)
+        .map((borrow) => borrow.book_id);
+
+      userFavourites.slice(1).forEach((fav) => currentUserBooks.push(fav));
+
+      const currentUserBooksSet = new Set(currentUserBooks);
+      const currentUserBooksArray = Array.from(currentUserBooksSet);
+
+      const filteredBooks = bookList.filter(
+        (book) => !currentUserBooksArray.includes(book.id) && book.isActive
+      );
+
+      while (recommendedBooksData.length < 8 && filteredBooks.length > 0) {
+        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (2**32 - 1) * filteredBooks.length);
+        const randomBook = filteredBooks[randomIndex];
+        if (!recommendedBooksData.includes(randomBook)) {
+          recommendedBooksData.push(randomBook);
+        }
+        filteredBooks.splice(randomIndex, 1);
+      }
+
+      displayBooks(recommendedBooksData, recommendedBooksRack);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
+showRecommendedBooks();
+showInterestingBooks();

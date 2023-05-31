@@ -25,3 +25,156 @@ Looking for a user-friendly and efficient way to manage your library? Look no fu
 >2.) List Comment (Completed) <br>
 >3.) Edit Comment (Completed) <br>
 >4.) De-Active the Comment (Completed) <br>
+
+## User Story
+
+## Student
+
+### Create an account
+
+- Scenario 1: Successfully create an account
+    - Steps:
+        1. Navigate to the registration page.
+        2. Enter the required information such as name, email, and password.
+        3. Click the "Create Account" button.
+    - Expected Result:
+        - The user is redirected to the login page.
+
+### Create an account
+
+- Scenario 1: Successfully login in to account
+    - Steps:
+        1. Navigate to the login page.
+        2. Enter the required information such as email, and password.
+        3. Click the "login" button.
+    - Expected Result:
+        - The user is redirected to the user home page.
+
+### View books
+
+- Scenario 1: Successfully view books
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the home page of library.
+        3. Navigate to the library page.
+        4. View the list of all books.
+    - Expected Result:
+        - The user can view the list of all books.
+
+### View book details
+
+- Scenario 1: Successfully view book details
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the library page.
+        3. Select a book to view its details.
+    - Expected Result:
+        - The user can view the details of the selected books.
+- Scenario 1: Successfully purchase a product/item
+    
+    ### Lend a book
+    
+    - Steps:
+        1. Log in as a buyer.
+        2. Navigate to the library page.
+        3. Select a book to view its details.
+        4. Click the "Borrow" button.
+        5. Confirm the Dates to borrow.
+        6. Click the "Borrow Now" button.
+    - Expected Result:
+        - The user is redirected to the borrow history page.
+        - The book availability is replaced by “Borrowed By User, Will Available in No. of Days ”.
+
+### View books in history
+
+- Scenario 1: Successfully view borrow history in history page
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the history page.
+        3. View the list of books in the history.
+    - Expected Result:
+        - The user can view the list of books in the history.
+
+### View Comments of book
+
+- Scenario 1: Successfully view book in book detail page
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the book detail page.
+        3. View the list of comments in the book detail.
+    - Expected Result:
+        - The student can view the list of comments in the book detail.
+
+### Add Comments to book
+
+- Scenario 1: Successfully view comment in book detail page
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the book detail page.
+        3. View the list of comments in the book detail.
+        4. Add Comment to the book using add comment
+    - Expected Result:
+        - The student can view the list of comments in the book detail.
+
+## Staff
+
+### Create an account
+
+- Scenario 1: Successfully create an account
+    - Steps:
+        1. Navigate to the registration page.
+        2. Enter the required information such as name, email, and password.
+        3. Click the "Create Account" button.
+    - Expected Result:
+        - The user is redirected to the login page.
+
+### Create an account
+
+- Scenario 1: Successfully login in to account
+    - Steps:
+        1. Navigate to the login page.
+        2. Enter the required information such as email, and password.
+        3. Click the "login" button.
+    - Expected Result:
+        - The staff is redirected to the user home page.
+
+### Edit books
+
+- Scenario 1: Successfully view books
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the home page of library.
+        3. Navigate to the library page.
+        4. View the list of all books.
+    - Expected Result:
+        - The staff can view the list of all books.
+
+### Edit book details
+
+- Scenario 1: Successfully view book details
+    - Steps:
+        1. Log in as a student.
+        2. Navigate to the library page.
+        3. Select a book to Edit its details.
+    - Expected Result:
+        - The staff can Edit the details of the selected books.
+
+### Edit book status in history
+
+- Scenario 1: Successfully view borrow history in history page
+    - Steps:
+        1. Log in as a staff.
+        2. Navigate to the history page.
+        3. View the list of books in the history page.
+    - Expected Result:
+        - The staff can view the list of books borrowed by user in the history page.
+
+### View books in history
+
+- Scenario 1: Successfully view borrow history in history page
+    - Steps:
+        1. Navigate to the history page.
+        2. View the list of books in the history page.
+        3. Navigate to the borrow history edit page.
+    - Expected Result:
+        - The staff can set borrow status in borrow edit page.

@@ -16,13 +16,19 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+      integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-
+    <script src="../../assets/js/db.js"></script>
     <script src="../../assets/js/user/script.js"></script>
     <script src="../../assets/js/user/header.js" defer></script>
     <script src="../../assets/js/user/sidebar.js" defer></script>
   </head>
-  <body onresize="responsiveFonts()">
+  <body>
     <nav class="sidebar" id="sidebar">
       <div class="side-header">
         <div class="logo">
@@ -91,6 +97,19 @@
               <div class="arrow" data-popper-arrow></div>
             </div>
           </a>
+          <a href="./bookrequest_list.html" class="nav-items"
+            ><i class="bi bi-hdd-stack"></i>
+            <p>Book Request List</p>
+            <div
+              class="tooltip"
+              role="tooltip"
+              style="top: 430px"
+              data-popper-placement="right"
+            >
+              Book Request List
+              <div class="arrow" data-popper-arrow></div>
+            </div>
+          </a>
         </div>
       </div>
       <div class="side-footer">
@@ -126,50 +145,6 @@
     </nav>
 
     <section class="main-container">
-      <header class="top-header">
-        <div class="left-header">
-          <div class="side-toggle">
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-          </div>
-          <div class="user-date">
-            <h4 class="header-username">Hello</h4>
-            <p>Have a Great Day!</p>
-          </div>
-        </div>
-        <div class="right-header">
-          <div class="search-field">
-            <label for="head-search"><i class="bi bi-search"></i></label>
-            <input
-              type="search"
-              name="head-search"
-              id="head-search"
-              placeholder="Search..."
-              class="search-list-show"
-            />
-            <div class="focus-out"></div>
-            <div class="search-list">
-              <div class="search-result"></div>
-              <a href="../user/library.html" class="show-all">
-                Show All Books
-              </a>
-            </div>
-          </div>
-          <a
-            href="../user/user_profile.html"
-            aria-label="profile-page"
-            class="profile-area"
-          >
-            <div class="profile-field"></div>
-            <div class="tooltip" role="tooltip" data-popper-placement="top">
-              User Profile
-              <div class="arrow" data-popper-arrow></div>
-            </div>
-          </a>
-        </div>
-      </header>
-
       <main class="dashboard-container">
         <div class="first-row">
           <canvas id="genreChart" height="380px"></canvas>
@@ -189,24 +164,41 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-      let sortedCommentList = commentList.sort((a, b) => {
-        const timeA = new Date(a.time);
-        const timeB = new Date(b.time);
-        return timeB - timeA;
-      });
-      const filteredCommentList = sortedCommentList.filter(
-        (e) => e["isActive"] == true
-      );
-      const loopLength = filteredCommentList.length < 10 ? filteredCommentList.length : 10;
-      for (let i = 0; i < loopLength; i++) {
-          const comment = filteredCommentList[i];
-          const user = user_data.find((user) => user.id == comment.user_id);
-          createScrollComment(comment, user);
+      function showEmptyComments() {
+        const marqueeContainer = document.querySelector(".marquee");
+        marqueeContainer.innerHTML = `<h5 style="position: absolute;top: 50%;
+            left: 50%;transform: translate(-50%, -50%);text-align:center;">No Recent <br/> comments Found</h5>`;
+      }
+      async function recentComments() {
+        try {
+          const commentList = await getData("Comments");
+          const userList = await getData("Users");
+          let sortedCommentList = commentList?.sort((a, b) => {
+            const timeA = new Date(a.time);
+            const timeB = new Date(b.time);
+            return timeB - timeA;
+          });
+          const filteredCommentList = sortedCommentList?.filter(
+            (e) => e["isActive"] == true
+          );
+          if (filteredCommentList.length === 0) {
+            showEmptyComments();
+            return;
+          }
+          const loopLength =
+            filteredCommentList?.length < 10 ? filteredCommentList?.length : 10;
+          for (let i = 0; i < loopLength; i++) {
+            const comment = filteredCommentList[i];
+            const user = userList.find((user) => user.id === comment.user_id);
+            createScrollComment(comment, user);
+          }
+        } catch (error) {
+          console.error("Error getting comment data:", error);
+        }
       }
 
       function createScrollComment(comment, user) {
         const parentElement = document.querySelector(".marquee__item");
-
         const scrollCommentWrapper = document.createElement("div");
         scrollCommentWrapper.className = "scroll-comment-wrapper";
 
@@ -241,26 +233,34 @@
 
         parentElement.append(scrollCommentWrapper);
       }
+      recentComments();
 
-      const bookCountsByGenre = {};
-      book_list.forEach((book) => {
-        if (book["isActive"]) {
-          book.tags.forEach((tag) => {
-            if (bookCountsByGenre[tag]) {
-              bookCountsByGenre[tag]++;
-            } else {
-              bookCountsByGenre[tag] = 1;
-            }
-          });
-        }
-      });
+      async function showChart() {
+        const bookList = await getData("Books");
+        const userList = await getData("Users");
+        const borrowedBook = await getData("Borrows");
+        const commentList = await getData("Comments");
+        const bookRequestList = await getData("BookRequests");
+        const bookRequestLength = bookRequestList.length || 0;
+        const borrowedBookLength =
+          borrowedBook?.filter((e) => e.status === "Pending")?.length || 0;
+        const booksLength =
+          bookList.filter((book) => book.isActive && book.isBorrowable)
+            .length || 0;
+        const commentsLength =
+          commentList.filter((comment) => comment.isActive).length || 0;
+        const usersLength =
+          userList.filter((user) => user.isActive && user.isVerified).length || 0;
+        const activeBooksLength =
+          bookList.filter((book) => book.isActive).length || 0;
+        const tagsArray = await getBookGenres();
 
-      const tagValues = Object.values(bookCountsByGenre);
-      const tagKeys = Object.keys(bookCountsByGenre);
+        const tagValues = Object.values(tagsArray);
+        const tagKeys = Object.keys(tagsArray);
 
-      let genreChart = new Chart(
-        document.getElementById("genreChart").getContext("2d"),
-        {
+        Chart.defaults.font.size = 16;
+        // Create the chart objects
+        const genreChart = new Chart("genreChart", {
           type: "bar",
           data: {
             labels: tagKeys,
@@ -288,7 +288,7 @@
                   stepSize: 3,
                 },
                 beginAtZero: true,
-                max: book_list.length,
+                max: activeBooksLength,
               },
               x: {
                 ticks: {
@@ -303,40 +303,19 @@
               },
             },
             animation: {
-        delay: 50
-    }
+              delay: 50,
+            },
           },
-        }
-      );
+        });
 
-      function responsiveFonts() {
-        if (window.innerWidth > 999) {
-          Chart.defaults.font.size = 18;
-        }
-        if (window.innerWidth < 999 && window.innerWidth > 444) {
-          Chart.defaults.font.size = 16;
-        }
-        if (window.innerWidth < 444) {
-          Chart.defaults.font.size = 12;
-        }
-        genreChart.update();
-      }
-      responsiveFonts();
-
-      const borrowedBook = JSON.parse(localStorage.getItem("borrow-list"));
-      const borrowedBookLength = borrowedBook.filter(
-        (e) => e.status == "Pending"
-      ).length;
-      let BookChart = new Chart(
-        document.getElementById("bookChart").getContext("2d"),
-        {
+        const bookChart = new Chart("bookChart", {
           type: "pie",
           data: {
             labels: ["No of books available", "No of books borrowed"],
             datasets: [
               {
                 label: "Books",
-                data: [book_list.length, borrowedBookLength],
+                data: [booksLength, borrowedBookLength],
                 backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)"],
                 hoverOffset: 10,
               },
@@ -346,24 +325,16 @@
             responsive: true,
             maintainAspectRatio: false,
           },
-        }
-      );
+        });
 
-      const userLength = JSON.parse(localStorage.getItem("user_data")).length;
-      const commentLength = JSON.parse(localStorage.getItem("comments")).length;
-      const bookRequestLength = JSON.parse(
-        localStorage.getItem("book_req")
-      ).length;
-      let detailChart = new Chart(
-        document.getElementById("detailChart").getContext("2d"),
-        {
+        const detailChart = new Chart("detailChart", {
           type: "doughnut",
           data: {
             labels: ["Users", "Comments", "Books requested"],
             datasets: [
               {
                 label: "Total",
-                data: [userLength, commentLength, bookRequestLength],
+                data: [usersLength, commentsLength, bookRequestLength],
                 backgroundColor: ["Orange", "lightcoral", "teal"],
                 hoverOffset: 10,
               },
@@ -373,8 +344,18 @@
             responsive: true,
             maintainAspectRatio: false,
           },
-        }
-      );
+        });
+
+        const genreCanvas = document.getElementById("genreChart");
+        const bookCanvas = document.getElementById("bookChart");
+        const detailCanvas = document.getElementById("detailChart");
+
+        genreChart.canvas = genreCanvas;
+        bookChart.canvas = bookCanvas;
+        detailChart.canvas = detailCanvas;
+        setLoader(false);
+      }
+      showChart();
     </script>
   </body>
 </html>
